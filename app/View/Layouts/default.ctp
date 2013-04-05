@@ -18,7 +18,6 @@
 		echo $this->fetch('css');
 		echo $this->fetch('script');
 	?>
-
 </head>
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top">
@@ -29,12 +28,12 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </a>
-                    <a class="brand" href="#">Events</a>
+                    <?php echo $this->Html->link('Events', '#', array('class'=>'brand')); ?>
                     <div class="nav-collapse collapse">
                         <ul class="nav">
-                            <li class="active"><a href="#">Accueil</a></li>
-                            <li><a href="#about">About</a></li>
-                            <li><a href="#contact">Contact</a></li>
+                            <li><?php echo $this->Html->link('Accueil', '#'); ?></li>
+                            <li><?php echo $this->Html->link('About', '#about'); ?></li>
+                            <li><?php echo $this->Html->link('Contact', '#contact'); ?></li>
                         </ul>
                         <form class="navbar-form pull-right">
                             <input class="span2" type="text" placeholder="Adresse Email">
@@ -58,8 +57,13 @@
         
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
-        <script src="js/vendor/bootstrap.min.js"></script>
-        <script src="js/main.js"></script>
+        <?php 
+            echo $this->Html->script('vendor/bootstrap.min'); 
+            echo $this->Html->script('main');
+            
+            // Mise en cache des fichiers JS
+            echo $this->Js->writeBuffer();
+        ?>
         
     </body>
 
