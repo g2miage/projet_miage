@@ -53,7 +53,7 @@ class PagesController extends AppController {
  */
 	public function display() {
 		$path = func_get_args();
-
+                
 		$count = count($path);
 		if (!$count) {
 			$this->redirect('/');
@@ -71,5 +71,6 @@ class PagesController extends AppController {
 		}
 		$this->set(compact('page', 'subpage', 'title_for_layout'));
 		$this->render(implode('/', $path));
+                
 	}
 }
