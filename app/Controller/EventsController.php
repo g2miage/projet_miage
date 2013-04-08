@@ -6,10 +6,10 @@
  */
 class EventsController extends AppController {
     
-    public function auth_index() {
+    public function index() {
         $this->set('events', $this->Event->find('all'));
     } 
-    public function auth_view($id) {
+    public function view($id) {
         if (!$id) {
             throw new NotFoundException(__('Invalid post'));
         }
@@ -20,24 +20,24 @@ class EventsController extends AppController {
         }
         $this->set('event', $event);
     }
-    public function auth_add() {
-        if ($this->request->is('event')) {
+    public function add() {
+        if ($this->request->is('post')) {
             $this->Event->create();
             if ($this->Event->save($this->request->data)) {
-                $this->Session->setFlash('Votre événement a bien été crée.');
+                $this->Session->setFlash('Votre événement a bien été créé.');
                 $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash('Votre événement n\'a pas été crée.');
+                $this->Session->setFlash('Votre événement n\'a pas été créé.');
             }
         }
     }
-    public function auth_edit($id = null) {
+    public function edit($id = null) {
         if (!$id) {
             throw new NotFoundException(__('Invalid event'));
         }
 
-        $post = $this->Post->findById($id);
-        if (!$post) {
+        $event = $this->Event->findById($id);
+        if (!$event) {
             throw new NotFoundException(__('Invalid event'));
         }
 
@@ -55,7 +55,7 @@ class EventsController extends AppController {
             $this->request->data = $event;
         }
     }
-    public function auth_delete($id) {
+    public function delete($id) {
         if ($this->request->is('get')) {
             throw new MethodNotAllowedException();
         }

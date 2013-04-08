@@ -16,6 +16,9 @@
         <td>
             <?php echo $this->Html->link($event['Event']['title'], array('action' => 'view', $event['Event']['id'])); ?>
         </td>
+        <td>
+            <?php echo $this->Html->link('Editer', array('action' => 'edit', $event['Event']['id'])); ?>
+        </td>
         
     </tr>
 <?php endforeach; ?>
