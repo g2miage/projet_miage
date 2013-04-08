@@ -13,6 +13,7 @@
                 echo $this->Html->css('bootstrap');
                 echo $this->Html->css('bootstrap-responsive');
                 echo $this->Html->css('main');
+                echo $this->Html->css('font-awesome');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -35,21 +36,43 @@
     </div>
     <div class ="container">
             <!-- Example row of columns -->
-            <div class="row">
-                <div class="span4">
-                    <h2>Qui sommes-nous?</h2>
-                    <p>Salut les gars !</p>
-                    <p><?php echo $this->Html->link('View details', '#', array('class'=>'btn')); ?></p>
-                </div>
-                <div class="span4">
-                    <h2>Comment ça marche</h2>
-                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                    <p><?php echo $this->Html->link('View details', '#', array('class'=>'btn')); ?></p>
-               </div>
-                <div class="span4">
-                    <h2>Pour les professionnels...</h2>
-                    <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-                    <p><?php echo $this->Html->link('View details', '#', array('class'=>'btn')); ?></p>
+            <div class="accueil">
+                <h2 class="centered well">Créez et gérez facilement tous vos événements !</h2>
+                
+                 <div class="row">
+                    <div class="span3">
+                        <?php echo $this->Html->image('qui_sommes_nous_accueil.png', array('alt' => 'qui_sommes_nous','class'=>'img-rounded')); ?>
+                        <h3><i class="icon-group"></i> Qui sommes-nous?</h3>
+                        <p>
+                            Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum 
+                        </p>
+                        <p><?php echo $this->Html->link('Plus d\'infos »', '#', array('class'=>'btn')); ?></p>
+                    </div>
+                    <div class="span3">
+                        <?php echo $this->Html->image('fonctionnement_accueil.png', array('alt' => 'fonctionnement','class'=>'img-rounded')); ?>
+                        <h3><i class="icon-magic"></i> Fonctionnement</h3>
+                        <p>
+                            Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum 
+                        </p>
+                        <p><?php echo $this->Html->link('Plus d\'infos »', '#', array('class'=>'btn')); ?></p>
+                    </div>
+                    <div class="span3">
+                        <?php echo $this->Html->image('espace_pro_accueil.png', array('alt' => 'CakePHP','class'=>'img-rounded')); ?>
+                        <h3><i class="icon-glass"></i> Espace Pro</h3>
+                        <p>
+                            Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum 
+                        </p>
+                        <p><?php echo $this->Html->link('Plus d\'infos »', '#', array('class'=>'btn')); ?></p>
+                    </div>
+                    <div class="span3">
+                        <?php echo $this->Html->image('qui_sommes_nous_accueil.png', array('alt' => 'CakePHP','class'=>'img-rounded')); ?>
+                        <h3><i class="icon-globe"></i> Un autre truc</h3>
+                        <p>
+                            Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum 
+                        </p>
+                        <p><?php echo $this->Html->link('Plus d\'infos »', '#', array('class'=>'btn')); ?></p>
+                    </div>
+
                 </div>
             </div>
                        
