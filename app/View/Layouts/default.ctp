@@ -23,7 +23,7 @@
 
         <?php
             // l'utilisateur n'est pas connecté
-            echo $this->element('navbar_connect'); 
+            echo $this->element('navbar'); 
         ?>
         
         <div class="container">
