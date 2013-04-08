@@ -34,6 +34,7 @@
     </div>
     </div>
     <div class ="container">
+        <?php echo $this->Session->Flash(); ?>
             <!-- Example row of columns -->
             <div class="row">
                 <div class="span4">
