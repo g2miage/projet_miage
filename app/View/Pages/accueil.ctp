@@ -35,9 +35,14 @@
     </div>
     </div>
     <div class ="container">
+        <div class="span9 offset1 centered well accueil-over">
+            <h3>Créez et gérez facilement tous vos événements !</h3>
+            <?php echo $this->Html->link('Inscription', '#', array('class'=>'btn btn-success btn-large')); ?>
+        </div>
             <!-- Example row of columns -->
             <div class="accueil">
-                <h2 class="centered well">Créez et gérez facilement tous vos événements !</h2>
+                
+                <!--<h2 class="accueil-over centered well">Créez et gérez facilement tous vos événements !</h2>-->
                 
                  <div class="row">
                     <div class="span3">
