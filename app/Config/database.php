@@ -15,7 +15,8 @@ class DATABASE_CONFIG {
 		'host' => 'localhost',
 		'login' => 'root',
 		'password' => 'root',
-		'database' => 'myevent',
-		'encoding' => 'utf8'
+		'database' => 'myEvent',
+		'prefix' => '',
+		//'encoding' => 'utf8',
 	);
 }
