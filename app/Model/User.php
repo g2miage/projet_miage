@@ -1,17 +1,16 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+App::uses('AppModel', 'Model');
+/**
+ * User Model
+ *
  */
+class User extends AppModel {
 
 /**
- * Description of User
+ * Use database config
  *
- * @author Cheikh
+ * @var string
  */
-class User extends AppModel{
-    //put your code here
-}
+	public $useDbConfig = 'myevent';
 
-?>
+}
