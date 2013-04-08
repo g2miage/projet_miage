@@ -1,7 +1,7 @@
 <!-- File: /app/View/Events/index.ctp  (edit links added) -->
 
 <h1>Evénements</h1>
-<!--<p><?php echo $this->Html->link("Add Post", array('action' => 'add')); ?></p>-->
+<p><?php echo $this->Html->link("Créer un événement", array('action' => 'add')); ?></p>
 <table>
     <tr>
         <th>Id</th>
