@@ -28,7 +28,8 @@
                     </ul>
                     <?php 
                         echo $this->Html->link(
-                            $this->Html->tag('i', null, array('class' => 'icon-user')), 
+                            //$this->Html->tag('i', null, array('class' => 'icon-user'))
+                            "Déconnexion",
                             '#', 
                             array('class'=>'btn btn-danger pull-right')
                         ); 

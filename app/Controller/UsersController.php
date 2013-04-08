@@ -13,10 +13,10 @@
 class UsersController extends AppController{
     //put your code here
 
-    public function user_login(){
+    public function login(){
         
     }
-    public function user_logout(){
+    public function logout(){
         
     }
 }
