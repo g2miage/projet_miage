@@ -13,6 +13,7 @@
                 echo $this->Html->css('bootstrap');
                 echo $this->Html->css('bootstrap-responsive');
                 echo $this->Html->css('main');
+                echo $this->Html->css('font-awesome');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
