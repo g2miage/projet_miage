@@ -35,9 +35,10 @@
     </div>
     </div>
     <div class ="container">
+        <?php echo $this->Session->Flash(); ?>
         <div class="span9 offset1 centered well accueil-over">
             <h3>Créez et gérez facilement tous vos événements !</h3>
-            <?php echo $this->Html->link('Inscription', '#', array('class'=>'btn btn-success btn-large')); ?>
+            <?php echo $this->Html->link('Inscription',  array('action'=>'signup','controller'=>'Users'), array('class'=>'btn btn-success btn-large')); ?>
         </div>
             <!-- Example row of columns -->
             <div class="accueil">

@@ -17,7 +17,6 @@
                     <input class="span2" type="text" placeholder="Adresse Email">
                     <input class="span2" type="password" placeholder="Mot de passe">
                     <button type="submit" class="btn">Connexion</button>
-                <button type="submit" class="btn"><?php echo $this->Html->link('créer un compte', array('action'=>'signup','controller'=>'Users')); ?></button>
                 </form>
             </div><!--/.nav-collapse -->
         </div>
