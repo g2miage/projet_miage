@@ -377,3 +377,69 @@ Request URL: /projet_miage/img/recettes/6.jpg
 Stack Trace:
 #0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
+2013-04-08 14:47:41 Error: Fatal Error (4): syntax error, unexpected 'événement' (T_STRING), expecting ',' or ';' in [/Applications/MAMP/htdocs/projet_miage/app/View/Events/view.ctp, line 7]
+2013-04-08 14:47:41 Error: [FatalErrorException] syntax error, unexpected 'événement' (T_STRING), expecting ',' or ';'
+Request URL: /projet_miage/events/view/1
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/lib/Cake/Error/ErrorHandler.php(184): ErrorHandler::handleFatalError(4, 'syntax error, u...', '/Applications/M...', 7)
+#1 [internal function]: ErrorHandler::handleError(4, 'syntax error, u...', '/Applications/M...', 7, Array)
+#2 /Applications/MAMP/htdocs/projet_miage/lib/Cake/Core/App.php(927): call_user_func('ErrorHandler::h...', 4, 'syntax error, u...', '/Applications/M...', 7, Array)
+#3 /Applications/MAMP/htdocs/projet_miage/lib/Cake/Core/App.php(900): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2013-04-08 14:47:42 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /projet_miage/img/recettes/6.jpg
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-04-08 14:47:50 Error: Fatal Error (4): syntax error, unexpected 'événement' (T_STRING), expecting ',' or ';' in [/Applications/MAMP/htdocs/projet_miage/app/View/Events/view.ctp, line 7]
+2013-04-08 14:47:50 Error: [FatalErrorException] syntax error, unexpected 'événement' (T_STRING), expecting ',' or ';'
+Request URL: /projet_miage/events/view/1
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/lib/Cake/Error/ErrorHandler.php(184): ErrorHandler::handleFatalError(4, 'syntax error, u...', '/Applications/M...', 7)
+#1 [internal function]: ErrorHandler::handleError(4, 'syntax error, u...', '/Applications/M...', 7, Array)
+#2 /Applications/MAMP/htdocs/projet_miage/lib/Cake/Core/App.php(927): call_user_func('ErrorHandler::h...', 4, 'syntax error, u...', '/Applications/M...', 7, Array)
+#3 /Applications/MAMP/htdocs/projet_miage/lib/Cake/Core/App.php(900): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2013-04-08 14:47:51 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /projet_miage/img/recettes/6.jpg
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-04-08 14:47:57 Error: Fatal Error (4): syntax error, unexpected 'événement' (T_STRING), expecting ',' or ';' in [/Applications/MAMP/htdocs/projet_miage/app/View/Events/view.ctp, line 7]
+2013-04-08 14:47:57 Error: [FatalErrorException] syntax error, unexpected 'événement' (T_STRING), expecting ',' or ';'
+Request URL: /projet_miage/events/view/1
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/lib/Cake/Error/ErrorHandler.php(184): ErrorHandler::handleFatalError(4, 'syntax error, u...', '/Applications/M...', 7)
+#1 [internal function]: ErrorHandler::handleError(4, 'syntax error, u...', '/Applications/M...', 7, Array)
+#2 /Applications/MAMP/htdocs/projet_miage/lib/Cake/Core/App.php(927): call_user_func('ErrorHandler::h...', 4, 'syntax error, u...', '/Applications/M...', 7, Array)
+#3 /Applications/MAMP/htdocs/projet_miage/lib/Cake/Core/App.php(900): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2013-04-08 14:47:57 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /projet_miage/img/recettes/6.jpg
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-04-08 14:48:43 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /projet_miage/img/recettes/6.jpg
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
