@@ -153,3 +153,227 @@ Stack Trace:
 #6 /Applications/MAMP/htdocs/blog/lib/Cake/Routing/Dispatcher.php(162): Dispatcher->_invoke(Object(PostsController), Object(CakeRequest), Object(CakeResponse))
 #7 /Applications/MAMP/htdocs/blog/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #8 {main}
+2013-04-06 16:03:06 Error: [MissingControllerException] Controller class PostsController could not be found.
+Exception Attributes: array (
+  'class' => 'PostsController',
+  'plugin' => NULL,
+)
+Request URL: /projet_miage/posts/index
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-04-06 16:04:00 Error: [MissingControllerException] Controller class PostsController could not be found.
+Exception Attributes: array (
+  'class' => 'PostsController',
+  'plugin' => NULL,
+)
+Request URL: /projet_miage/posts/index
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-04-06 16:04:02 Error: [MissingControllerException] Controller class PostsController could not be found.
+Exception Attributes: array (
+  'class' => 'PostsController',
+  'plugin' => NULL,
+)
+Request URL: /projet_miage/posts/index
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-04-06 16:04:49 Error: [MissingControllerException] Controller class PostsController could not be found.
+Exception Attributes: array (
+  'class' => 'PostsController',
+  'plugin' => NULL,
+)
+Request URL: /projet_miage/posts/index
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-04-06 16:04:50 Error: [MissingControllerException] Controller class PostsController could not be found.
+Exception Attributes: array (
+  'class' => 'PostsController',
+  'plugin' => NULL,
+)
+Request URL: /projet_miage/posts/index
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-04-06 16:05:45 Error: [MissingControllerException] Controller class PostsController could not be found.
+Exception Attributes: array (
+  'class' => 'PostsController',
+  'plugin' => NULL,
+)
+Request URL: /projet_miage/posts/index
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-04-06 16:06:44 Error: [MissingControllerException] Controller class PostsController could not be found.
+Exception Attributes: array (
+  'class' => 'PostsController',
+  'plugin' => NULL,
+)
+Request URL: /projet_miage/posts/index
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-04-06 16:06:45 Error: [MissingControllerException] Controller class PostsController could not be found.
+Exception Attributes: array (
+  'class' => 'PostsController',
+  'plugin' => NULL,
+)
+Request URL: /projet_miage/posts/index
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-04-08 14:25:11 Error: [MissingActionException] Action EventsController::index.php() could not be found.
+Exception Attributes: array (
+  'controller' => 'EventsController',
+  'action' => 'index.php',
+)
+Request URL: /projet_miage/events/index.php
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/lib/Cake/Routing/Dispatcher.php(187): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/MAMP/htdocs/projet_miage/lib/Cake/Routing/Dispatcher.php(162): Dispatcher->_invoke(Object(EventsController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2013-04-08 14:25:12 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /projet_miage/img/recettes/6.jpg
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-04-08 14:25:55 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /projet_miage/img/recettes/6.jpg
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-04-08 14:26:33 Error: [MissingViewException] View file "/Applications/MAMP/htdocs/projet_miage/app/View/Events/view.ctp" is missing.
+Exception Attributes: array (
+  'file' => '/Applications/MAMP/htdocs/projet_miage/app/View/Events/view.ctp',
+)
+Request URL: /projet_miage/events/view/1
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/lib/Cake/View/View.php(468): View->_getViewFileName(NULL)
+#1 /Applications/MAMP/htdocs/projet_miage/lib/Cake/Controller/Controller.php(948): View->render(NULL, NULL)
+#2 /Applications/MAMP/htdocs/projet_miage/lib/Cake/Routing/Dispatcher.php(194): Controller->render()
+#3 /Applications/MAMP/htdocs/projet_miage/lib/Cake/Routing/Dispatcher.php(162): Dispatcher->_invoke(Object(EventsController), Object(CakeRequest), Object(CakeResponse))
+#4 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2013-04-08 14:26:34 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /projet_miage/img/recettes/6.jpg
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-04-08 14:26:42 Error: [MissingViewException] View file "/Applications/MAMP/htdocs/projet_miage/app/View/Events/view.ctp" is missing.
+Exception Attributes: array (
+  'file' => '/Applications/MAMP/htdocs/projet_miage/app/View/Events/view.ctp',
+)
+Request URL: /projet_miage/events/view/1
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/lib/Cake/View/View.php(468): View->_getViewFileName(NULL)
+#1 /Applications/MAMP/htdocs/projet_miage/lib/Cake/Controller/Controller.php(948): View->render(NULL, NULL)
+#2 /Applications/MAMP/htdocs/projet_miage/lib/Cake/Routing/Dispatcher.php(194): Controller->render()
+#3 /Applications/MAMP/htdocs/projet_miage/lib/Cake/Routing/Dispatcher.php(162): Dispatcher->_invoke(Object(EventsController), Object(CakeRequest), Object(CakeResponse))
+#4 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2013-04-08 14:26:42 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /projet_miage/img/recettes/6.jpg
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-04-08 14:27:09 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /projet_miage/img/recettes/6.jpg
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-04-08 14:36:20 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /projet_miage/img/recettes/6.jpg
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-04-08 14:36:22 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /projet_miage/img/recettes/6.jpg
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-04-08 14:36:58 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /projet_miage/img/recettes/6.jpg
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-04-08 14:37:36 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /projet_miage/img/recettes/6.jpg
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-04-08 14:38:11 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /projet_miage/img/recettes/6.jpg
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-04-08 14:39:20 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /projet_miage/img/recettes/6.jpg
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-04-08 14:40:36 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /projet_miage/img/recettes/6.jpg
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2013-04-08 14:41:07 Error: [MissingControllerException] Controller class ImgController could not be found.
+Exception Attributes: array (
+  'class' => 'ImgController',
+  'plugin' => NULL,
+)
+Request URL: /projet_miage/img/recettes/6.jpg
+Stack Trace:
+#0 /Applications/MAMP/htdocs/projet_miage/app/webroot/index.php(109): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}

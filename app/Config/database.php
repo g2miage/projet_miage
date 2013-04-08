@@ -60,8 +60,8 @@ class DATABASE_CONFIG {
 		'persistent' => false,
 		'host' => 'localhost',
 		'login' => 'root',
-		'password' => '',
-		'database' => 'evenements',
+		'password' => 'root',
+		'database' => 'myEvent',
 		'prefix' => '',
 		//'encoding' => 'utf8',
 	);
@@ -71,8 +71,8 @@ class DATABASE_CONFIG {
 		'persistent' => false,
 		'host' => 'localhost',
 		'login' => 'root',
-		'password' => '',
-		'database' => 'evenements',
+		'password' => 'root',
+		'database' => 'myEvent',
 		'prefix' => '',
 		//'encoding' => 'utf8',
 	);
