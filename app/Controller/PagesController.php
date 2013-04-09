@@ -52,7 +52,7 @@ class PagesController extends AppController {
  * @return void
  */
 	public function display() {
-            $this->layout = null;
+                
 		$path = func_get_args();
                 
 		$count = count($path);
@@ -70,8 +70,12 @@ class PagesController extends AppController {
 		if (!empty($path[$count - 1])) {
 			$title_for_layout = Inflector::humanize($path[$count - 1]);
 		}
+               if($title_for_layout == "Accueil"){
+                    $this->layout = null; // la page d'accueil utilise un layout différent
+                }
 		$this->set(compact('page', 'subpage', 'title_for_layout'));
 		$this->render(implode('/', $path));
+
                 
 	}
 }
