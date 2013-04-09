@@ -64,7 +64,11 @@ class EventsController extends AppController {
             $this->redirect(array('action' => 'index'));
         }
     }
-    
+
+    public function search() {
+    $this->set('results', $this->Event->find('all', array(
+        'conditions' => array('Event.title LIKE' => '%'.$this->request->data['Event']['searchEvent'].'%'))));
+    }
 }
 
 ?>

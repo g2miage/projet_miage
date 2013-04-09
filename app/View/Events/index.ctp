@@ -1,4 +1,9 @@
 <!-- File: /app/View/Events/index.ctp  (edit links added) -->
+<?php  
+    echo $this->Form->create("Event",array('action' => 'search')); 
+    echo $this->Form->input("searchEvent", array('label' => 'Search for')); 
+    echo $this->Form->end("Search"); 
+?> 
 
 <h1>Evénements</h1>
 <p><?php echo $this->Html->link("Créer un événement", array('action' => 'add')); ?></p>
@@ -18,8 +23,12 @@
         </td>
         <td>
             <?php echo $this->Html->link('Editer', array('action' => 'edit', $event['Event']['id'])); ?>
-        </td>
-        
+            <?php echo $this->Form->postLink(
+                'Delete',
+                array('action' => 'delete', $event['Event']['id']),
+                array('confirm' => 'Etes-vous sûr ?'));
+            ?>
+        </td>        
     </tr>
 <?php endforeach; ?>
 

@@ -5,6 +5,6 @@
  * and open the template in the editor.
  */
 class Event extends AppModel{
-    
+
 }
 ?>
