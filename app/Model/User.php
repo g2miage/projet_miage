@@ -1,5 +1,7 @@
 <?php
+
 App::uses('AppModel', 'Model');
+
 /**
  * User Model
  *
@@ -7,36 +9,68 @@ App::uses('AppModel', 'Model');
 class User extends AppModel {
 
     public $validate = array(
-        'username'=>array(
+        'username' => array(
             array(
-                'rule'=>'alphanumeric',
-                'required'=>true,
-                'allowEmpty'=> false,
-                'message'=>"Votre pseudo n'est pas valide" 
+                'rule' => 'alphanumeric',
+                'required' => true,
+                'allowEmpty' => false,
+                'message' => "Votre pseudo n'est pas valide"
             ),
             array(
-                'rule'=>'isUnique',
-                'message'=>'Ce pseudo est déjà utilisé'
+                'rule' => 'isUnique',
+                'message' => 'Ce pseudo est déjà utilisé'
             )
         ),
-        'mail'=>array(
+        'password' => array( 
+        'identicalFieldValues' => array( 
+        'rule' => array('identicalFieldValues', 'password_confirm' ), 
+        'message' => 'Please re-enter your password twice so that the values match' 
+                ) 
+            ),
+        /*'password_confirm' => array(
+            
+            'rule' => 'checkpasswords', 
+            'message' => 'Passwords dont match',
+            'required' => true,
+            'allowEmpty' => false,
+            ),*/
+        
+        'mail' => array(
             array(
-                'rule'=>'email',
-                'required'=>true,
-                'allowEmpty'=> false,
-                'message'=>"Votre email n'est pas valide" 
+                'rule' => 'email',
+                'required' => true,
+                'allowEmpty' => false,
+                'message' => "Votre email n'est pas valide"
             ),
             array(
-                'rule'=>'isUnique',
-                'message'=>'Cet email est déjà utilisé'
+                'rule' => 'isUnique',
+                'message' => 'Cet email est déjà utilisé'
             )
-        ),
-        'password'=>array(
-            'rule'=>'notEmpty',
-            'message'=>"Vous devez saisir un mot de passe",
-            'allowEmpty'=> false      
         )
     );
 
+  function identicalFieldValues( $field=array(), $compare_field=null )  
+    { 
+        foreach( $field as $key => $value ){ 
+            $v1 = $value; 
+            debug($v1);
+            $v2 = $this->data[$this->name][ $compare_field ];                  
+            if($v1 !== $v2) { 
+                return FALSE; 
+            } else { 
+                continue; 
+            } 
+        } 
+        return TRUE; 
+    } 
+
 
 }
+
+/*
+ * 'password_confirm'=>array(
+            'required' = true,
+            'allowEmpty'=> false,
+            'passwordequal'  => array('rule' =>'checkpasswords','message' => 'Passwords dont match')
+        )
+ */
