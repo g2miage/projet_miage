@@ -38,7 +38,7 @@
         <?php echo $this->Session->Flash(); ?>
         <div class="span9 offset1 centered well accueil-over">
             <h3>Créez et gérez facilement tous vos événements !</h3>
-            <?php echo $this->Html->link('Inscription',  array('action'=>'signup','controller'=>'Users'), array('class'=>'btn btn-success btn-large')); ?>
+            <?php echo $this->Html->link('Inscription',  array('controller'=>'Users','action'=>'signup'), array('class'=>'btn btn-success btn-large')); ?>
         </div>
             <!-- Example row of columns -->
             <div class="accueil">
@@ -48,40 +48,52 @@
                  <div class="row">
                     <div class="span3">
                         <?php echo $this->Html->image('qui_sommes_nous_accueil.png', array('alt' => 'qui_sommes_nous','class'=>'img-rounded')); ?>
-                        <h3><i class="icon-group"></i> Qui sommes-nous?</h3>
+                        <h3>
+                            <?php           
+                                echo $this->Html->link('<i class="icon-group"></i> Qui Sommes-nous?', array('controller' => 'pages', 'action' => 'display', 'qui_sommes_nous'),array('escape'=>false));
+                            ?>
+                        </h3>
                         <p>
                             Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum 
                         </p>
-                        <p><?php echo $this->Html->link('Plus d\'infos »', '#', array('class'=>'btn')); ?></p>
                     </div>
                     <div class="span3">
                         <?php echo $this->Html->image('fonctionnement_accueil.png', array('alt' => 'fonctionnement','class'=>'img-rounded')); ?>
-                        <h3><i class="icon-magic"></i> Fonctionnement</h3>
+                        <h3> 
+                            <?php           
+                                echo $this->Html->link('<i class="icon-magic"></i> Fonctionnement', array('controller' => 'pages', 'action' => 'display', 'fonctionnement'),array('escape'=>false));
+                            ?>
+                        </h3>
                         <p>
                             Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum 
                         </p>
-                        <p><?php echo $this->Html->link('Plus d\'infos »', '#', array('class'=>'btn')); ?></p>
+                   </div>
+                    <div class="span3">
+                        <?php echo $this->Html->image('espace_pro_accueil.png', array('alt' => 'espace_pro','class'=>'img-rounded')); ?>
+                        <h3>
+                            <?php           
+                                echo $this->Html->link('<i class="icon-glass"></i>  Espace Pro', array('controller' => 'pages', 'action' => 'display', 'espace_pro'),array('escape'=>false));
+                            ?>
+                        </h3>
+                        <p>
+                            Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum 
+                        </p>
                     </div>
                     <div class="span3">
-                        <?php echo $this->Html->image('espace_pro_accueil.png', array('alt' => 'CakePHP','class'=>'img-rounded')); ?>
-                        <h3><i class="icon-glass"></i> Espace Pro</h3>
+                        <?php echo $this->Html->image('qui_sommes_nous_accueil.png', array('alt' => 'dernier_truc','class'=>'img-rounded')); ?>
+                        <h3>
+                            <?php           
+                                echo $this->Html->link('<i class="icon-globe"></i>  Un autre truc', array('controller' => 'pages', 'action' => 'display', 'espace_pro'),array('escape'=>false));
+                            ?>
+                        </h3>
                         <p>
                             Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum 
                         </p>
-                        <p><?php echo $this->Html->link('Plus d\'infos »', '#', array('class'=>'btn')); ?></p>
-                    </div>
-                    <div class="span3">
-                        <?php echo $this->Html->image('qui_sommes_nous_accueil.png', array('alt' => 'CakePHP','class'=>'img-rounded')); ?>
-                        <h3><i class="icon-globe"></i> Un autre truc</h3>
-                        <p>
-                            Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum 
-                        </p>
-                        <p><?php echo $this->Html->link('Plus d\'infos »', '#', array('class'=>'btn')); ?></p>
                     </div>
 
                 </div>
             </div>
-                       
+    
             <hr />
             <footer>
                 <p>&copy; G2 Miage 2013</p>
@@ -102,4 +114,3 @@
 
 </html>
 
-            
