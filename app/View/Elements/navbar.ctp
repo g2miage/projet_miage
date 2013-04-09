@@ -6,18 +6,18 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <?php echo $this->Html->link('Events',  array('controller' => 'pages', 'action' => 'display'), array('class'=>'brand')); ?>
+            <?php echo $this->Html->link('Events', array('controller' => 'pages', 'action' => 'display'), array('class' => 'brand')); ?>
             <div class="nav-collapse collapse">
                 <ul class="nav">
                     <li><?php echo $this->Html->link('About', '#about'); ?></li>
-                    <li><?php echo $this->Html->link('Contact', array('controller' => 'pages', 'action' => 'display','contact')); ?></li>
-                </ul>
-               <form class="navbar-form pull-right" method="post" action="/projet_miage/Users/signup">
-                    <input class="span2" name="data[Users/signup][username]" id="Users\/signupUsername" type="text" placeholder="Login">
-                    <input class="span2" name="data[Users/signup][password]" id="Users\/signupPassword" type="password" placeholder="Mot de passe">
-                    <button type="submit" class="btn">Connexion</button>
-               </form> 
-            </div><!--/.nav-collapse -->
+                    <li><?php echo $this->Html->link('Contact', array('controller' => 'pages', 'action' => 'display', 'contact')); ?></li>
+                </ul>      
+                <form class="navbar-form pull-right" action="/projet_miage/users/login" id="UserLoginForm" method="post" accept-charset="utf-8">
+                    <input type="hidden" name="_method" value="POST"/>
+                    <input name="data[User][username]" maxlength="50" type="text" id="UserUsername" required="required" placeholder="Login"/>
+                    <input name="data[User][password]" type="password" id="UserPassword" required="required" placeholder="Mot de passe"/>                 
+                    <input class="btn" type="submit" value="Login"/>
+                </form>
+            </div>
         </div>
     </div>
-</div>

@@ -53,7 +53,6 @@ class User extends AppModel {
     { 
         foreach( $field as $key => $value ){ 
             $v1 = $value; 
-            debug($v1);
             $v2 = $this->data[$this->name][ $compare_field ];                  
             if($v1 !== $v2) { 
                 return FALSE; 
