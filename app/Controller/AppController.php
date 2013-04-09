@@ -33,7 +33,15 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
     public $helpers = array('Html', 'Form');
-    public $components = array('Session','Cookie','Auth');
+    public $components = array('Session','Cookie',
+        'Auth'=>array('authenticate'=>array(
+            'Form'=>array(
+                'scope'=>array('User.active'=>1
+                        )
+                    )
+                )
+            )
+     );
 
     
     public function beforeFilter() {

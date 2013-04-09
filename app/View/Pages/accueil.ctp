@@ -22,9 +22,14 @@
 </head>
     <body>
 
-        <?php
+         <?php
             // l'utilisateur n'est pas connecté
-            echo $this->element('navbar'); 
+        if(AuthComponent::user('id')){
+            echo $this->element('navbar_connect'); 
+        }
+        else{
+            echo $this->element('navbar');
+        }
         ?>
 
 <!-- Main hero unit for a primary marketing message or call to action -->

@@ -14,13 +14,13 @@
                 </ul>
                 <div class="pull-right">
                     <ul class="nav">
-                        <li></i><?php echo $this->Html->link('Jean Valjean', ''); ?></li>
+                        <li><?php echo $this->Html->link(AuthComponent::user('username'), ''); ?></li>
                     </ul>
                     <?php 
                         echo $this->Html->link(
                             //$this->Html->tag('i', null, array('class' => 'icon-user'))
                             "<i class='icon-user'></i> Déconnexion",
-                            '#', 
+                            array('action'=>'logout','controller'=>'users'), 
                             array('class'=>'btn btn-danger pull-right','escape'=>false)
                         ); 
                     ?>

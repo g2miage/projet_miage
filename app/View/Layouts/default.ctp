@@ -24,12 +24,20 @@
 
         <?php
             // l'utilisateur n'est pas connecté
-            echo $this->element('navbar'); 
+        if(AuthComponent::user('id')){
+            echo $this->element('navbar_connect'); 
+        }
+        else{
+            echo $this->element('navbar');
+        }
         ?>
         
         <div class="container">
-            <?php echo $this->Session->flash(); ?>
-            <?php echo $this->fetch('content'); ?>
+            <?php 
+                $this->session->flash('auth');
+                echo $this->Session->flash(); 
+                echo $this->fetch('content'); 
+            ?>
             
             <hr />
             <footer>

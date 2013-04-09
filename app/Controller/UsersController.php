@@ -19,10 +19,10 @@ class UsersController extends AppController {
             $d = $this->request->data;
             $d['User']['lastlogin'] = 'now()';
             if (!empty($d['User']['password'])) {
-                $d['User']['password'] = Security::hash($d['User']['password']);
+                $d['User']['password'] = Security::hash($d['User']['password'],null,true);
             }
             if (!empty($d['User']['password_confirm'])) {
-                $d['User']['password_confirm'] = Security::hash($d['User']['password_confirm']);
+                $d['User']['password_confirm'] = Security::hash($d['User']['password_confirm'],null,true);
             }
 
             if ($this->User->save($d, true, array('username', 'password', 'mail'))) {
@@ -31,16 +31,34 @@ class UsersController extends AppController {
                 $mail = new CakeEmail();
                 $mail->from('no-reply@events.com')
                         ->to($d['User']['mail'])
-                        ->subject('Dors bien, nous avons du boulot demin (-_-)')
+                        ->subject('Activation compte Events')
                         ->emailFormat('html')
                         ->template('signup')
                         ->viewVars(array('username' => $d['User']['username'], 'link' => $link))
                         ->send();
-                $this->Session->setFlash('Votre compte a bien été créé', 'notif');
+                $this->Session->setFlash("Votre compte a bien été créé. Vous allez recevoir un mail d'activation", 'notif');
+                $this->redirect('/');
+                
             } else {
                 $this->Session->setFlash('Merci de corriger vos erreurs', 'notif', array(
                     'type' => 'error'));
             }
+        }
+    }
+
+    
+    
+    public function logout(){
+        $this->Auth->logout();
+        $this->redirect('/');
+    }
+    
+    public function login(){
+        if($this->Auth->login()){
+           $this->Session->setFlash("Vous êtes connecté", "notif"); 
+           $this->redirect('/');
+        }  else {
+            $this->Session->setFlash("Indendifiants incorrects", "notif", array('type' => 'error')); 
         }
     }
 
@@ -53,6 +71,8 @@ class UsersController extends AppController {
             $this->User->id = $user['User']['id'];
             $this->User->saveField('active', 1);
             $this->Session->setFlash("Votre compte a bien été activé", "notif");
+            $this->Auth->login($user['User']);
+            
         } else {
             $this->Session->setFlash("Votre lien ne semble pas valide", "notif", array('type' => 'error'));
         }
