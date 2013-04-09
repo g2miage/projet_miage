@@ -58,7 +58,8 @@ class UsersController extends AppController {
            $this->Session->setFlash("Vous êtes connecté", "notif"); 
            $this->redirect('/');
         }  else {
-            $this->Session->setFlash("Indendifiants incorrects", "notif", array('type' => 'error')); 
+            $this->Session->setFlash("Indendifiants incorrects", "notif", array('type' => 'error'));
+           
         }
     }
 
