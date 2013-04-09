@@ -12,6 +12,6 @@ echo $this->Form->input('zip', array('label' => 'Code postal'));
 echo $this->Form->input('city', array('label' => 'Ville'));
 echo $this->Form->input('amount', array('label' => 'Prix d\'entrée'));
 echo 'Cochez si l\'événement est privé : '.$this->Form->checkbox('visibility').'</br></br>';
-
+echo $this->Form->button('Reset', array('type'=>'reset'));
 echo $this->Form->end('Enregistrer');
 ?>
