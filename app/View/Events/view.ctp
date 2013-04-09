@@ -14,4 +14,4 @@
         <li><?php echo $event['Event']['amount']; ?></li>
         
 </ul>    
-    
+<a href="<?php echo $_SERVER['HTTP_REFERER']; ?>">Retour</a>

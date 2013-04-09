@@ -22,11 +22,16 @@
             <?php echo $this->Html->link($event['Event']['title'], array('action' => 'view', $event['Event']['id'])); ?>
         </td>
         <td>
-            <?php echo $this->Html->link('Editer', array('action' => 'edit', $event['Event']['id'])); ?>
+            <!-- echo $this->Html->link($this->Html->image('editButton.png'), array('action' => 'edit', $event['Event']['id'])); ?>-->
+            <?php echo $this->Html->image("editButton.png", array(
+            "alt" => "Editer",
+            'url' => array('controller' => 'events', 'action' => 'edit', $event['Event']['id'])
+)); ?>
             <?php echo $this->Form->postLink(
-                'Delete',
+                $this->Html->image('deleteButton.png',array(
+                "alt" => "Editer")),
                 array('action' => 'delete', $event['Event']['id']),
-                array('confirm' => 'Etes-vous sûr ?'));
+                array('escape' => false, 'confirm' => 'Etes-vous sûr ?'));
             ?>
         </td>        
     </tr>
