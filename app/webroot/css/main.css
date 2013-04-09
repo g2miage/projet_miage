@@ -150,5 +150,16 @@ only screen and (     -o-min-device-pixel-ratio: 2/1) {
     top: -3px;
 }
 
-/* Styles Accueil
-******************** */
+.accueil a {
+    color : #333333;
+    text-decoration: none;
+}
+
+.accueil a:hover {
+    color : #8F8F8F;
+}
+
+.accueil img{
+    max-height: 140px;
+    max-width: 250px;
+}

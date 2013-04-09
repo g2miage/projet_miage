@@ -6,18 +6,17 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <?php echo $this->Html->link('Events', '#', array('class'=>'brand')); ?>
+            <?php echo $this->Html->link('Events',  array('controller' => 'pages', 'action' => 'display'), array('class'=>'brand')); ?>
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li><?php echo $this->Html->link('Accueil', '#'); ?></li>
                     <li><?php echo $this->Html->link('About', '#about'); ?></li>
-                    <li><?php echo $this->Html->link('Contact', '#contact'); ?></li>
+                    <li><?php echo $this->Html->link('Contact', array('controller' => 'pages', 'action' => 'display','contact')); ?></li>
                 </ul>
-                <form class="navbar-form pull-right">
-                    <input class="span2" type="text" placeholder="Adresse Email">
-                    <input class="span2" type="password" placeholder="Mot de passe">
+               <form class="navbar-form pull-right" method="post" action="/projet_miage/Users/signup">
+                    <input class="span2" name="data[Users/signup][username]" id="Users\/signupUsername" type="text" placeholder="Login">
+                    <input class="span2" name="data[Users/signup][password]" id="Users\/signupPassword" type="password" placeholder="Mot de passe">
                     <button type="submit" class="btn">Connexion</button>
-                </form>
+               </form> 
             </div><!--/.nav-collapse -->
         </div>
     </div>
