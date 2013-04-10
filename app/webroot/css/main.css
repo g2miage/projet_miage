@@ -2,6 +2,8 @@
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400);
+
 body{
     background-color: #F5F5F5;
 }
@@ -172,7 +174,7 @@ h1{
     font-weight: 300;
     padding-top:30px;
     padding-bottom:20px;
-    
+    opacity:0.999;
 }
 
 .table_index {
@@ -195,18 +197,20 @@ h1{
     text-decoration: none;
 }
 
-.title_event{
+.event h1{
    display: inline;
+   font-size: 4em;
 }
 
-.padding{
-    padding-top: 30px;
-    padding-bottom: 20px;
+.event .padding{
+    padding-top: 50px;
+    padding-bottom: 40px;
 }
 
-.padding a{
+.event .padding a{
     margin-right: 10px;
-    position: relative;
+    margin-top:10px;
+   /* position: relative; */
     
 }
 
@@ -243,5 +247,12 @@ h1{
 
 .alert{
     margin: 0px;
+}
+
+.event img{
+    margin : 0 auto;
+    text-align: center;
+    padding-bottom: 20px;
+    display: block; 
 }
 
