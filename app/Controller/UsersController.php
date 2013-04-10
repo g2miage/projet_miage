@@ -103,7 +103,7 @@ class UsersController extends AppController {
                     }
                 }
                 //debug($this->User->save($d,true, array('firstname','lastname','password'));
-                if($this->User->save($d, true, array('firstname','lastname','password'))){
+                if($this->User->save($d, true, array('firstname','lastname','mail','tel','city','zip','country','address','sex'))){
                          $this->Session->setFlash("Votre profil a bien été modifié", "notif");
                          $this->redirect(array('controller'=>'users', 'action'=>'profil'));
 
@@ -114,6 +114,12 @@ class UsersController extends AppController {
          $this->request->data = $this->User->read();
          }
          $this->request->data['User']['password1']=$this->request->data['User']['password_confirm']='';
-    }     
+    }  
+    
+    function uploadImage()
+    {
+        $fileOK = $this->User->uploadFiles('../',$this->request->data['picture']);
+        $this->redirect(array('controller'=>'users','action' => 'edit'));
+    }
 }
 ?>
