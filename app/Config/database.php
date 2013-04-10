@@ -7,7 +7,7 @@ class DATABASE_CONFIG {
 		'host' => 'localhost',
 		'login' => 'root',
 		'password' => 'root',
-		'database' => 'myevent',
+		'database' => 'myEvent',
 	);
 	public $myevent = array(
 		'datasource' => 'Database/Mysql',
