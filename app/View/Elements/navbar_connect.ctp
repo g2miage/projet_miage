@@ -14,7 +14,7 @@
                 </ul>
                 <div class="pull-right">
                     <ul class="nav">
-                        <li><?php echo $this->Html->link(AuthComponent::user('username'), ''); ?></li>
+                        <li><?php echo $this->Html->link(AuthComponent::user('username'), array('controller' => 'users', 'action' => 'profil')); ?></li>
                     </ul>
                     <?php 
                         echo $this->Html->link(

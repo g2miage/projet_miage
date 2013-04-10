@@ -17,7 +17,6 @@ class UsersController extends AppController {
     public function signup() {
         if ($this->request->is('post')) {
             $d = $this->request->data;
-            $d['User']['lastlogin'] = 'now()';
             if (!empty($d['User']['password'])) {
                 $d['User']['password'] = Security::hash($d['User']['password'],null,true);
             }
@@ -55,6 +54,8 @@ class UsersController extends AppController {
     
     public function login(){
         if($this->Auth->login()){
+           $this->User->id = $this->Auth->user('id');
+           $this->User->saveField('lastlogin',date('Y-m-d H:i:s'));
            $this->Session->setFlash("Vous êtes connecté", "notif"); 
            $this->redirect('/');
         }  else {
@@ -79,6 +80,69 @@ class UsersController extends AppController {
         }
         $this->redirect('/');
     }
+    
+    public function profil(){
+        
+    }
+    public function edit(){
+        $user_id = $this->Auth->user('id');
+        if(!$user_id){
+            $this->redirect('/');
+            die();
+        }
+        $this->User->id = $user_id;
+        if ($this->request->is('put') || $this->request->is('post')){
+             $d = $this->request->data;   
+             $d['User']['id'] = $user_id;
+                if (!empty($d['User']['password1'])) {
+                    $d['User']['password'] = Security::hash($d['User']['password1'],null,true);
+
+                    if (!empty($d['User']['password_confirm'])) {
+                        $d['User']['password_confirm'] = Security::hash($d['User']['password_confirm'],null,true);
+                    
+                    }
+                }
+                //debug($this->User->save($d,true, array('firstname','lastname','password'));
+                if($this->User->save($d, true, array('firstname','lastname','password'))){
+                         $this->Session->setFlash("Votre profil a bien été modifié", "notif");
+                         $this->redirect(array('controller'=>'users', 'action'=>'profil'));
+
+                     }  else {
+                        $this->Session->setFlash("Impossible de sauvegarder, Merci de corriger", "notif", array('type' => 'error'));   
+                     }
+         }else {
+         $this->request->data = $this->User->read();
+         }
+         $this->request->data['User']['password1']=$this->request->data['User']['password_confirm']='';
+    }     
+        /*
+         * $this->User->id = $user_id;
+        $passError =FALSE;
+         if ($this->request->is('put') || $this->request->is('post')){
+             $d = $this->request->data;
+             $d['User']['id'] = $user_id;
+             if (!empty($d['User']['pass1'])) {
+                 if($d['User']['pass1'] == $d['User']['pass2']){
+                     $d['User']['password'] = Security::hash($d['User']['pass1'],null,TRUE);
+                 }  else {
+                    $passError =TRUE; 
+                 }
+             }
+             if($this->User->save($d,array("firstname",'lastname','password'))){
+                 $this->Session->setFlash("Votre profil a bien été édité", "notif");
+             }  else {
+                $this->Session->setFlash("Impossible de sauvegarder, Merci de corriger", "notif", array('type' => 'error'));   
+             }
+             if($passError)
+                 $this->User->ValidationErrors['pass2']=array('Les mots de passes doivent être identiques');
+             
+         }  else {
+              $this->request->data = $this->User->read();
+         }
+         $this->request->data['User']['pass1']=$this->request->data['User']['pass2']='';
+    
+         * }
+         */
 
 }
 ?>

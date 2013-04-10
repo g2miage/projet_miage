@@ -7,7 +7,7 @@ App::uses('AppModel', 'Model');
  *
  */
 class User extends AppModel {
-
+    
     public $validate = array(
         'username' => array(
             array(
@@ -24,17 +24,13 @@ class User extends AppModel {
         'password' => array( 
         'identicalFieldValues' => array( 
         'rule' => array('identicalFieldValues', 'password_confirm' ), 
-        'message' => 'Please re-enter your password twice so that the values match' 
+        'message' => 'Les mots de passes doivent être identiques' 
                 ) 
             ),
-        /*'password_confirm' => array(
-            
-            'rule' => 'checkpasswords', 
-            'message' => 'Passwords dont match',
+        'password_confirm' => array(
             'required' => true,
             'allowEmpty' => false,
-            ),*/
-        
+            ),
         'mail' => array(
             array(
                 'rule' => 'email',
@@ -53,7 +49,7 @@ class User extends AppModel {
     { 
         foreach( $field as $key => $value ){ 
             $v1 = $value; 
-            $v2 = $this->data[$this->name][ $compare_field ];                  
+            $v2 = $this->data[$this->name][ $compare_field ];  
             if($v1 !== $v2) { 
                 return FALSE; 
             } else { 
