@@ -95,6 +95,11 @@ class EventsController extends AppController {
                     array('Event.title LIKE' => '%'.$this->request->data['Event']['searchEventTitle'].'%'))));
     }
     
+    
+    public function beforeFilter() {
+       // $this->Auth->deny();
+    }
+    
 }
 
 ?>
