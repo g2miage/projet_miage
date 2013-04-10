@@ -13,7 +13,7 @@
 class UsersController extends AppController {
 
     //put your code here
-
+    
     public function signup() {
         if ($this->request->is('post')) {
             $d = $this->request->data;
