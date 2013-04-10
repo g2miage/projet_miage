@@ -103,7 +103,7 @@ class UsersController extends AppController {
                     }
                 }
                 //debug($this->User->save($d,true, array('firstname','lastname','password'));
-                if($this->User->save($d, true, array('firstname','lastname','password'))){
+                if($this->User->save($d, true, array('firstname','lastname','mail','tel','city','zip','country','address','sex'))){
                          $this->Session->setFlash("Votre profil a bien été modifié", "notif");
                          $this->redirect(array('controller'=>'users', 'action'=>'profil'));
 
@@ -114,35 +114,12 @@ class UsersController extends AppController {
          $this->request->data = $this->User->read();
          }
          $this->request->data['User']['password1']=$this->request->data['User']['password_confirm']='';
-    }     
-        /*
-         * $this->User->id = $user_id;
-        $passError =FALSE;
-         if ($this->request->is('put') || $this->request->is('post')){
-             $d = $this->request->data;
-             $d['User']['id'] = $user_id;
-             if (!empty($d['User']['pass1'])) {
-                 if($d['User']['pass1'] == $d['User']['pass2']){
-                     $d['User']['password'] = Security::hash($d['User']['pass1'],null,TRUE);
-                 }  else {
-                    $passError =TRUE; 
-                 }
-             }
-             if($this->User->save($d,array("firstname",'lastname','password'))){
-                 $this->Session->setFlash("Votre profil a bien été édité", "notif");
-             }  else {
-                $this->Session->setFlash("Impossible de sauvegarder, Merci de corriger", "notif", array('type' => 'error'));   
-             }
-             if($passError)
-                 $this->User->ValidationErrors['pass2']=array('Les mots de passes doivent être identiques');
-             
-         }  else {
-              $this->request->data = $this->User->read();
-         }
-         $this->request->data['User']['pass1']=$this->request->data['User']['pass2']='';
+    }  
     
-         * }
-         */
-
+    function uploadImage()
+    {
+        $fileOK = $this->User->uploadFiles('../',$this->request->data['picture']);
+        $this->redirect(array('controller'=>'users','action' => 'edit'));
+    }
 }
 ?>
