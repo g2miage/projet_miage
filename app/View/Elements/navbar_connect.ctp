@@ -6,7 +6,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <?php echo $this->Html->link('Events', array('controller' => 'pages', 'action' => 'display'), array('class'=>'brand')); ?>
+            <?php echo $this->Html->link('Accueil', array('controller' => 'pages', 'action' => 'display'), array('class'=>'brand')); ?>
             <div class="nav-collapse collapse">
                 <ul class="nav">
                     <li><?php echo $this->Html->link('Contact', array('controller' => 'pages', 'action' => 'display','contact')); ?></li>
