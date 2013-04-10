@@ -1,17 +1,41 @@
 <!-- File: /app/View/Events/index.ctp  (edit links added) -->
 
-<h1>Détails de l'événement</h1>
+<div class='padding'><h1 class='title_event'><?php echo $event['Event']['title']; ?></h1>
+<?php echo $this->Html->link("Refuser", array('action' => 'refuse'),
+      array('class' => 'btn btn-danger pull-right'));
+
+      echo $this->Html->link("Participer", array('action' => 'participate'),
+      array('class' => 'btn btn-info pull-right'));
+?>
+
+</div>
 
 
-<ul>
-        <li><?php echo '<strong>Titre : </strong>'.$event['Event']['title']; ?></li><br>
-        <li><?php echo '<strong>Déscription de l\'événement : </strong>'.$event['Event']['desc']; ?></li>
-        <li><?php echo $event['Event']['start']; ?></li>
-        <li><?php echo $event['Event']['end']; ?></li>
-        <li><?php echo $event['Event']['address']; ?></li>
-        <li><?php echo $event['Event']['city']; ?></li>
-        <li><?php echo $event['Event']['zip']; ?></li>
-        <li><?php echo $event['Event']['amount']; ?></li>
+<table class="event_view">
+
+    <tr>
+        <td>
+<?php   
+    if($event['Event']['visibility'] == 0){
+        echo "<i class='icon-globe'></i></td><td>
+              Public a Créé par : "."jean valjeant</td>";
+    }else{
+        echo "<i class='icon-group'></i></td><td>
+             Privé . Créé par : "."jean valjeant</td>";
+    }
+?>
         
-</ul>    
-<a href="<?php echo $_SERVER['HTTP_REFERER']; ?>">Retour</a>
+    </tr>
+    
+    <tr>
+        
+
+    <td><i class="icon-align-justify"></i></td>
+    <td>
+    <?php echo $event['Event']['desc'];?>
+        </td>
+</tr>
+
+</table>
+
+ 

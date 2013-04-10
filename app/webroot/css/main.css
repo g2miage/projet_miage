@@ -163,3 +163,85 @@ only screen and (     -o-min-device-pixel-ratio: 2/1) {
     max-height: 140px;
     max-width: 250px;
 }
+
+
+
+h1{
+    font-family: "Open Sans", arial, sans-serif;
+    font-size:38px;
+    font-weight: 300;
+    padding-top:30px;
+    padding-bottom:20px;
+    
+}
+
+.table_index {
+    
+     width:0px;
+     min-width:50%;
+     
+}
+
+.actions {
+    width:10%;
+}
+
+.actions a{
+    text-align: right;
+}
+
+
+.actions a:hover{
+    text-decoration: none;
+}
+
+.title_event{
+   display: inline;
+}
+
+.padding{
+    padding-top: 30px;
+    padding-bottom: 20px;
+}
+
+.padding a{
+    margin-right: 10px;
+    position: relative;
+    
+}
+
+.ligne{
+    width:100%;
+    list-style-type: none;
+    display: block;
+}
+
+.icone {
+    width:5%;
+    display:inline;
+}
+
+.desc {
+    width:95%;
+   display: inline;
+   text-align:justify;
+
+} 
+
+.btn_align {
+    margin-right: 10px;
+    position: relative;
+    top: -5px;
+}
+
+.event_view td{
+    padding: 5px 5px 5px 5px;
+    vertical-align: top;
+    text-align: justify;
+}
+
+
+.alert{
+    margin: 0px;
+}
+
