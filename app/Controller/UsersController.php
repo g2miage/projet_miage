@@ -121,5 +121,26 @@ class UsersController extends AppController {
         $fileOK = $this->User->uploadFiles('../',$this->request->data['picture']);
         $this->redirect(array('controller'=>'users','action' => 'edit'));
     }
+    
+    public function editpassword() {
+        $id = AuthComponent::user('id');
+        $currentUser= current($this->User->findById($id));
+        if ($this->request->is('post')) {
+           $d = $this->request->data;
+           if (Security::hash($d['User']['password'],null,true) == $currentUser['password']) {      
+                   $d['User']['id'] = $currentUser['id'];
+                   $d['User']['password'] = Security::hash($d['User']['password1'],null,true);
+                   $d['User']['password_confirm'] = Security::hash($d['User']['password_confirm'],null,true);
+                   if($this->User->save($d, true, array('password'))){
+                        $this->Session->setFlash("Votre profil a bien été modifié", "notif");
+                        $this->redirect(array('controller'=>'users', 'action'=>'profil'));
+                   }  else {
+                       $this->Session->setFlash("Impossible de sauvegarder, Merci de corriger", "notif", array('type' => 'error'));
+                   }        
+           } else {
+               $this->Session->setFlash("Mot de passe in correcte", "notif", array('type' => 'error'));
+           }   
+        }
+    }
 }
 ?>

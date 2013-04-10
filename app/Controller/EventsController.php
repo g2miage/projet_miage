@@ -9,7 +9,7 @@ class EventsController extends AppController {
 
     public function index() {
         //On verifie si une recherche a été effectuée,
-        
+
         if (isset($this->request->data['Event']['searchEventTitle']) == TRUE
         ) {
 
@@ -26,28 +26,22 @@ class EventsController extends AppController {
     }
 
     public function view($id) {
+
         if (!$id) {
             throw new NotFoundException(__('Invalid post'));
         }
 
         $event = $this->Event->findById($id);
+
+        $user = current($event['User']);
+        
         if (!$event) {
             throw new NotFoundException(__('Invalid post'));
         }
-        
-        $this->Event->recursive =1;
-        $user_id = AuthComponent::user('id');
-        $d = $this->Event->User->find('all', array(
-                'fields' => 'username',
-                'conditions' => array('id' => $user_id)
-                 ));
-        $user = $d['0']['User']['username'];
-        debug($user);
-        $v = array('event'=>$event,'user'=>$user);
-        
+
+        $v = array('event' => $event, 'user' => $user);
+
         $this->set($v);
-        
-        //$this->set('event', $event);
     }
 
     public function add() {
@@ -63,17 +57,16 @@ class EventsController extends AppController {
                 //$data = array('Member' => array('id' => null, 'user_id' => $user_id, 'event_id' => $Event_id));
                 //$d = $this->Event->Member->create($data);
                 //if ($this->Event->Member->save($d)) {
-                    //$this->Session->setFlash('Votre événement a bien été créé.');
-                    //$this->redirect(array('action' => 'index'));
-                } else {
-                    $this->Session->setFlash('Impossible de sauvegarder');
-                }
+                //$this->Session->setFlash('Votre événement a bien été créé.');
+                //$this->redirect(array('action' => 'index'));
+            } else {
+                $this->Session->setFlash('Impossible de sauvegarder');
+            }
 
 
-                $this->Session->setFlash('Votre événement a bien été créé.');
-                $this->redirect(array('action' => 'index'));
-            
-        }  
+            $this->Session->setFlash('Votre événement a bien été créé.');
+            $this->redirect(array('action' => 'index'));
+        }
     }
 
     public function edit($id = null) {
