@@ -18,7 +18,7 @@
 <?php   
     if($event['Event']['visibility'] == 0){
         echo "<i class='icon-globe'></i></td><td>
-              Public a Créé par : "."jean valjeant</td>";
+              Public a Créé par : ".$user;
     }else{
         echo "<i class='icon-group'></i></td><td>
              Privé . Créé par : "."jean valjeant</td>";
