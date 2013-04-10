@@ -6,10 +6,8 @@ class DATABASE_CONFIG {
 		'persistent' => false,
 		'host' => 'localhost',
 		'login' => 'root',
-		'password' => '',
-		'database' => 'myevent',
-                'prefix' => '',
-		'encoding' => 'utf8'
+		'password' => 'root',
+		'database' => 'myEvent',
 	);
 	
 }
