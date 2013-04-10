@@ -7,7 +7,24 @@
 class EventsController extends AppController {
     
     public function index() {
-        $this->set('events', $this->Event->find('all'));
+         //On verifie si une recherche a été effectuée,
+        if (isset($this->request->data['Event']['searchEventTitle']) == TRUE
+            ){
+            
+           if ($this->request->data['Event']['searchEventTitle'] != ""){
+           
+               $this->recherche();
+           }
+           else
+           {
+               $this->set('events',$this->Event->find('all'));
+           }
+        // On effectue la recherche
+            
+        }
+        else{
+            $this->set('events',$this->Event->find('all'));
+        }
     } 
     public function view($id) {
         if (!$id) {
@@ -69,6 +86,15 @@ class EventsController extends AppController {
     $this->set('results', $this->Event->find('all', array(
         'conditions' => array('Event.title LIKE' => '%'.$this->request->data['Event']['searchEvent'].'%'))));
     }
+
+    
+     private function recherche(){
+        
+        $this->set('events', $this->Event->find('all', 
+                array('conditions' => 
+                    array('Event.title LIKE' => '%'.$this->request->data['Event']['searchEventTitle'].'%'))));
+    }
+    
 }
 
 ?>
