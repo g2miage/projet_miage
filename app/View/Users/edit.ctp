@@ -1,7 +1,7 @@
 <?php 
     $this->set('title_for_layout','Editer mon profil');
         echo $this->HTML->Link('Modifier mon mot de passe',  array('action'=>'editpassword'));  
-        echo $this->Form->create('User');
+        echo $this->Form->create('User',array('class' => 'form-horizontal'));
         echo $this->Form->Label('Sexe');
         $options = array('M' => 'M','F' => 'F');
         $attributes = array(

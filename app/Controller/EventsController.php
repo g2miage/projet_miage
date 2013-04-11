@@ -9,7 +9,6 @@ class EventsController extends AppController {
 
     public function index() {
         //On verifie si une recherche a été effectuée,
-
         if (isset($this->request->data['Event']['searchEventTitle']) == TRUE
         ) {
 
@@ -51,14 +50,9 @@ class EventsController extends AppController {
                 $user_id = AuthComponent::user('id');
             }
 
-
             if ($this->Event->save($this->request->data)) {
                 $Event_id = $this->Event->getLastInsertID();
-                //$data = array('Member' => array('id' => null, 'user_id' => $user_id, 'event_id' => $Event_id));
-                //$d = $this->Event->Member->create($data);
-                //if ($this->Event->Member->save($d)) {
-                //$this->Session->setFlash('Votre événement a bien été créé.');
-                //$this->redirect(array('action' => 'index'));
+             
             } else {
                 $this->Session->setFlash('Impossible de sauvegarder');
             }
@@ -115,16 +109,7 @@ class EventsController extends AppController {
                     array('Event.title LIKE' => '%' . $this->request->data['Event']['searchEventTitle'] . '%'))));
     }
 
-    public function beforeFilter() {
-        // $this->Auth->deny();
-    }
+    
 
 }
-
-/* if ($this->Event->save($this->request->data)) {
-  $this->Session->setFlash('Votre événement a bien été créé.');
-  $this->redirect(array('action' => 'index'));
-  } else {
-  $this->Session->setFlash('Votre événement n\'a pas été créé.');
-  } */
 ?>
