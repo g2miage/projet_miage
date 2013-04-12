@@ -6,6 +6,8 @@
  */
 
 class EventsController extends AppController {
+    // Helper GoogleMap
+    public $helpers = array('GoogleMap');
 
     public function index() {
         //On verifie si une recherche a été effectuée,

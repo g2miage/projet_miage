@@ -1,4 +1,31 @@
 <!-- File: /app/View/Events/index.ctp  (edit links added) -->
+  <?php
+  
+    $this->Html->script('http://maps.google.com/maps/api/js?sensor=true', false);
+    $full_address = $event['Event']['address']." ".$event['Event']['zip']." ".$event['Event']['city'];
+  
+    $map_options = array(
+      'id' => 'map_canvas',
+      'width' => '600px',
+      'height' => '400px',
+      'style' => '',
+      'zoom' => 8,
+      'type' => 'ROADMAP',
+      'custom' => null,
+      'localize' => false,
+      'address' => $full_address,
+      'marker' => true,
+      'markerTitle' => 'This is my position',
+      'markerIcon' => 'http://google-maps-icons.googlecode.com/files/home.png',
+      'markerShadow' => 'http://google-maps-icons.googlecode.com/files/shadow.png',
+      'infoWindow' => true,
+      'windowText' => "<b>".$event['Event']['title']."</b><br /><p>$full_address</p>"
+    );
+  ?>
+
+<div class="event">
+    <div class='padding'>
+        <h1 class='title_event'><?php echo $event['Event']['title']; ?></h1>
 <?php
 	// Déclaration variables:
     $inscription = 0;
@@ -24,19 +51,10 @@
     } elseif ($inscription == 3) {
         echo $this->Html->link("S'inscrire", array('action' => 'participate', $event['Event']['id']), array('class' => 'btn btn-info pull-right'));
     } elseif ($inscription == 1) {
-        echo $this->Html->link("Modifier l'evenement", array('action' => 'edit', $event['Event']['id']), array('class' => 'btn btn-info pull-right'));
+        echo $this->Html->link("Modifier l'événement", array('action' => 'edit', $event['Event']['id']), array('class' => 'btn btn-info pull-right'));
    
     }
-?>
-<div class="event">
-    <div class='padding'>
-        <h1 class='title_event'><?php echo $event['Event']['title']; ?></h1>
-        <?php echo $this->Html->link("<i class='icon-remove'></i> Refuser", array('action' => 'refuse'),
-              array('class' => 'btn btn-danger pull-right','escape'=>false));
-
-              echo $this->Html->link("<i class='icon-ok'></i> Participer", array('action' => 'participate'),
-              array('class' => 'btn btn-info pull-right','escape'=>false));
-        ?>
+?>      
     </div>
 
 
@@ -121,6 +139,14 @@
         }
     }
     ?>
+    <tr>
+        <td></td>
+        <td>
+            <?php
+                echo $this->GoogleMap->map($map_options);
+            ?>
+        </td>
+    </tr>
 </table>
     <br />
     <?php
