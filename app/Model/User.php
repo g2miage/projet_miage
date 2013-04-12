@@ -8,8 +8,21 @@ App::uses('AppModel', 'Model');
  */
 class User extends AppModel {
     
+     public $hasMany = array(
+        'EventsUsers');
+    
+    public $hasAndBelongsToMany = array(
+        'Event' =>
+            array(
+                'className'              => 'Events',
+                'joinTable'              => 'events_users',
+                'foreignKey'             => 'user_id',
+                'associationForeignKey'  => 'event_id',
+                'unique'                 => true,
+                
+            ));
+    
     public $validate = array(
-        
         'username' => array(
             array(
                 'rule' => 'alphanumeric',
@@ -25,7 +38,8 @@ class User extends AppModel {
         'password' => array( 
         'identicalFieldValues' => array( 
         'rule' => array('identicalFieldValues', 'password_confirm' ), 
-        'message' => 'Les mots de passes doivent être identiques' 
+        'message' => 'Les mots de passes doivent être identiques',
+        'on' => 'create'
                 ) 
             ),
         'password_confirm' => array(
@@ -47,10 +61,12 @@ class User extends AppModel {
     );
 
   function identicalFieldValues( $field=array(), $compare_field=null )  
-    { 
+    {
+      
         foreach( $field as $key => $value ){ 
             $v1 = $value; 
-            $v2 = $this->data[$this->name][ $compare_field ];  
+            $v2 = $this->data[$this->name][ $compare_field ];
+         
             if($v1 !== $v2) { 
                 return FALSE; 
             } else { 
@@ -59,14 +75,5 @@ class User extends AppModel {
         } 
         return TRUE; 
     } 
-
-
 }
 
-/*
- * 'password_confirm'=>array(
-            'required' = true,
-            'allowEmpty'=> false,
-            'passwordequal'  => array('rule' =>'checkpasswords','message' => 'Passwords dont match')
-        )
- */

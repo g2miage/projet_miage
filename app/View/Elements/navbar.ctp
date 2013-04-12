@@ -15,7 +15,7 @@
                     <input type="hidden" name="_method" value="POST"/>
                     <input name="data[User][username]" maxlength="50" type="text" id="UserUsername" required="required" placeholder="Login"/>
                     <input name="data[User][password]" type="password" id="UserPassword" required="required" placeholder="Mot de passe"/>                 
-                    <input class="btn" type="submit" value="Login"/>
+                    <input class="btn btn-info" type="submit" value="Se connecter"/>
                 </form>
             </div>
         </div>

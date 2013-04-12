@@ -13,7 +13,7 @@
 class UsersController extends AppController {
 
     //put your code here
-    
+
     public function signup() {
         if ($this->request->is('post')) {
             $d = $this->request->data;
@@ -48,11 +48,6 @@ class UsersController extends AppController {
     
     
     public function logout(){
-        $user_id = $this->Auth->user('id');
-        if(!$user_id){
-            $this->redirect('/');
-            die();
-        }
         $this->Auth->logout();
         $this->redirect('/');
     }
@@ -87,11 +82,7 @@ class UsersController extends AppController {
     }
     
     public function profil(){
-        $user_id = $this->Auth->user('id');
-        if(!$user_id){
-            $this->redirect('/');
-            die();
-        }
+        
     }
     public function edit(){
         $user_id = $this->Auth->user('id');
@@ -111,7 +102,7 @@ class UsersController extends AppController {
                     
                     }
                 }
-                
+                //debug($this->User->save($d,true, array('firstname','lastname','password'));
                 if($this->User->save($d, true, array('firstname','lastname','mail','tel','city','zip','country','address','sex'))){
                          $this->Session->setFlash("Votre profil a bien été modifié", "notif");
                          $this->redirect(array('controller'=>'users', 'action'=>'profil'));
@@ -130,33 +121,5 @@ class UsersController extends AppController {
         $fileOK = $this->User->uploadFiles('../',$this->request->data['picture']);
         $this->redirect(array('controller'=>'users','action' => 'edit'));
     }
-    
-    public function editpassword() {
-        $user_id = $this->Auth->user('id');
-        if(!$user_id){
-            $this->redirect('/');
-            die();
-        }
-        $id = AuthComponent::user('id');
-        $currentUser= current($this->User->findById($id));
-        if ($this->request->is('post')) {
-           $d = $this->request->data;
-           if (Security::hash($d['User']['password1'],null,true) == $currentUser['password']) {      
-                   $d['User']['id'] = $currentUser['id'];
-                   $d['User']['password'] = Security::hash($d['User']['password'],null,true);
-                   $d['User']['password_confirm'] = Security::hash($d['User']['password_confirm'],null,true);
-                   if($this->User->save($d, true, array('password'))){
-                        $this->Session->setFlash("Votre profil a bien été modifié", "notif");
-                        $this->redirect(array('controller'=>'users', 'action'=>'profil'));
-                   }  else {
-                       $this->Session->setFlash("Impossible de sauvegarder, Merci de corriger", "notif", array('type' => 'error'));
-                   }        
-           } else {
-               $this->Session->setFlash("Mot de passe in correcte", "notif", array('type' => 'error'));
-           }   
-        }
-    }
-    
-    
 }
 ?>
