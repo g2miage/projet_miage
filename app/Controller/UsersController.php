@@ -24,7 +24,7 @@ class UsersController extends AppController {
                 $d['User']['password_confirm'] = Security::hash($d['User']['password_confirm'], null, true);
             }
 
-            if ($this->User->save($d, true, array('username', 'password', 'mail'))) {
+            if ($this->User->save($d, true, array('username', 'password', 'mail','creationdate'))) {
                 $link = array('controller' => 'users', 'action' => 'activate', $this->User->id . '-' . md5($d['User']['password']));
                 App::uses('CakeEmail', 'Network/Email');
                 $mail = new CakeEmail();
@@ -126,7 +126,7 @@ class UsersController extends AppController {
                 if ($size < 2000000) {
                     if ($this->User->save($d, true, array('picture'))) {
                         $this->Session->setFlash("Votre profil a bien été modifié", "notif");
-                        //$this->redirect(array('controller' => 'users', 'action' => 'profil'));
+                        $this->redirect(array('controller' => 'users', 'action' => 'profil'));
                     } else {
                         $this->Session->setFlash("Impossible de sauvegarder l'image, Merci de corriger", "notif", array
                             ('type' => 'error'));
@@ -139,11 +139,6 @@ class UsersController extends AppController {
             $this->request->data = $this->User->read();
         }
         $this->request->data['User']['password1'] = $this->request->data['User']['password_confirm'] = '';
-    }
-
-    function uploadImage() {
-        $fileOK = $this->User->uploadFiles('../', $this->request->data['picture']);
-        $this->redirect(array('controller' => 'users', 'action' => 'edit'));
     }
 
     public function editpassword() {

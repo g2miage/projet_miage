@@ -29,9 +29,12 @@ $this->set('title_for_layout', 'Mon profil');
                    }
                          ?>
 	          <h1> <?php echo $user['User']['firstname'].' '.$user['User']['lastname'] ?> </h1>
+                  <h3><?php echo $user['User']['username']?></h3>
                   <h4><address><?php echo $user['User']['address'].'<br>'.$user['User']['zip'].' '.$user['User']['city'].' '.$user['User']['country'] ?></address></h4>
-                  <h6><?php echo 'Dernière connexion : '.$this->Time->format('d F y h:i', $user['User']['lastlogin'])?> </h6>
-                  <h6><?php echo 'Nous a rejoint le : '.$this->Time->format('d F y h:i', $user['User']['creationdate'])?></h6>
+                  <h6><?php echo $user['User']['mail']?></h6>
+                  <h6><?php echo $user['User']['tel']?></h6>
+                  <h6><?php echo 'Dernière connexion : '.$this->Time->format('d F y H:i', $user['User']['lastlogin'])?> </h6>
+                  <h6><?php echo 'Nous a rejoint le : '.$this->Time->format('d F y H:i', $user['User']['creationdate'])?></h6>
 	          <p><i class="icon-envelope icon-white"></i> <a href="#" class="tooltip-test" data-placement="top" title="New Mails"><span class="badge badge-one">6</span></a> 
 	          - <i class="icon-comment icon-white"></i> <a href="#" class="tooltip-test" data-placement="top" title="New Messages"><span class="badge badge-one">2</span></a></p>
 			</div>
