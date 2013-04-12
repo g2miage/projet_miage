@@ -17,6 +17,7 @@ echo $this->Form->input('address', array('label' => 'Adresse'));
 echo $this->Form->input('zip', array('label' => 'Code postal'));
 echo $this->Form->input('city', array('label' => 'Ville'));
 echo $this->Form->input('country', array('label' => 'Pays'));
+echo $this->Form->hidden('formUser', array('value' => true));
 echo $this->Form->end(array('label' => 'Modifier', 'class' => 'btn btn-primary', 'div' => false));
 
 echo $this->Form->create('User', array('type' => 'File'));
