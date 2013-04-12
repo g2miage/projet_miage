@@ -21,10 +21,17 @@ $this->set('title_for_layout', 'Mon profil');
       <div class="row">
         <div class="span3">
       		<div class="dash-unit">
-                   <?php echo $this->Html->image('fonctionnement_accueil.png', array('alt' => 'fonctionnement','class'=>'img-rounded')); ?>
-	          <h1>BRIAN SMITH</h1>
-	          <h4>London, UK.</h4>
-	          <h6>Joined April 19, 2009</h6>
+                   <?php if(file_exists($user['User']['picture'])) {
+                      $url = substr($user['User']['picture'], 4);
+                      echo $this->Html->image($url, array('alt' => 'fonctionnement','class'=>'img-rounded')); 
+                   }  else {
+                      echo $this->Html->image('user/defaultUser.png', array('alt' => 'fonctionnement','class'=>'img-rounded')); 
+                   }
+                         ?>
+	          <h1> <?php echo $user['User']['firstname'].' '.$user['User']['lastname'] ?> </h1>
+                  <h4><address><?php echo $user['User']['address'].'<br>'.$user['User']['zip'].' '.$user['User']['city'].' '.$user['User']['country'] ?></address></h4>
+                  <h6><?php echo 'Dernière connexion : '.$this->Time->format('d F y h:i', $user['User']['lastlogin'])?> </h6>
+                  <h6><?php echo 'Nous a rejoint le : '.$this->Time->format('d F y h:i', $user['User']['creationdate'])?></h6>
 	          <p><i class="icon-envelope icon-white"></i> <a href="#" class="tooltip-test" data-placement="top" title="New Mails"><span class="badge badge-one">6</span></a> 
 	          - <i class="icon-comment icon-white"></i> <a href="#" class="tooltip-test" data-placement="top" title="New Messages"><span class="badge badge-one">2</span></a></p>
 			</div>
