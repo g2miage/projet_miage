@@ -1,4 +1,4 @@
-<!-- File: /app/View/Posts/add.ctp -->
+
 
 <h1>Création d'événement</h1>
 <?php
@@ -15,3 +15,4 @@ echo 'Cochez si l\'événement est privé : '.$this->Form->checkbox('visibility'
 echo $this->Form->button('Reset', array('type'=>'reset'));
 echo $this->Form->end('Enregistrer');
 ?>
+
