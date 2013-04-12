@@ -22,32 +22,22 @@
 <!-- Here's where we loop through our $posts array, printing out post info -->
 
 
-<?php 
 
-if (isset($events)){
-foreach ($events as $event){ 
+<?php foreach ($events as $event):  ?>
 
-   echo '<tr>
+    <tr>
         <td >
-             '.$this->Html->link($event['Event']['title'], array('action' => 'view', $event['Event']['id'])).'
+            <?php echo $this->Html->link($event['Event']['title'], array('action' => 'view', $event['Event']['id'])); ?>
         </td>
-        <td class="actions">'
-           // .$this->Html->link('<i class="icon-pencil"></i>', array('action' => 'edit', $event['Event']['id']), array('escape' => false))
-        .'</td>
+        <td class="actions">
+            <?php echo $this->Html->link('<i class="icon-pencil"></i>', array('action' => 'edit', $event['Event']['id']), array('escape' => false)); ?>
+        </td>
         
-         </tr>';
- }
-}
-else{
-     echo '<tr>
-             <td>
-                '.$noresults.'
-             </td>
-           </tr>';
-}
-?>
+    </tr>
+<?php endforeach; ?>
 
 </table>
 
-<p><?php echo $this->html->link("Créer un événement", array( 'action' => 'add'), array('class' => 'btn btn-info')); ?></p>
+<p><?php echo $this->Html->link("Créer un événement", array('action' => 'add'), array('class' => 'btn btn-info')); ?></p>
+
 
