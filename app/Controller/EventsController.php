@@ -29,12 +29,41 @@ class EventsController extends AppController {
         if (!$id) {
             throw new NotFoundException(__('Invalid post'));
         }
+        
+        $current_user = $this->Auth->user('id');
+        $data = current($this->Event->EventsUsers->find('all',array(
+            'conditions' => array('EventsUsers.type_id' => 1)
+        )));
 
-        $event = $this->Event->findById($id);
+        $event = $data['Event'];
+        
+        $createur = $data['User'];
+        
+        $this->Event->EventsUsers->contain('User');
+        $invites = $this->Event->EventsUsers->find('all',array(
+            'conditions' => array('EventsUsers.type_id' => 3),
+            'fields' => array('User.username')
+        ));
+       // debug($invites);die();
+        
+        $organisateurs = $this->Event->EventsUsers->find('all',array(
+            'conditions' => array('EventsUsers.type_id' => 2),
+            'fields' => array('User.username')
+        ));
+        
         if (!$event) {
             throw new NotFoundException(__('Invalid post'));
         }
-        $this->set('event', $event);
+        
+        $v = array(
+                'event' => $event, 
+                'createur' => $createur,
+                'invites' =>$invites,
+                'organisateurs' => $organisateurs,
+                'current_user' => $current_user
+                );
+
+        $this->set($v);
     
     }
 
@@ -143,16 +172,21 @@ class EventsController extends AppController {
     }
 
     public function participate($event_id) {
-        $data = $this->Event->read(null, $event_id);
-        $data['User'][0]['EventsUser']['type_id'] = "2";
-        $this->Event->save($data, true, array(User => EventsUser, 'type_id'));
+        
+        $this->Event->EventsUser->updateAll(
+                array('EventsUser.type_id' => 5),
+                array(
+                    'EventsUser.event_id' => $event_id,
+                    'EventsUser.user_id' => $this->Auth->user('id')
+                     ));
+                
         $this->redirect(array('action' => 'view', $event_id));
     }
 
     public function refuse($event_id) {
         $data = $this->Event->read(null, $event_id);
         $data['User'][0]['EventsUser']['type_id'] = "3";
-        $this->Event->save($data, true, array(User => EventsUser, 'type_id'));
+        $this->Event->save($data, true, array('User' => 'EventsUser', 'type_id'));
         $this->redirect(array('action' => 'view', $event_id));
     }
 

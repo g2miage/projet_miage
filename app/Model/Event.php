@@ -6,6 +6,8 @@ App::uses('AppModel', 'Model');
  * and open the template in the editor.
  */
 class Event extends AppModel{
+    public $actsAs = array('Containable');
+    
     public $hasMany = array(
         'EventsUsers'
     );
