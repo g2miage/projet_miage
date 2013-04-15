@@ -1,20 +1,27 @@
-<?php 
-    $this->set('title_for_layout','Editer mon profil');
-        echo $this->HTML->Link('Modifier mon mot de passe',  array('action'=>'editPassword'));  
-        echo $this->Form->create('User');
-        echo $this->Form->Label('Sexe');
-        $options = array('M' => 'M','F' => 'F');
-        $attributes = array(
-            'legend' => false
-            );
-        echo $this->Form->radio('sex', $options, $attributes);
-        echo $this->Form->input('firstname',  array('label' => 'Prenom'));
-        echo $this->Form->input('lastname',  array('label' => 'Nom'));   
-        echo $this->Form->input('mail',  array('label' => 'Email'));   
-        echo $this->Form->input('tel',  array('label' => 'Tel.'));   
-        echo $this->Form->input('address',  array('label' => 'Adresse'));   
-        echo $this->Form->input('zip',  array('label' => 'Code postal'));   
-        echo $this->Form->input('city',  array('label' => 'Ville'));   
-        echo $this->Form->input('country',  array('label' => 'Pays'));  
-        echo $this->Form->end(array('label'=>'Modifier','class'=>'btn btn-primary', 'div'=>false  ));
-        
+<?php
+
+$this->set('title_for_layout', 'Editer mon profil');
+echo $this->HTML->Link('Modifier mon mot de passe', array('action' => 'editPassword'));
+echo $this->Form->create('User');
+echo $this->Form->Label('Sexe');
+$options = array('M' => 'M', 'F' => 'F');
+$attributes = array(
+    'legend' => false
+);
+echo $this->Form->radio('sex', $options, $attributes);
+echo $this->Form->input('firstname', array('label' => 'Prenom'));
+echo $this->Form->input('lastname', array('label' => 'Nom'));
+echo $this->Form->input('mail', array('label' => 'Email'));
+echo $this->Form->input('tel', array('label' => 'Tel.'));
+echo $this->Form->input('address', array('label' => 'Adresse'));
+echo $this->Form->input('zip', array('label' => 'Code postal'));
+echo $this->Form->input('city', array('label' => 'Ville'));
+echo $this->Form->input('country', array('label' => 'Pays'));
+echo $this->Form->hidden('formUser', array('value' => true));
+echo $this->Form->end(array('label' => 'Modifier', 'class' => 'btn btn-primary', 'div' => false));
+
+echo $this->Form->create('User', array('type' => 'File'));
+echo $this->Form->input('picture', array('type' => 'file', 'label' => 'Image du profil (taille maximum 2Mo)'));
+echo $this->Form->end(array('label' => 'Charger image', 'class' => 'btn btn-primary', 'div' => false));
+
+
