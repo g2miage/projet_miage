@@ -6,8 +6,9 @@
  */
 
 class EventsController extends AppController {
+
     // Helper GoogleMap
-    public $helpers = array('GoogleMap');
+    public $helpers = array('GoogleMap','Tinymce');
 
     public function index() {
         //On verifie si une recherche a été effectuée,
@@ -29,47 +30,53 @@ class EventsController extends AppController {
         if (!$id) {
             throw new NotFoundException(__('Invalid post'));
         }
-        
-        $current_user = $this->Auth->user('id');
-        $data = current($this->Event->EventsUsers->find('all',array(
-            'conditions' => array('EventsUsers.type_id' => 1)
-        )));
 
+        $current_user = $this->Auth->user('id');
+        $data = $this->Event->EventsUsers->find('first', array(
+                    'conditions' => array('EventsUsers.type_id' => 1, 'Event.id' => $id)
+        ));
         $event = $data['Event'];
-        
+
         $createur = $data['User'];
-        
+
         $this->Event->EventsUsers->contain('User');
-        $invites = $this->Event->EventsUsers->find('all',array(
-            'conditions' => array('EventsUsers.type_id' => 3),
+        $invites = $this->Event->EventsUsers->find('all', array(
+            'conditions' => array('EventsUsers.type_id' => 3, 'EventsUsers.event_id' => $id),
             'fields' => array('User.username')
         ));
-       // debug($invites);die();
-        
-        $organisateurs = $this->Event->EventsUsers->find('all',array(
-            'conditions' => array('EventsUsers.type_id' => 2),
+
+        $organisateurs = $this->Event->EventsUsers->find('all', array(
+            'conditions' => array('EventsUsers.type_id' => 2, 'EventsUsers.event_id' => $id),
             'fields' => array('User.username')
         ));
-        
+
         if (!$event) {
             throw new NotFoundException(__('Invalid post'));
         }
-        
+
         $v = array(
-                'event' => $event, 
-                'createur' => $createur,
-                'invites' =>$invites,
-                'organisateurs' => $organisateurs,
-                'current_user' => $current_user
-                );
+            'event' => $event,
+            'createur' => $createur,
+            'invites' => $invites,
+            'organisateurs' => $organisateurs,
+            'current_user' => $current_user
+        );
 
         $this->set($v);
-    
     }
 
     public function add() {
         if ($this->request->is('post')) {
             $this->Event->create();
+            
+            // upload the file to the server
+            $fileOK = $this->uploadFiles('img/event',$this->request->data['Event']);
+            if (array_key_exists('urls', $fileOK)) {
+                // save the url in the form data
+                $size = $this->request->data['Event']['picture']['size'];
+                $this->request->data['Event']['picture'] = $fileOK['urls'][0];
+            }
+            
             if ($this->Event->save($this->request->data)) {
                 // enregistrement du user créateur
                 $eventId = $this->Event->id;
@@ -91,21 +98,27 @@ class EventsController extends AppController {
         if (!$event) {
             throw new NotFoundException(__('Invalid event'));
         }
-        
-        
-         foreach ($event['User'] as $key => $user) {
-                
-                    if ($user['id'] == $this->Auth->user('id')) {
-                        $this->Auth->deny();
-                       }
-                    
+
+
+        foreach ($event['User'] as $key => $user) {
+
+            if ($user['id'] == $this->Auth->user('id')) {
+                $this->Auth->deny();
             }
-            
-    
-        
-            
+        }
+
         if ($this->request->is('event') || $this->request->is('put')) {
             $this->Event->id = $id;
+            
+            if(!empty($this->request->data['Event']['picture'])){
+                $fileOK = $this->uploadFiles('img/event',$this->request->data['Event']);
+                if (array_key_exists('urls', $fileOK)) {
+                    // save the url in the form data
+                    $size = $this->request->data['Event']['picture']['size'];
+                    $this->request->data['Event']['picture'] = $fileOK['urls'][0];
+                }
+            }
+            
             if ($this->Event->save($this->request->data)) {
                 $this->Session->setFlash('Votre événement a bien été mis à jour.');
                 $this->redirect(array('action' => 'view', $id));
@@ -146,13 +159,10 @@ class EventsController extends AppController {
 
         $i = 0;
         foreach ($data as $key => $event) {
-
             if ($event['Event']['visibility'] == 0) {
                 $results[] = $data[$i];
             } else {
-
                 foreach ($event['User'] as $key => $user) {
-
                     if ($user['EventsUser']['user_id'] == $this->Auth->user('id')) {
                         $results[] = $data[$i];
                     }
@@ -172,14 +182,13 @@ class EventsController extends AppController {
     }
 
     public function participate($event_id) {
-        
+
         $this->Event->EventsUser->updateAll(
-                array('EventsUser.type_id' => 5),
-                array(
-                    'EventsUser.event_id' => $event_id,
-                    'EventsUser.user_id' => $this->Auth->user('id')
-                     ));
-                
+                array('EventsUser.type_id' => 5), array(
+            'EventsUser.event_id' => $event_id,
+            'EventsUser.user_id' => $this->Auth->user('id')
+        ));
+
         $this->redirect(array('action' => 'view', $event_id));
     }
 

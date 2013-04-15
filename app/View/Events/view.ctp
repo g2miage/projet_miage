@@ -16,7 +16,7 @@ $map_options = array(
     'address' => $full_address,
     'marker' => true,
     'markerTitle' => 'This is my position',
-    'markerIcon' => 'http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-ff5900/shapecolor-color/shadow-1/border-dark/symbolstyle-white/symbolshadowstyle-dark/gradient-no/festival.png',
+    'markerIcon' => 'http://google-maps-icons.googlecode.com/files/home.png',
     'markerShadow' => 'http://google-maps-icons.googlecode.com/files/shadow.png',
     'infoWindow' => true,
     'windowText' => "<b>" . $event['title'] . "</b><br /><p>$full_address</p>"
@@ -75,7 +75,7 @@ $map_options = array(
 
         <?php
         if (!is_null($event['picture'])) {
-            echo "<tr><td></td><td>" . $this->Html->image($event['picture'], array('alt' => ':/')) . "</td></tr>";
+            echo "<tr><td></td><td>" . $this->Html->image(substr($event['picture'],4), array('alt' => ':/')) . "</td></tr>";
         }
         ?>
 
@@ -84,7 +84,7 @@ $map_options = array(
             <td>
                 <div class="row">
                     <div class="span7">
-                        <p><?php echo nl2br($event['desc']); ?></p>
+                        <?php echo nl2br($event['desc']); ?>
                     </div>
                     <div class="span2">
                         <?php
