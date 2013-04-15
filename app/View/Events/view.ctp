@@ -75,7 +75,7 @@ $map_options = array(
 
         <?php
         if (!is_null($event['picture'])) {
-            echo "<tr><td></td><td>" . $this->Html->image($event['picture'], array('alt' => ':/')) . "</td></tr>";
+            echo "<tr><td></td><td>" . $this->Html->image(substr($event['picture'],4), array('alt' => ':/')) . "</td></tr>";
         }
         ?>
 
@@ -84,7 +84,7 @@ $map_options = array(
             <td>
                 <div class="row">
                     <div class="span7">
-                        <p><?php echo nl2br($event['desc']); ?></p>
+                        <?php echo nl2br($event['desc']); ?>
                     </div>
                     <div class="span2">
                         <?php

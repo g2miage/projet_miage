@@ -8,7 +8,7 @@
 class EventsController extends AppController {
 
     // Helper GoogleMap
-    public $helpers = array('GoogleMap');
+    public $helpers = array('GoogleMap','Tinymce');
 
     public function index() {
         //On verifie si une recherche a été effectuée,
@@ -68,6 +68,15 @@ class EventsController extends AppController {
     public function add() {
         if ($this->request->is('post')) {
             $this->Event->create();
+            
+            // upload the file to the server
+            $fileOK = $this->uploadFiles('img/event',$this->request->data['Event']);
+            if (array_key_exists('urls', $fileOK)) {
+                // save the url in the form data
+                $size = $this->request->data['Event']['picture']['size'];
+                $this->request->data['Event']['picture'] = $fileOK['urls'][0];
+            }
+            
             if ($this->Event->save($this->request->data)) {
                 // enregistrement du user créateur
                 $eventId = $this->Event->id;
@@ -100,6 +109,16 @@ class EventsController extends AppController {
 
         if ($this->request->is('event') || $this->request->is('put')) {
             $this->Event->id = $id;
+            
+            if(!empty($this->request->data['Event']['picture'])){
+                $fileOK = $this->uploadFiles('img/event',$this->request->data['Event']);
+                if (array_key_exists('urls', $fileOK)) {
+                    // save the url in the form data
+                    $size = $this->request->data['Event']['picture']['size'];
+                    $this->request->data['Event']['picture'] = $fileOK['urls'][0];
+                }
+            }
+            
             if ($this->Event->save($this->request->data)) {
                 $this->Session->setFlash('Votre événement a bien été mis à jour.');
                 $this->redirect(array('action' => 'view', $id));

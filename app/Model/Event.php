@@ -24,24 +24,36 @@ class Event extends AppModel{
     );
      
      public $validate = array(
-       'title' => array(
-           'alphaNumeric' => array(
-            'required' => true)),
-       'desc' => array(
-           'alphaNumeric' => array(
-            'required' => true),
-           'between' => array(
-               'rule' => array('minLength', '20')
-           )),
+       'title'  => array(
+            'alphaNumeric' => array(
+                'rule'    => 'notEmpty',
+                'required' => true,
+                'message'  => 'Chiffres et lettres uniquement !'
+            )),
+       'Event.desc' => array(
+                //'rule'    => array('minLength', 20  ),
+                'rule'    => 'notEmpty',
+                'message'  => 'Chiffres et lettres uniquement !'
+         ),
        'address' => array(
-           'alphaNumeric' => array(
-            'required' => true)),
+            'alphaNumeric' => array(
+                'rule'    => 'notEmpty',
+                'required' => true,
+                'message'  => 'Chiffres et lettres uniquement !'
+            )
+         ),
        'zip' => array(
-           'alphaNumeric' => array(
-            'required' => true)),
+            'alphaNumeric' => array(
+                'rule'     => 'alphaNumeric',
+                'required' => true,
+                'message'  => 'Chiffres et lettres uniquement !'
+            )),
        'city' => array(
-           'alphaNumeric' => array(
-            'required' => true)),
+            'alphaNumeric' => array(
+                'rule'     => 'notEmpty',
+                'required' => true,
+                'message'  => 'Chiffres et lettres uniquement !'
+            )),
        'startday' => array(
            'alphaNumeric' => array(
             'required' => true,
@@ -53,11 +65,17 @@ class Event extends AppModel{
             'rule' => array('endDateValidation'),
             'message' => 'Date de fin inférieur à la date de début' )),
        'starttime' => array(
-           'alphaNumeric' => array(
-            'required' => true)),
+            'alphaNumeric' => array(
+                'rule'     => 'time',
+                'required' => true,
+                'message'  => 'Veuillez renseigner une heure valide'
+            )),
        'endtime' => array(
-           'alphaNumeric' => array(
-            'required' => true))
+            'alphaNumeric' => array(
+                'rule'     => 'time',
+                'required' => true,
+                'message'  => 'Veuillez renseigner une heure valide'
+            ))
      );
     
     function endDateValidation($field = array(), $compare_field = null) {
