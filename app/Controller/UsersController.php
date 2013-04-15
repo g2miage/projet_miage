@@ -23,8 +23,13 @@ class UsersController extends AppController {
             if (!empty($d['User']['password_confirm'])) {
                 $d['User']['password_confirm'] = Security::hash($d['User']['password_confirm'], null, true);
             }
-
-            if ($this->User->save($d, true, array('username', 'password', 'mail','creationdate'))) {
+            
+            $d['User']['creationdate']= date('Y-m-d H:i:s');
+            if($d['User']['role_id']==0){
+                $d['User']['scorpname']='';
+                $d['User']['ssiret']='';
+            }
+            if ($this->User->save($d, true, array('username', 'password', 'mail','creationdate','scorpname','ssiret'))) {
                 $link = array('controller' => 'users', 'action' => 'activate', $this->User->id . '-' . md5($d['User']['password']));
                 App::uses('CakeEmail', 'Network/Email');
                 $mail = new CakeEmail();

@@ -23,6 +23,7 @@ class User extends AppModel {
             ));
     
     public $validate = array(
+        
         'username' => array(
             array(
                 'rule' => 'alphanumeric',
@@ -38,8 +39,7 @@ class User extends AppModel {
         'password' => array( 
         'identicalFieldValues' => array( 
         'rule' => array('identicalFieldValues', 'password_confirm' ), 
-        'message' => 'Les mots de passes doivent être identiques',
-        'on' => 'create'
+        'message' => 'Les mots de passes doivent être identiques' 
                 ) 
             ),
         'password_confirm' => array(
