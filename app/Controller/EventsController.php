@@ -295,7 +295,7 @@ class EventsController extends AppController {
                         $mail->viewVars(array('userName' => $userName, 'eventTitle' => $Event['Event']['title'],
                                               'eventCreator' => $userCreatorName, 'username' => $schema['username'],
                                               'password' => $passwordUnhash));
-                       // $mail->send();
+                        $mail->send();
                         }
                     }
                 }
@@ -333,7 +333,7 @@ class EventsController extends AppController {
                         $mail->template('invitation_olduser');
                         $mail->viewVars(array('userName' => $userName, 'eventTitle' => $Event['Event']['title'],
                                               'eventCreator' => $userCreatorName, 'username' => $schema['username']));
-                      //  $mail->send();
+                        $mail->send();
                     }
                   
                 }
