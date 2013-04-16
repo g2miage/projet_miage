@@ -10,6 +10,9 @@ class User extends AppModel {
     
      public $hasMany = array(
         'EventsUsers');
+     
+     public $belongsTo = array(
+             'Suptype');
     
     public $hasAndBelongsToMany = array(
         'Event' =>

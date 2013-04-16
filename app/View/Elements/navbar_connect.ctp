@@ -10,8 +10,8 @@
             <div class="nav-collapse collapse">
                 <ul class="nav">
                     <li><?php echo $this->Html->link('Contact', array('controller' => 'pages', 'action' => 'display','contact')); ?></li>
-                    <li><?php echo $this->Html->link('Evenements', array('controller' => 'events', 'action' => 'index')); ?></li>
-            
+                    <li><?php echo $this->Html->link('Evénements', array('controller' => 'events', 'action' => 'index')); ?></li>
+                    <li><?php echo $this->Html->link('Prestataires', array('controller' => 'Users', 'action' => 'suppliers')); ?></li>            
                 </ul>
                 <div class="pull-right">
                     <ul class="nav">

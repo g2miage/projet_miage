@@ -18,6 +18,8 @@
         echo $this->fetch('meta');
         echo $this->fetch('css');
         echo $this->fetch('script');
+        echo $this->Html->script('main');
+
         ?>
     </head>
     <body>
@@ -50,7 +52,6 @@
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
         <?php
         echo $this->Html->script('vendor/bootstrap.min');
-        echo $this->Html->script('main');
         echo $this->Html->script('jquery-ui-timepicker-addon');
 
         // Mise en cache des fichiers JS

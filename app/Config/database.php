@@ -6,15 +6,16 @@ class DATABASE_CONFIG {
 		'persistent' => false,
 		'host' => 'localhost',
 		'login' => 'root',
-		'password' => '',
+		'password' => 'root',
 		'database' => 'myEvent',
+                'encoding' => 'utf8'
 	);
 	public $myevent = array(
 		'datasource' => 'Database/Mysql',
 		'persistent' => false,
 		'host' => 'localhost',
 		'login' => 'root',
-		'password' => '',
+		'password' => 'root',
 		'database' => 'myEvent',
 		'prefix' => '',
 		//'encoding' => 'utf8',

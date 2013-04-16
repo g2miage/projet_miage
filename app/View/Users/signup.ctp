@@ -1,17 +1,4 @@
-<script type="text/javascript" language="JavaScript">
-function WhenChecked()
-{
-    if(document.getElementById('UserRoleId').checked == 1) 
-        { 
-          
-       document.getElementById('prestat').style.visibility='visible';
-       
-    }else{
-        document.getElementById('prestat').style.visibility='hidden';
-    }
-}
 
-</script>
 <h2>S'enregistrer</h2>
 <?php
 echo $this->Form->create('User');
@@ -25,7 +12,8 @@ echo $this->Form->input('role_id', array('label' => 'Prestataire', 'type' => 'ch
 <?php
 echo $this->Form->input('scorpname', array('label' => 'Raison Sociale :'));
 echo $this->Form->input('ssiret', array('label' => 'SIRET :'));
-
+echo $this->Form->input('suptype_id', array('options'=>array($stype)));
+echo $this->Form->input('sdesc', array('label' => 'Type d\'activité'));
 ?>
 </div>
 <?php

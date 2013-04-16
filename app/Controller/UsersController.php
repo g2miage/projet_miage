@@ -12,9 +12,14 @@
  */
 class UsersController extends AppController {
 
-    //put your code here
+    // Helper GoogleMap
+    public $helpers = array('GoogleMap');
 
     public function signup() {
+        $this->loadModel('Suptype');
+        $supt = $this->Suptype->find('list', array('fields' => array('stype')));
+        $this->set(array('stype' => $supt));
+
         if ($this->request->is('post')) {
             $d = $this->request->data;
             if (!empty($d['User']['password'])) {
@@ -23,13 +28,13 @@ class UsersController extends AppController {
             if (!empty($d['User']['password_confirm'])) {
                 $d['User']['password_confirm'] = Security::hash($d['User']['password_confirm'], null, true);
             }
-            
-            $d['User']['creationdate']= date('Y-m-d H:i:s');
-            if($d['User']['role_id']==0){
-                $d['User']['scorpname']='';
-                $d['User']['ssiret']='';
+
+            $d['User']['creationdate'] = date('Y-m-d H:i:s');
+            if ($d['User']['role_id'] == 0) {
+                $d['User']['scorpname'] = '';
+                $d['User']['ssiret'] = '';
             }
-            if ($this->User->save($d, true, array('username', 'password', 'mail','creationdate','scorpname','ssiret'))) {
+            if ($this->User->save($d, true, array('username', 'password', 'mail', 'creationdate', 'scorpname', 'ssiret', 'suptype_id', 'sdesc'))) {
                 $link = array('controller' => 'users', 'action' => 'activate', $this->User->id . '-' . md5($d['User']['password']));
                 App::uses('CakeEmail', 'Network/Email');
                 $mail = new CakeEmail();
@@ -86,9 +91,40 @@ class UsersController extends AppController {
         $user = $this->User->findById($user_id);
         $v = array('user' => $user);
         $this->set($v);
+
+        if ($this->request->is('put') || $this->request->is('post')) {
+        $d = $this->request->data;
+        $ext = pathinfo($d['User']['picture']['name']);
+        $extension = $ext['extension'];
+        $d['User']['picture']['name'] = $user_id . '.' . $extension;
+
+        // upload the file to the server
+        $fileOK = $this->uploadFiles('img/user', $d['User']);
+        if (array_key_exists('urls', $fileOK)) {
+            // save the url in the form data
+            $size = $d['User']['picture']['size'];
+            $d['User']['picture'] = $fileOK['urls'][0];
+        }
+        if ($size < 2000000) {
+            if ($this->User->save($d, true, array('picture'))) {
+                $this->Session->setFlash("Votre profil a bien été modifié", "notif");
+                $this->redirect(array('controller' => 'users', 'action' => 'profil'));
+            } else {
+                $this->Session->setFlash("Impossible de sauvegarder l'image, Merci de corriger", "notif", array
+                    ('type' => 'error'));
+            }
+        } else {
+            $this->Session->setFlash("Impossible de sauvegarder l'image, la taille de l'image est trop grande", "notif", array('type' => 'error'));
+        }
+        
+        }
     }
 
     public function edit() {
+        $this->loadModel('Suptype');
+        $supt = $this->Suptype->find('list', array('fields' => array('stype')));
+        $this->set(array('stype' => $supt));
+        
         $user_id = $this->Auth->user('id');
         if (!$user_id) {
             $this->redirect('/');
@@ -108,14 +144,17 @@ class UsersController extends AppController {
 
             if (isset($d['User']['formUser']) && $d['User']['formUser'] == TRUE) {
                 if ($this->User->save($d, true, array('firstname', 'lastname', 'mail', 'tel', 'city', 'zip', 'country',
-                            'address', 'sex'))) {
+                            'address', 'sex', 'ssiret','scorpname','sdesc','suptype_id'))) {
                     $this->Session->setFlash("Votre profil a bien été modifié", "notif");
                     $this->redirect(array('controller' => 'users', 'action' => 'profil'));
                 } else {
                     $this->Session->setFlash("Impossible de sauvegarder, Merci de corriger", "notif", array('type' =>
                         'error'));
                 }
-            } else {
+            } else 
+                
+                
+                {
                 $ext = pathinfo($d['User']['picture']['name']);
                 $extension = $ext['extension'];
                 $d['User']['picture']['name'] = $user_id . '.' . $extension;
@@ -139,6 +178,8 @@ class UsersController extends AppController {
                     $this->Session->setFlash("Impossible de sauvegarder l'image, la taille de l'image est trop grande", "notif", array('type' => 'error'));
                 }
             }
+            
+            
         } else {
             $this->request->data = $this->User->read();
         }
@@ -171,7 +212,59 @@ class UsersController extends AppController {
             }
         }
     }
+    
+    public function suppliers() {
+        $this->loadModel('Suptype');
+        $this->loadModel('Departement');
+        $supt = $this->Suptype->find('list', array('fields' => array('stype')));
+        $depts = $this->Departement->find('list', array('fields' => array('dept')));
+        $this->set(array('stype' => $supt,'depts'=>$depts));
+        
+        //On verifie si une recherche a été effectuée,
+        if (isset($this->request->data['User']['suptype_id']) && isset($this->request->data['User']['dept']) ) {
+            if (!is_null($this->request->data['User']['suptype_id']) && !is_null($this->request->data['User']['dept'])) {
+                $this->recherche("plop");
+            } else {
+                $this->recherche("all");
+            }
+        } else {
+            $this->recherche("all");
+        }
+        
+    }
+    
+    private function recherche($type) {
+        $this->loadModel('Departement');
+        
+        // On cherche les éléments
+        $search_dept = "";
+        if ($type == "all") {
+            $data = $this->User->find('all');
+        } else {
+            $data = $data = $this->User->find('all', array('conditions' =>
+                array(
+                    'suptype_id = ' => $this->request->data['User']['suptype_id'],
+                    'zip like ' => $this->request->data['User']['dept'].'%'
+                    )));
+            // récupération du département
+            $search_d = $this->Departement->find('first',array(
+                'conditions'=>array(
+                    'Departement.id' => $this->request->data['User']['dept']
+                )
+            ));
+            $search_dept = $search_d['Departement']['dept'];
+        }
+
+        $i = 0;
+        foreach ($data as $key => $event) {
+            $results[] = $data[$i];
+            $i++;
+        }
+        if (isset($results)) {
+            $this->set(array('suppliers'=>$results,'search_dept'=> $search_dept));
+        } else {
+            $this->set('noresults', 'Aucun prestataire trouvé');
+        }
+    }
 
 }
-
-?>
