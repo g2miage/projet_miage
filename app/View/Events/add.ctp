@@ -4,8 +4,9 @@
 <?php
 echo $this->Form->create('Event', array('type' => 'file'));
 echo $this->Form->input('title', array('label' => 'Titre'));
+echo $this->Form->input('eventtype_id', array('label' => 'Type'));
 //echo $this->Form->input('desc', array('label' => 'Description','rows' => '3'));
-echo $this->Tinymce->input('Event.desc',array('label' => 'Description'),'','simple'); 
+echo $this->Tinymce->input('Event.desc',array('label' => 'Description')); 
     
 echo $this->Form->input('startday', array('date', 'label' => 'Date de début'));
 echo $this->Form->input('starttime', array('label' => 'Heure de début'));

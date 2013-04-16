@@ -11,6 +11,10 @@ class Event extends AppModel{
     public $hasMany = array(
         'EventsUsers'
     );
+    
+    public $belongsTo = array(
+        'Eventtype'
+        );
      public $hasAndBelongsToMany = array(
         'User' =>
             array(
