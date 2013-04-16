@@ -166,7 +166,7 @@ class AppController extends Controller {
 
         // list of permitted file types, this is only images but documents can be added
         // permitted csv
-        $permitted = array('application/octet-stream');
+        $permitted = array('application/octet-stream', 'application/vnd.ms-excel');
 
         // loop through and deal with the files
         foreach ($formdata as $file) {

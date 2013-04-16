@@ -201,13 +201,12 @@ class EventsController extends AppController {
     
       public function addfile() {
         $this->loadModel('User');
-        $eventId = 5;
-        $this->loadModel('PasswordComponent');
+        $eventId = "5";
         $this->uploadCsv('csv', $this->request->data, '', 'projet');
         $fichier = 'csv/projet.csv';
 
         $handle = @fopen("csv/projet.csv", "r");
-         
+        
         if ($handle) {
             while (($buffer = fgets($handle, 4096)) != false) {
                 
@@ -275,7 +274,7 @@ class EventsController extends AppController {
                             $this->EventsUser->save($schemaEventUser, true, array('event_id', 'user_id', 'type_id'));
                         
                         // Recherche des infos pour le mail    
-                        $Event = $this->findById($eventId);
+                        $Event = $this->Event->findById($eventId);
                         $userName = $schema['firstname'].''.$schema['lastename'];
                         $EventsUserCreator = $this->EventsUser->find('all',   array(
                                            'conditions' => array('event_id =' => $eventId, 
