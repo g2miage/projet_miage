@@ -313,8 +313,8 @@ class EventsController extends AppController {
                         
                         
                          // Recherche des infos pour le mail    
-                        $Event = $this->findById($eventId);
-                        $userName = $schema['firstname'].''.$schema['lastename'];
+                        $Event = $this->Event->findById($eventId);
+                        $userName = $schema['firstname'].''.$schema['lastname'];
                         $EventsUserCreator = $this->EventsUser->find('all',   array(
                                            'conditions' => array('event_id =' => $eventId, 
                                                                  'type_id  =' => "1")));
