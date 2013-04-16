@@ -29,6 +29,7 @@ $map_options = array(
         <?php
         if($current_user == $createur['id']){
              echo $this->Html->link("Modifier l'événement", array('action' => 'edit', $event['id']), array('class' => 'btn btn-info pull-right'));
+             echo $this->Html->link("Inviter un ami ", array('action' => 'addorganisateur', $event['id']), array('class' => 'btn btn-info pull-right'));
         }else{
             foreach ($invites as $invite) {
                 if($current_user == $invite['User']['id']){
@@ -43,10 +44,18 @@ $map_options = array(
     <table class="event_view">
         <tr>
             <td>
+                <?php 
+                    echo "<i class='icon-globe'></i></td><td>
+                                              <p>".$typename."</p>";
+                ?>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <?php
                 if ($event['visibility'] == 0) {
                     echo "<i class='icon-globe'></i></td><td>
-                                              <p>Public a Créé par : ".$createur['username']."</p>";
+                                              <p>Public . Créé par : ".$createur['username']."</p>";
                 } else {
                     echo "<i class='icon-group'></i></td><td>
                             <p>Privé . Créé par : ".$createur['username']."</p>";
@@ -74,8 +83,8 @@ $map_options = array(
         </tr>
 
         <?php
-        if (!is_null($event['picture'])) {
-            echo "<tr><td></td><td>" . $this->Html->image(substr($event['picture'],4), array('alt' => ':/')) . "</td></tr>";
+        if (!empty($event['picture'])) {
+            echo "<tr><td></td><td>" . $this->Html->image($event['picture'], array('alt' => ':/')) . "</td></tr>";
         }
         ?>
 
