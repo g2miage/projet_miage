@@ -317,5 +317,150 @@ class EventsController extends AppController {
         
         
      }
+      public function addfile() {
+        $this->loadModel('User');
+        $eventId = "5";
+        $this->uploadCsv('csv', $this->request->data, '', 'projet');
+        $fichier = 'csv/projet.csv';
+        $handle = @fopen("csv/projet.csv", "r");
+        
+        if ($handle) {
+            while (($buffer = fgets($handle, 4096)) != false) {
+                
+                
+                $results = explode(";", $buffer);
+                // création du password et hashage
+                $password = ($this->User->generatePassword());
+                $passwordUnhash = $password;
+                $password = Security::hash($password, null, true);
+                array_unshift($results, $password);
+                $schema = array('password_confirm' => $results[0],
+                    'username' => '',
+                    'password' => $results[0],
+                    'firstname' => $results[1],
+                    'lastname' => $results[2],
+                    'tel' => $results[3],
+                    'mail' => $results[4],
+                    'address' => $results[5],
+                    'zip' => $results[6],
+                    'city' => $results[7],
+                    'country' => $results[8],
+                    'sex' => $results[9],
+                    'active' => '1'
+                );
 
+                if ($schema['sex'] == 'M') {
+                    $schema['sex'] = '1';
+                } else {
+                    $schema['sex'] = '0';
+                }
+
+
+                if (!$this->User->findByMail($schema['mail'])) {
+                    // Si l'email existe pas alors on creer le user
+                    $schema['username'] = $schema['firstname'] . '' . $schema['lastname'];
+
+                    $i = 0;
+                    while ($this->User->hasAny(array('username' => $schema['username'])) == true) {
+                        $schema['username'] = $schema['firstname'] . '' . $schema['lastname'] . '' . $i;
+                        $i++;
+                    }
+
+                    $this->User->create();
+                    if ($this->User->save($schema, true, array('username',
+                                'password',
+                                'firstname',
+                                'lastname',
+                                'tel',
+                                'mail',
+                                'address',
+                                'zip',
+                                'city',
+                                'country',
+                                'sex',
+                                'active'))) {
+                        // Création liaison avec nouveau User
+                        $userId = $this->User->id;
+                        $schemaEventUser = array('event_id' => $eventId,
+                            'user_id' => $userId,
+                            'type_id' => '3');
+                        $this->loadModel('EventsUser');
+                        if ($this->EventsUser->hasAny(array('event_id' => $schemaEventUser['event_id'],
+                                    'user_id' => $schemaEventUser['user_id'])) == false) {
+                            $this->EventsUser->create();
+                            $this->EventsUser->save($schemaEventUser, true, array('event_id', 'user_id', 'type_id'));
+                        
+                        // Recherche des infos pour le mail    
+                        $Event = $this->Event->findById($eventId);
+                        $userName = $schema['firstname'].''.$schema['lastname'];
+                        $EventsUserCreator = $this->EventsUser->find('all',   array(
+                                           'conditions' => array('event_id =' => $eventId, 
+                                                                 'type_id  =' => "1")));
+                        
+                        $UserCreatorId = $EventsUserCreator[0]['EventsUser']['user_id'];
+                        $userCreator = $this->User->findById($UserCreatorId);
+                        $userCreatorName = $userCreator['User']['firstname'].' '.$userCreator['User']['lastname'];
+                                
+                             // Envoi du mail
+                        App::uses('CakeEmail', 'Network/Email');
+                        $mail = new CakeEmail();
+                        $mail->from('no-reply@events.com');
+                        $mail->to($schema['mail']);
+                        $mail->subject('Activation compte Events');
+                        $mail->emailFormat('html');
+                        $mail->template('invitation_newuser');
+                        $mail->viewVars(array('userName' => $userName, 'eventTitle' => $Event['Event']['title'],
+                                              'eventCreator' => $userCreatorName, 'username' => $schema['username'],
+                                              'password' => $passwordUnhash));
+                        $mail->send();
+                        }
+                    }
+                }
+                else {
+                    // Création liaison avec user existant
+                    $user = $this->User->findByMail($schema['mail']);
+                    $schemaEventUser = array('event_id' => $eventId,
+                        'user_id' => $user['User']['id'],
+                        'type_id' => '3');
+                    $this->loadModel('EventsUser');
+                    if ($this->EventsUser->hasAny(array('event_id' => $schemaEventUser['event_id'],
+                                'user_id' => $schemaEventUser['user_id'])) == false) {
+                        $this->EventsUser->create();
+                        $this->EventsUser->save($schemaEventUser, true, array('event_id', 'user_id', 'type_id'));
+                        
+                        
+                         // Recherche des infos pour le mail    
+                        $Event = $this->Event->findById($eventId);
+                        $userName = $schema['firstname'].''.$schema['lastname'];
+                        $EventsUserCreator = $this->EventsUser->find('all',   array(
+                                           'conditions' => array('event_id =' => $eventId, 
+                                                                 'type_id  =' => "1")));
+                        
+                        $UserCreatorId = $EventsUserCreator[0]['EventsUser']['user_id'];
+                        $userCreator = $this->User->findById($UserCreatorId);
+                        $userCreatorName = $userCreator['User']['firstname'].''.$userCreator['User']['lastname'];
+                        
+                        // Envoi du mail
+                        App::uses('CakeEmail', 'Network/Email');
+                        $mail = new CakeEmail();
+                        $mail->from('no-reply@events.com');
+                        $mail->to($schema['mail']);
+                        $mail->subject('Activation compte Events');
+                        $mail->emailFormat('html');
+                        $mail->template('invitation_olduser');
+                        $mail->viewVars(array('userName' => $userName, 'eventTitle' => $Event['Event']['title'],
+                                              'eventCreator' => $userCreatorName, 'username' => $schema['username']));
+                        $mail->send();
+                    }
+                  
+                }
+            }
+                if (!feof($handle)) {
+                    echo "Error: unexpected fgets() fail\n";
+                }
+            fclose($handle);
+        }
+    }
+    
+    
 }
