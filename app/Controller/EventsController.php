@@ -282,7 +282,7 @@ class EventsController extends AppController {
                         
                         $UserCreatorId = $EventsUserCreator[0]['EventsUser']['user_id'];
                         $userCreator = $this->User->findById($UserCreatorId);
-                        $userCreatorName = $userCreator['User']['firstname'].''.$userCreator['User']['lastname'];
+                        $userCreatorName = $userCreator['User']['firstname'].' '.$userCreator['User']['lastname'];
                                 
                              // Envoi du mail
                         App::uses('CakeEmail', 'Network/Email');
