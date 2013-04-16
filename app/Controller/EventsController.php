@@ -275,12 +275,14 @@ class EventsController extends AppController {
                         
                         // Recherche des infos pour le mail    
                         $Event = $this->Event->findById($eventId);
-                        $userName = $schema['firstname'].''.$schema['lastename'];
+                        $userName = $schema['firstname'].''.$schema['lastname'];
                         $EventsUserCreator = $this->EventsUser->find('all',   array(
                                            'conditions' => array('event_id =' => $eventId, 
                                                                  'type_id  =' => "1")));
-                        $userCreator = $this->User->findById($EventsUserCreator['user_id']);
-                        $userCreatorName = $userCreator['firstname'].''.$userCreator['lastename'];
+                        
+                        $UserCreatorId = $EventsUserCreator[0]['EventsUser']['user_id'];
+                        $userCreator = $this->User->findById($UserCreatorId);
+                        $userCreatorName = $userCreator['User']['firstname'].''.$userCreator['User']['lastname'];
                                 
                              // Envoi du mail
                         App::uses('CakeEmail', 'Network/Email');
@@ -290,10 +292,10 @@ class EventsController extends AppController {
                         $mail->subject('Activation compte Events');
                         $mail->emailFormat('html');
                         $mail->template('invitation_newuser');
-                        $mail->viewVars(array('userName' => $userName, 'eventTitle' => $Event['title'],
+                        $mail->viewVars(array('userName' => $userName, 'eventTitle' => $Event['Event']['title'],
                                               'eventCreator' => $userCreatorName, 'username' => $schema['username'],
                                               'password' => $passwordUnhash));
-                        $mail->send();
+                       // $mail->send();
                         }
                     }
                 }
@@ -316,8 +318,10 @@ class EventsController extends AppController {
                         $EventsUserCreator = $this->EventsUser->find('all',   array(
                                            'conditions' => array('event_id =' => $eventId, 
                                                                  'type_id  =' => "1")));
-                        $userCreator = $this->User->findById($EventsUserCreator['user_id']);
-                        $userCreatorName = $userCreator['firstname'].''.$userCreator['lastename'];
+                        
+                        $UserCreatorId = $EventsUserCreator[0]['EventsUser']['user_id'];
+                        $userCreator = $this->User->findById($UserCreatorId);
+                        $userCreatorName = $userCreator['User']['firstname'].''.$userCreator['User']['lastname'];
                         
                         // Envoi du mail
                         App::uses('CakeEmail', 'Network/Email');
@@ -327,9 +331,9 @@ class EventsController extends AppController {
                         $mail->subject('Activation compte Events');
                         $mail->emailFormat('html');
                         $mail->template('invitation_olduser');
-                        $mail->viewVars(array('userName' => $userName, 'eventTitle' => $Event['title'],
+                        $mail->viewVars(array('userName' => $userName, 'eventTitle' => $Event['Event']['title'],
                                               'eventCreator' => $userCreatorName, 'username' => $schema['username']));
-                        $mail->send();
+                      //  $mail->send();
                     }
                   
                 }
