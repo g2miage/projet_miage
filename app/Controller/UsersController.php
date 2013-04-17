@@ -8,7 +8,7 @@
 /**
  * Description of UsersController
  *
- * @author Cheikh
+ * @author Cheikh (et moi)
  */
 class UsersController extends AppController {
 
@@ -225,39 +225,59 @@ class UsersController extends AppController {
         $depts = $this->Departement->find('list', array('fields' => array('dept')));
         $this->set(array('stype' => $supt,'depts'=>$depts));
         
-        //On verifie si une recherche a été effectuée,
-        if (isset($this->request->data['User']['suptype_id']) && isset($this->request->data['User']['dept']) ) {
-            if (!is_null($this->request->data['User']['suptype_id']) && !is_null($this->request->data['User']['dept'])) {
-                $this->recherche("plop");
-            } else {
-                $this->recherche("all");
-            }
-        } else {
-            $this->recherche("all");
-        }
+        //On verifie si une recherche a été effectuée
+		if(isset($this->request->data['User']['suptype_id']) && isset($this->request->data['User']['suptype_id'])){
+			if(!empty($this->request->data['User']['suptype_id'])){ // le type est renseigné
+				if(!empty($this->request->data['User']['dept'])){ // si les deux critères sont renseignés
+					$stmtopts = array(
+						'suptype_id = ' => $this->request->data['User']['suptype_id'],
+						'zip like ' => $this->request->data['User']['dept'].'%'
+					);
+				}else{ // Type renseigné mais pas le Dept
+					$stmtopts = array(
+						'suptype_id = ' => $this->request->data['User']['suptype_id']
+					);
+				}
+			}else{ 
+				if(!empty($this->request->data['User']['dept'])){ // type non renseigné + dept renseigné
+					$stmtopts = array(
+						'zip like ' => $this->request->data['User']['dept'].'%'
+					);
+				}else{ // rien renseigné....
+					$stmtopts = array();
+				}
+			}
+			$this->recherche($stmtopts,$this->request->data['User']['dept']);
+		}else{
+			//requete par défaut
+			$this->recherche(array(),null);
+		}
         
     }
-    
-    private function recherche($type) {
+	
+    private function recherche($stmtopts,$id_dept) {
         $this->loadModel('Departement');
-        
         // On cherche les éléments
-        $search_dept = "";
-        if ($type == "all") {
-            $data = $this->User->find('all');
-        } else {
+        $search_dept = "24000";
+        if (empty($stmtopts)) { //pas d'options pour la requete, on renvoie tt
+            $data = $this->User->find('all', array('conditions' =>
+					array('suptype_id <> ' => 0)
+			));
+        } else { // des options ont étés définies
             $data = $data = $this->User->find('all', array('conditions' =>
-                array(
-                    'suptype_id = ' => $this->request->data['User']['suptype_id'],
-                    'zip like ' => $this->request->data['User']['dept'].'%'
-                    )));
+					$stmtopts
+			));
             // récupération du département
-            $search_d = $this->Departement->find('first',array(
-                'conditions'=>array(
-                    'Departement.id' => $this->request->data['User']['dept']
-                )
-            ));
-            $search_dept = $search_d['Departement']['dept'];
+			if(!empty($id_dept)){
+				$search_d = $this->Departement->find('first',array(
+					'conditions'=>array(
+						'Departement.id' => $this->request->data['User']['dept']
+					)
+				));
+				$search_dept = $search_d['Departement']['dept'];
+			}else{
+				$search_dept = "24000";
+			}
         }
 
         $i = 0;

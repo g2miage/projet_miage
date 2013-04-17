@@ -75,7 +75,7 @@
                             ?>
                         </h3>
                         <p>
-                            Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum 
+                            Présentation générale de MyEvent
                         </p>
                     </div>
                     <div class="span3">
@@ -86,7 +86,7 @@
                             ?>
                         </h3>
                         <p>
-                            Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum 
+                            Déscription du fonctionnement du site 
                         </p>
                    </div>
                     <div class="span3">
@@ -97,18 +97,18 @@
                             ?>
                         </h3>
                         <p>
-                            Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum 
+                           Présentation de l'espace Pro
                         </p>
                     </div>
                     <div class="span3">
-                        <?php echo $this->Html->image('qui_sommes_nous_accueil.png', array('alt' => 'dernier_truc','class'=>'img-rounded')); ?>
+                        <?php echo $this->Html->image('contact_accueil.png', array('alt' => 'contact','class'=>'img-rounded')); ?>
                         <h3>
                             <?php           
-                                echo $this->Html->link('<i class="icon-globe"></i>  Un autre truc', array('controller' => 'pages', 'action' => 'display', 'espace_pro'),array('escape'=>false));
+                                echo $this->Html->link('<i class="icon-globe"></i>  Contactez-nous', array('controller' => 'pages', 'action' => 'display', 'contact'),array('escape'=>false));
                             ?>
                         </h3>
                         <p>
-                            Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum 
+                            Une question à nous soumettre ?
                         </p>
                     </div>
 
