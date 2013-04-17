@@ -4,23 +4,40 @@ $this->Html->script('http://maps.google.com/maps/api/js?sensor=true', false);
 // si recherche alors localize passe a false et on met l'adresse du département dans address
 // sinon, localize a true et address laissé vide
 $localize = true;
-$default_address = "france";
-if(isset($search_dept) && !empty($search_dept)){
+$default_address = 'France';
+if(!empty($search_dept)){
     $localize = false;
     $default_address = $search_dept;
 }
-
-$map_options = array(
-    'width' => '600px',
-    'height' => '550px',
-    'style' => 'box-shadow: 0px 3px 5px #8F8F8F',
-    'zoom' => 8,
-    'type' => 'ROADMAP',
-    'localize' => $localize,
-    'address' => $default_address,
-    'marker' => false
-);
-
+if($localize){
+	$map_options = array(
+		'width' => '600px',
+		'height' => '550px',
+		'style' => 'box-shadow: 0px 3px 5px #8F8F8F',
+		'zoom' => 8,
+		'type' => 'ROADMAP',
+		'localize' => true,
+		'marker' => false
+	);
+}else{
+	$map_options = array(
+		'width' => '600px',
+		'height' => '550px',
+		'style' => 'box-shadow: 0px 3px 5px #8F8F8F',
+		'zoom' => 8,
+		'type' => 'ROADMAP',
+		'localize' => false,
+		'address' => $default_address,
+		'marker' => false
+	);
+}
+$marker_options = array(
+    'showWindow' => false,
+    'windowText' => "Hooe",
+    'markerTitle' => 'Title',
+    'markerIcon' => 'http://labs.google.com/ridefinder/images/mm_20_purple.png',
+    'markerShadow' => 'http://labs.google.com/ridefinder/images/mm_20_purpleshadow.png',
+  );
 ?>
 
 
@@ -66,10 +83,13 @@ echo "<ul class='inline'>
     <div class="span2">
         <?php
             echo $this->GoogleMap->map($map_options);
-            
-            foreach ($suppliers as $supplier):
-                echo $this->GoogleMap->addMarker("map_canvas", 1,$supplier['User']['address']." ".$supplier['User']['zip']." ".$supplier['User']['city'] ." ".$supplier['User']['country']);
-            endforeach;
+			// s'il y a des suppliers, on affiche un marqueur pour chacun d'eux
+            if(isset($suppliers)){
+				foreach ($suppliers as $supplier):
+					$supp_addr = $supplier['User']['address']." ".$supplier['User']['zip']." ".$supplier['User']['city'];
+					echo $this->GoogleMap->addMarker("map_canvas", 1,"$supp_addr",$marker_options);
+				endforeach;
+			}
         ?>
     </div>
 </div>
