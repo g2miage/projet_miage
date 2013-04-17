@@ -32,13 +32,7 @@ if($localize){
 		'marker' => false);
 }
 
-$marker_options = array(
-    'showWindow' => false,
-    'windowText' => "Hooe",
-    'markerTitle' => 'Title',
-    'markerIcon' => 'http://labs.google.com/ridefinder/images/mm_20_purple.png',
-    'markerShadow' => 'http://labs.google.com/ridefinder/images/mm_20_purpleshadow.png',
-  );
+
 ?>
 
 <h1>Liste des prestataires</h1>
@@ -89,6 +83,15 @@ echo "<ul class='inline'>
             if(isset($suppliers)){
 				foreach ($suppliers as $supplier):
 					$supp_addr = $supplier['User']['address']." ".$supplier['User']['zip']." ".$supplier['User']['city'];
+                                        
+                                        // définition du marqueur pour chaque supplier
+                                        $marker_options = array(
+                                            'showWindow' => false,
+                                            'windowText' => "Hooe",
+                                            'markerTitle' => 'Title',
+                                            'markerIcon' => 'http://'.$_SERVER['SERVER_NAME'].'/projet_miage/img/suptypes/'.$supplier['Suptype']['stype'].'.png',
+                                            'markerShadow' => 'http://labs.google.com/ridefinder/images/mm_20_purpleshadow.png',
+                                          );
 					echo $this->GoogleMap->addMarker("map_canvas", 1,"$supp_addr",$marker_options);
 				endforeach;
 			}
