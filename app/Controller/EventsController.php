@@ -96,7 +96,6 @@ class EventsController extends AppController {
                 $this->Session->setFlash('Votre événement n\'a pas été créé.', 'notif');
             }
         }  else {
-            debug($this->Event->Eventtype->find('list'));
             $this->set('eventtypes',  $this->Event->Eventtype->find('list',array('fields')));
         }
     }
@@ -366,6 +365,101 @@ class EventsController extends AppController {
             fclose($handle);
         }
     }
+    // add organisateur
+        public function addorganisateur($id){
+        
+        if ($this->request->is('post')) {
+        $chaine = $this->data['Event']['chaine'];
+        
+        $d = $this->searchuser($chaine);
+        
+        $this->set(array('resultat'=>$d, 'e_id'=>$id));
+        } 
+    }
     
+     public function searchuser($chaine) {
+            $this->loadModel('User');
+            
+            //$this->User->contain();
+            $d =$this->User->find('all', array(
+                'conditions' => array(
+                    'OR'=>array(
+                            'User.username LIKE' => "%" . $chaine . "%",
+                            'User.lastname LIKE' => "%" . $chaine . "%",
+                            'User.firstname LIKE' => "%" . $chaine . "%"
+                ),'User.role_id'=>1),
+                    'recursive'=> -1));
+            
+                return $d;
+        
+            
+    }
     
+     public function organisateur($u_id,$e_id) {
+        $d = array('event_id'=>$e_id,'user_id'=>$u_id,'type_id'=>2);
+         try {
+             if($this->Event->EventsUsers->save($d)){
+                $this->mailinvitation($e_id,$u_id,'Organisateur'); 
+                $this->Session->setFlash('Vous avez ajouté un organisateur', 'notif');
+            }else{
+                $this->Session->setFlash('Impossible ', 'notif',array('type' =>'error'));
+            }
+             
+         } catch (Exception $exc) {
+             $this->Session->setFlash('Cet utilisateur est déjà organisateur ', 'notif',array('type' =>'error'));
+         }
+         $this->redirect(array('action' => 'view',$e_id));
+     }
+     
+     
+     public function inviter($u_id,$e_id) {
+         $d = array('event_id'=>$e_id,'user_id'=>$u_id,'type_id'=>3);
+         try {
+             if($this->Event->EventsUsers->save($d)){
+                $this->mailinvitation($e_id,$u_id,'Invité'); 
+                $this->Session->setFlash('Vous avez ajouté un nouvel invité', 'notif');
+            }else{
+                $this->Session->setFlash('Impossible ', 'notif',array('type' =>'error'));
+            }
+             
+         } catch (Exception $exc) {
+             $this->Session->setFlash('Cet utilisateur est déjà invité ou organisateur', 'notif',array('type' =>'error'));
+         }
+         $this->redirect(array('action' => 'view',$e_id));
+     }
+     
+     
+     function mailinvitation($e_id,$u_id,$role){
+         $this->loadModel('User');
+         $invite= current($this->User->findById($u_id));
+         $user  = current($this->User->findById($this->Auth->user('id')));
+         $event = current($this->Event->findById($e_id));
+         
+         App::uses('CakeEmail', 'Network/Email');
+       
+                
+        $mail = new CakeEmail();
+        $mail->from('no-reply@events.com')
+                ->to($user['mail'])
+                ->subject('Invitation Events')
+                ->emailFormat('html')
+                ->template('mailinvitation')
+                ->viewVars(array('name' => $invite['firstname'],'user'=>$user['lastname'],'event' => $event['title'],'role'=>$role))
+                ->send();
+     }
+
+     function deleteimg($id){
+        $event =  current($this->Event->findById($id));
+        $file = new File('img/'.$event['picture'],FALSE);
+                $file->delete();
+        $this->Event->id = $id;        
+        if($this->Event->saveField('picture','')){
+        
+             $this->Session->setFlash('L\'image a été supprimé ' , 'notif');
+        }
+        
+        $this->redirect(array('action' => 'edit',$id));
+        
+        
+     }
 }
