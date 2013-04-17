@@ -72,9 +72,14 @@ class UsersController extends AppController {
 
     public function activate($token) {
         $token = explode('-', $token);
+        //$this->User->contain('User');
         $user = $this->User->find('first', array(
-            'conditions' => array('id' => $token[0], 'active' => 0)
+            'conditions' => array('User.id' => $token[0], 'active' => 0),
+            'recursive'=>-1
         ));
+        
+        
+        
         if (!empty($user)) {
             $this->User->id = $user['User']['id'];
             $this->User->saveField('active', 1);
