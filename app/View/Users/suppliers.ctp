@@ -1,4 +1,5 @@
 <?php
+echo $this->Html->script('geo');
 $this->Html->script('http://maps.google.com/maps/api/js?sensor=true', false);
 
 // si recherche alors localize passe a false et on met l'adresse du département dans address
@@ -6,9 +7,10 @@ $this->Html->script('http://maps.google.com/maps/api/js?sensor=true', false);
 $localize = true;
 $default_address = 'France';
 if(!empty($search_dept)){
-    $localize = false;
-    $default_address = $search_dept;
+	$localize = false;
+	$default_address = $search_dept;
 }
+
 if($localize){
 	$map_options = array(
 		'width' => '600px',
@@ -17,8 +19,7 @@ if($localize){
 		'zoom' => 8,
 		'type' => 'ROADMAP',
 		'localize' => true,
-		'marker' => false
-	);
+		'marker' => false);
 }else{
 	$map_options = array(
 		'width' => '600px',
@@ -28,9 +29,9 @@ if($localize){
 		'type' => 'ROADMAP',
 		'localize' => false,
 		'address' => $default_address,
-		'marker' => false
-	);
+		'marker' => false);
 }
+
 $marker_options = array(
     'showWindow' => false,
     'windowText' => "Hooe",
@@ -40,8 +41,9 @@ $marker_options = array(
   );
 ?>
 
-
 <h1>Liste des prestataires</h1>
+
+<div id="maposition"></div>
 
 <?php 
 echo $this->Form->create("User",array('action' => 'suppliers', 'div'=>false)); 

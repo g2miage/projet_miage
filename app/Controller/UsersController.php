@@ -258,7 +258,7 @@ class UsersController extends AppController {
     private function recherche($stmtopts,$id_dept) {
         $this->loadModel('Departement');
         // On cherche les éléments
-        $search_dept = "";
+        $search_dept = "24000";
         if (empty($stmtopts)) { //pas d'options pour la requete, on renvoie tt
             $data = $this->User->find('all', array('conditions' =>
 					array('suptype_id <> ' => 0)
@@ -275,6 +275,8 @@ class UsersController extends AppController {
 					)
 				));
 				$search_dept = $search_d['Departement']['dept'];
+			}else{
+				$search_dept = "24000";
 			}
         }
 
