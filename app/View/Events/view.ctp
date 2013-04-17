@@ -33,7 +33,13 @@ $map_options = array(
         }else{
             foreach ($invites as $invite) {
                 if($current_user == $invite['User']['id']){
-                   echo $this->Html->link("S'inscrire", array('action' => 'participate', $event['id']), array('class' => 'btn btn-info pull-right')); 
+                   echo $this->Html->link("S'inscrire", array('action' => 'participate', $event['id']), array('class' => 'btn btn-large btn-success pull-right')); 
+                }
+             }
+             
+             foreach ($participants as $participant) {
+                if($current_user == $participant['User']['id']){
+                   echo $this->Html->link("Se désinscrire", array('action' => 'refuse', $event['id']), array('class' => 'btn btn-warning pull-right')); 
                 }
              }
         }
@@ -119,6 +125,14 @@ $map_options = array(
         <?php
             foreach ($invites as $invite) {
                echo "<li>".$invite['User']['username']."</li>";
+            }
+        ?>
+    </ul>
+    <h3><i class="icon-user"></i> Participants</h3>
+    <ul>
+        <?php
+            foreach ($participants as $participant) {
+               echo "<li>".$participant['User']['username']."</li>";
             }
         ?>
     </ul>

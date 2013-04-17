@@ -96,6 +96,7 @@ class Event extends AppModel{
     function startDateValidation($field = array(), $compare_field = null) {
         foreach ($field as $key => $value) {
             $startTime = $value.' '.$this->data[$this->name]['starttime'];
+            $startTime = date_create_from_format('d/m/Y H:m', $startTime);
             if($startTime < date('d/m/Y H:m')) {
                 return FALSE;
             }

@@ -45,6 +45,10 @@ class EventsController extends AppController {
             'conditions' => array('EventsUsers.type_id' => 3, 'EventsUsers.event_id' => $id),
             'fields' => array('User.username')
         ));
+        $participants = $this->Event->EventsUsers->find('all', array(
+            'conditions' => array('EventsUsers.type_id' => 5, 'EventsUsers.event_id' => $id),
+            'fields' => array('User.id','User.username')
+        ));
 
         $organisateurs = $this->Event->EventsUsers->find('all', array(
             'conditions' => array('EventsUsers.type_id' => 2, 'EventsUsers.event_id' => $id),
@@ -60,6 +64,7 @@ class EventsController extends AppController {
             'createur' => $createur,
             'invites' => $invites,
             'organisateurs' => $organisateurs,
+            'participants' => $participants,
             'current_user' => $current_user,
             'typename'=>$type['Eventtype']['name']
         );
@@ -93,7 +98,8 @@ class EventsController extends AppController {
                 $this->Session->setFlash('Votre événement a bien été créé.', 'notif');
                 $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash('Votre événement n\'a pas été créé.', 'notif');
+                $this->Session->setFlash('Votre événement n\'a pas été créé.', 'notif', array('type'=>'error'));
+                $this->set('eventtypes',  $this->Event->Eventtype->find('list',array('fields')));
             }
         }  else {
             $this->set('eventtypes',  $this->Event->Eventtype->find('list',array('fields')));
@@ -138,7 +144,7 @@ class EventsController extends AppController {
             }
 
             if ($this->Event->save($this->request->data)) {
-                $this->Session->setFlash('Votre événement a bien été mis à jour.');
+                $this->Session->setFlash('Votre événement a bien été mis à jour.', 'notif');
                 $this->redirect(array('action' => 'view', $id));
             } else {
                 $this->Session->setFlash('Votre événement n\'a pas été mis à jour.');
@@ -209,14 +215,17 @@ class EventsController extends AppController {
             'EventsUser.event_id' => $event_id,
             'EventsUser.user_id' => $this->Auth->user('id')
         ));
-
+        $this->Session->setFlash('Votre inscription a été prise en compte', 'notif');
         $this->redirect(array('action' => 'view', $event_id));
     }
 
     public function refuse($event_id) {
-        $data = $this->Event->read(null, $event_id);
-        $data['User'][0]['EventsUser']['type_id'] = "3";
-        $this->Event->save($data, true, array('User' => 'EventsUser', 'type_id'));
+        $this->Event->EventsUser->updateAll(
+                array('EventsUser.type_id' => 3), array(
+            'EventsUser.event_id' => $event_id,
+            'EventsUser.user_id' => $this->Auth->user('id')
+        ));
+        $this->Session->setFlash('Votre désinscription a été prise en compte', 'notif', array('type'=>'error'));
         $this->redirect(array('action' => 'view', $event_id));
     }
     
@@ -387,7 +396,7 @@ class EventsController extends AppController {
                             'User.username LIKE' => "%" . $chaine . "%",
                             'User.lastname LIKE' => "%" . $chaine . "%",
                             'User.firstname LIKE' => "%" . $chaine . "%"
-                ),'User.role_id'=>1),
+                ),'User.role_id'=>0),
                     'recursive'=> -1));
             
                 return $d;

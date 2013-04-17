@@ -53,7 +53,8 @@
         <?php
         echo $this->Html->script('vendor/bootstrap.min');
         echo $this->Html->script('jquery-ui-timepicker-addon');
-		echo $this->Html->script('calendar');
+        echo $this->Html->script('calendar');
+        echo $this->Html->script('main');
         // Mise en cache des fichiers JS
         echo $this->Js->writeBuffer();
         ?>
