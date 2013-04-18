@@ -9,9 +9,9 @@
 <?php
      if(file_exists($supplier['User']['picture'])) {
         $url = substr($supplier['User']['picture'], 4);
-        echo $this->Html->image($url, array('alt' => 'fonctionnement','class'=>'img-rounded')).'<br />'; 
+        echo $this->Html->image($url, array('alt' => 'fonctionnement','class'=>'img-rounded supplier')).'<br />'; 
      }  else {
-        echo $this->Html->image('user/defaultUser.png', array('alt' => 'fonctionnement','class'=>'img-rounded')).'<br />'; 
+        echo $this->Html->image('user/defaultUser.png', array('alt' => 'fonctionnement','class'=>'supplier-picture')).'<br />'; 
      }
 ?>
 <h4>Description :</h4>

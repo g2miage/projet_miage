@@ -18,10 +18,10 @@ $this->set('title_for_layout', 'Mon profil');
             <hr />
             <?php 
             if(file_exists($user['User']['picture'])) {
-            $url = substr($user['User']['picture'], 4);
-            echo $this->Html->image($url, array('alt' => 'fonctionnement','class'=>'img-rounded')); 
+                $url = substr($user['User']['picture'], 4);
+                echo $this->Html->image($url, array('alt' => 'fonctionnement','class'=>'img-rounded')); 
             }  else {
-            echo $this->Html->image('user/defaultUser.png', array('alt' => 'fonctionnement','class'=>'img-rounded')); 
+                echo $this->Html->image('user/defaultUser.png', array('alt' => 'fonctionnement','class'=>'img-rounded')); 
             }
             echo $this->Form->create('User', array('type' => 'File'));
             echo $this->Form->hidden('id',array('value' => $user['User']['id']));
@@ -38,6 +38,10 @@ $this->set('title_for_layout', 'Mon profil');
         <div class="span3">
             <hr>
             <address><?php echo $user['User']['address'].'<br>'.$user['User']['zip'].' '.$user['User']['city'].' <br>'.$user['User']['country'] ?></address>
+            <?php
+                if($user['User']['website'] != null) { 
+                    echo '<h6>site web : '.$this->Html->link($user['User']['website'],$user['User']['website'], array('admin'=>false)).'</h6>';
+                } ?>
             <h6><?php echo "mail : ".$user['User']['mail']?></h6>
             <h6><?php echo "Tél : ".$user['User']['tel'];$cars=array();?></h6>
 
@@ -51,7 +55,6 @@ $this->set('title_for_layout', 'Mon profil');
             <h6><?php echo "Raison Sociale : ".$user['User']['scorpname']?></h6>
             <h6><?php echo "Siret : ".$user['User']['ssiret']?></h6>
             <p><?php echo "<b>Description :</b><br /> ".nl2br($user['User']['sdesc']);?></p>
-
         </div>
         <?php
         }

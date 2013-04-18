@@ -33,8 +33,14 @@ class UsersController extends AppController {
             if ($d['User']['role_id'] == 0) {
                 $d['User']['scorpname'] = '';
                 $d['User']['ssiret'] = '';
+                $d['User']['suptype_id'] = 0;
+                $d['User']['sdesc'] = '';
+                $d['User']['address'] = '';
+                $d['User']['zip'] = '';
+                $d['User']['city'] = '';
+                $d['User']['country'] = '';
             }
-            if ($this->User->save($d, true, array('username', 'password', 'mail', 'creationdate', 'scorpname', 'ssiret', 'suptype_id', 'sdesc'))) {
+            if ($this->User->save($d, true, array('username', 'password', 'mail', 'creationdate', 'scorpname', 'ssiret', 'suptype_id', 'sdesc','address','zip','city','country'))) {
                 $link = array('controller' => 'users', 'action' => 'activate', $this->User->id . '-' . md5($d['User']['password']));
                 App::uses('CakeEmail', 'Network/Email');
                 $mail = new CakeEmail();
@@ -93,6 +99,11 @@ class UsersController extends AppController {
 
     public function profil() {
         $user_id = $this->Auth->user('id');
+        if (!$user_id) {
+            $this->redirect('/');
+            die();
+        }
+        $user_id = $this->Auth->user('id');
         $user = $this->User->findById($user_id);
         $v = array('user' => $user);
         $this->set($v);
@@ -146,10 +157,12 @@ class UsersController extends AppController {
                     $d['User']['password_confirm'] = Security::hash($d['User']['password_confirm'], null, true);
                 }
             }
-
+            if(!empty($d['User']['website']) && strpos(strtolower($d['User']['website']),'http://') === false) {
+                $d['User']['website'] = 'http://'.strtolower($d['User']['website']);
+            }
             if (isset($d['User']['formUser']) && $d['User']['formUser'] == TRUE) {
                 if ($this->User->save($d, true, array('firstname', 'lastname', 'mail', 'tel', 'city', 'zip', 'country',
-                            'address', 'sex', 'ssiret','scorpname','sdesc','suptype_id'))) {
+                            'address', 'sex', 'ssiret','scorpname','sdesc','suptype_id','website'))) {
                     $this->Session->setFlash("Votre profil a bien été modifié", "notif");
                     $this->redirect(array('controller' => 'users', 'action' => 'profil'));
                 } else {
@@ -219,6 +232,11 @@ class UsersController extends AppController {
     }
     
     public function suppliers() {
+        $user_id = $this->Auth->user('id');
+        if (!$user_id) {
+            $this->redirect('/');
+            die();
+        }
         $this->loadModel('Suptype');
         $this->loadModel('Departement');
         $supt = $this->Suptype->find('list', array('fields' => array('stype')));
@@ -298,6 +316,11 @@ class UsersController extends AppController {
     public function view($id) {
         if (!$id) {
             throw new NotFoundException(__('Invalid post'));
+        }
+        $user_id = $this->Auth->user('id');
+        if (!$user_id) {
+            $this->redirect('/');
+            die();
         }
         $supplier = $this->User->findById($id);
         $this->User->id = $id;

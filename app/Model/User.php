@@ -7,28 +7,22 @@ App::uses('AppModel', 'Model');
  *
  */
 class User extends AppModel {
-    
+
     public $actsAs = array('Containable');
-    
-     public $hasMany = array(
+    public $hasMany = array(
         'EventsUsers');
-     
-     public $belongsTo = array(
-             'Suptype');
-    
+    public $belongsTo = array(
+        'Suptype');
     public $hasAndBelongsToMany = array(
         'Event' =>
-            array(
-                'className'              => 'Events',
-                'joinTable'              => 'events_users',
-                'foreignKey'             => 'user_id',
-                'associationForeignKey'  => 'event_id',
-                'unique'                 => true,
-                
-            ));
-    
+        array(
+            'className' => 'Events',
+            'joinTable' => 'events_users',
+            'foreignKey' => 'user_id',
+            'associationForeignKey' => 'event_id',
+            'unique' => true,
+    ));
     public $validate = array(
-        
         'username' => array(
             array(
                 'rule' => 'alphanumeric',
@@ -41,16 +35,16 @@ class User extends AppModel {
                 'message' => 'Ce pseudo est déjà utilisé'
             )
         ),
-        'password' => array( 
-        'identicalFieldValues' => array( 
-        'rule' => array('identicalFieldValues', 'password_confirm' ), 
-        'message' => 'Les mots de passes doivent être identiques' 
-                ) 
-            ),
+        'password' => array(
+            'identicalFieldValues' => array(
+                'rule' => array('identicalFieldValues', 'password_confirm'),
+                'message' => 'Les mots de passe doivent être identiques'
+            )
+        ),
         'password_confirm' => array(
             'required' => true,
             'allowEmpty' => false,
-            ),
+        ),
         'mail' => array(
             array(
                 'rule' => 'email',
@@ -62,26 +56,50 @@ class User extends AppModel {
                 'rule' => 'isUnique',
                 'message' => 'Cet email est déjà utilisé'
             )
-        )
+        ),
+        'scorpname' => array(
+            'rule' => array('validateSuppliers'),
+            'message' => 'Les champs avec * sont obligatoires.',
+            'on' => 'create'
+        ),
+        'address' => array(
+            'rule' => array('validateSuppliers'),
+            'message' => 'Les champs avec * sont obligatoires.',
+            'on' => 'create'
+        ),
+        'zip' => array(
+            'rule' => array('validateSuppliers'),
+            'message' => 'Les champs avec * sont obligatoires.',
+            'on' => 'create'
+        ),
+        'city' => array(
+            'rule' => array('validateSuppliers'),
+            'message' => 'Les champs avec * sont obligatoires.',
+            'on' => 'create'
+        ),
+        'country' => array(
+            'rule' => array('validateSuppliers'),
+            'message' => 'Les champs avec * sont obligatoires.',
+            'on' => 'create'
+        ),
     );
 
-  function identicalFieldValues( $field=array(), $compare_field=null )  
-    {
-      
-        foreach( $field as $key => $value ){ 
-            $v1 = $value; 
-            $v2 = $this->data[$this->name][ $compare_field ];
-         
-            if($v1 !== $v2) { 
-                return FALSE; 
-            } else { 
-                continue; 
-            } 
-        } 
-        return TRUE; 
-    } 
-    
-     function generatePassword($length = 8) {
+    function identicalFieldValues($field = array(), $compare_field = null) {
+
+        foreach ($field as $key => $value) {
+            $v1 = $value;
+            $v2 = $this->data[$this->name][$compare_field];
+
+            if ($v1 !== $v2) {
+                return FALSE;
+            } else {
+                continue;
+            }
+        }
+        return TRUE;
+    }
+
+    function generatePassword($length = 8) {
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $count = mb_strlen($chars);
 
@@ -91,5 +109,15 @@ class User extends AppModel {
         }
         return $result;
     }
+
+    function validateSuppliers($field = array()) {
+        foreach ($field as $key => $value) {
+            if ($this->data[$this->name]['role_id'] == 1 && empty($value)) {
+                return FALSE;
+            }
+        }
+        return TRUE;
+    }
+
 }
 

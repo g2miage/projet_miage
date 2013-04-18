@@ -25,6 +25,7 @@ echo $this->Form->input('suptype_id', array('options'=>array($stype),'label'=>'T
 echo $this->Form->input('scorpname', array('label' => 'Raison sociale'));
 echo $this->Form->input('ssiret', array('label' => 'Siret'));
 echo $this->Form->input('sdesc', array('label' => 'Description'));
+echo $this->Form->input('website', array('label' => 'Site web'));
 }
 else
 {

@@ -1,12 +1,12 @@
 function WhenChecked()
 {
-    if(document.getElementById('UserRoleId').checked == 1) 
-        { 
-          
-       document.getElementById('prestat').style.visibility='visible';
-       
-    }else{
-        document.getElementById('prestat').style.visibility='hidden';
+    if (document.getElementById('prestat').style.display == 'none')
+    {
+        document.getElementById('prestat').style.display = 'block';
+    }
+    else
+    {
+        document.getElementById('prestat').style.display = 'none';
     }
 }
-    
+

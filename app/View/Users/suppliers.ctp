@@ -82,7 +82,7 @@ echo "<ul class='inline'>
 			// s'il y a des suppliers, on affiche un marqueur pour chacun d'eux
             if(isset($suppliers)){
 				foreach ($suppliers as $supplier):
-					$supp_addr = $supplier['User']['address']." ".$supplier['User']['zip']." ".$supplier['User']['city'];
+					$supp_addr = addslashes($supplier['User']['address']." ".$supplier['User']['zip']." ".$supplier['User']['city']);
                                         
                                         // définition du marqueur pour chaque supplier
                                         $marker_options = array(
