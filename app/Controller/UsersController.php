@@ -14,13 +14,21 @@ class UsersController extends AppController {
 
     // Helper GoogleMap
     public $helpers = array('GoogleMap');
+    
+     public $components = array(
+        'Captcha' => array(
+            'rotate' => true
+        ),
+        'RequestHandler'
+    );
 
     public function signup() {
         $this->loadModel('Suptype');
         $supt = $this->Suptype->find('list', array('fields' => array('stype')));
         $this->set(array('stype' => $supt));
-
         if ($this->request->is('post')) {
+            $this->User->setCaptcha($this->Captcha->getCode());
+            $this->User->set('captcha',$this->User->captcha);
             $d = $this->request->data;
             if (!empty($d['User']['password'])) {
                 $d['User']['password'] = Security::hash($d['User']['password'], null, true);
@@ -40,7 +48,7 @@ class UsersController extends AppController {
                 $d['User']['city'] = '';
                 $d['User']['country'] = '';
             }
-            if ($this->User->save($d, true, array('username', 'password', 'mail', 'creationdate', 'scorpname', 'ssiret', 'suptype_id', 'sdesc','address','zip','city','country'))) {
+            if ($this->User->save($d, true, array('username', 'password', 'mail', 'creationdate', 'scorpname', 'ssiret', 'suptype_id', 'sdesc','address','zip','city','country','captcha'))) {
                 $link = array('controller' => 'users', 'action' => 'activate', $this->User->id . '-' . md5($d['User']['password']));
                 App::uses('CakeEmail', 'Network/Email');
                 $mail = new CakeEmail();
@@ -325,5 +333,16 @@ class UsersController extends AppController {
         $supplier = $this->User->findById($id);
         $this->User->id = $id;
         $this->set('supplier',$supplier);
+    }
+    
+    /**
+     * Generate and render captcha image
+     *
+     * @access public
+     * @return void
+     */
+    public function captcha()  {
+        $this->autoRender = false;
+        $this->Captcha->generate();
     }
 }

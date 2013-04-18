@@ -16,7 +16,7 @@ echo $this->Form->input('role_id', array('label' => 'Prestataire', 'type' => 'ch
     echo $this->Form->input('suptype_id', array('options' => array($stype)));
 //echo $this->Form->input('sdesc', array('label' => 'Type d\'activité'));
 
-    echo $this->Tinymce->input('User.sdesc', array('label' => 'Type d\'activité'));
+    echo $this->Form->input('sdesc', array('label' => 'Type d\'activité'));
     echo $this->Form->input('address', array('label' => 'Adresse'));
     echo $this->Form->input('zip', array('label' => 'Code postal'));
     echo $this->Form->input('city', array('label' => 'Ville'));
@@ -24,5 +24,8 @@ echo $this->Form->input('role_id', array('label' => 'Prestataire', 'type' => 'ch
     ?>
 </div>
 <?php
-echo $this->Form->end(array('label' => 'Enregistrer', 'class' => 'btn btn-primary'));
+
+    echo $this->Html->image('captcha.jpg', array('style' => 'padding: 0.5%;'));
+    echo $this->Form->input('captcha');
+    echo $this->Form->end(array('label' => 'Enregistrer', 'class' => 'btn btn-primary'));
 ?>

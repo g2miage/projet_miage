@@ -8,7 +8,11 @@ App::uses('AppModel', 'Model');
  */
 class User extends AppModel {
 
-    public $actsAs = array('Containable');
+    public $actsAs = array('Containable',
+        'Captcha' => array(
+            'field' => 'captcha',
+            'error' => 'Le code captcha n\'est pas bon.'
+        ));
     public $hasMany = array(
         'EventsUsers');
     public $belongsTo = array(
