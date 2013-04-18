@@ -27,21 +27,36 @@ $map_options = array(
     <div class='padding'>
         <h1 class='title_event'><?php echo $event['title']; ?></h1>
         <?php
-        if($current_user == $createur['id']){
-             echo $this->Html->link("Modifier l'événement", array('action' => 'edit', $event['id']), array('class' => 'btn btn-info pull-right'));
-             echo $this->Html->link("Inviter un ami ", array('action' => 'addorganisateur', $event['id']), array('class' => 'btn btn-info pull-right'));
-        }else{
+        $boolOrganisateur = 0;
+        foreach ($organisateurs as $organisateur) {
+            if ($organisateur['User']['id'] == $current_user) {
+                $boolOrganisateur = 1;
+            }
+        }
+
+        if ($current_user == $createur['id'] || $boolOrganisateur == 1) {
+            echo $this->Html->link("Modifier l'événement", array('action' => 'edit', $event['id']), array('class' => 'btn btn-info pull-right'));
+            echo $this->Html->link("Inviter un ami ", array('action' => 'addorganisateur', $event['id']), array('class' => 'btn btn-info pull-right'));
+        } else {
+            $btnInscription = 0;
             foreach ($invites as $invite) {
-                if($current_user == $invite['User']['id']){
-                   echo $this->Html->link("S'inscrire", array('action' => 'participate', $event['id']), array('class' => 'btn btn-large btn-success pull-right')); 
+                if ($current_user == $invite['User']['id']) {
+                    echo $this->Html->link("S'inscrire", array('action' => 'participate', $event['id']), array('class' => 'btn btn-success pull-right'));
+                    $btnInscription = 1;
                 }
-             }
-             
-             foreach ($participants as $participant) {
-                if($current_user == $participant['User']['id']){
-                   echo $this->Html->link("Se désinscrire", array('action' => 'refuse', $event['id']), array('class' => 'btn btn-warning pull-right')); 
+            }
+            $btnParticipant = 0;
+            foreach ($participants as $participant) {
+                if ($current_user == $participant['User']['id']) {
+                    echo $this->Html->link("Se désinscrire", array('action' => 'refuse', $event['id']), array('class' => 'btn btn-warning pull-right'));
+                    $btnParticipant = 1;
                 }
-             }
+            }
+
+
+            if ($event['visibility'] == 0 && $btnInscription == 0 && $btnParticipant == 0) {
+                echo $this->Html->link("S'inscrire", array('action' => 'participate', $event['id']), array('class' => 'btn btn-large btn-success pull-right'));
+            }
         }
         ?>      
     </div>
@@ -50,9 +65,9 @@ $map_options = array(
     <table class="event_view">
         <tr>
             <td>
-                <?php 
-                    echo "<i class='icon-globe'></i></td><td>
-                                              <p>".$typename."</p>";
+                <?php
+                echo "<i class='icon-globe'></i></td><td>
+                                              <p>" . $typename . "</p>";
                 ?>
             </td>
         </tr>
@@ -61,10 +76,10 @@ $map_options = array(
                 <?php
                 if ($event['visibility'] == 0) {
                     echo "<i class='icon-globe'></i></td><td>
-                                              <p>Public . Créé par : ".$createur['username']."</p>";
+                                              <p>Public . Créé par : " . $createur['username'] . "</p>";
                 } else {
                     echo "<i class='icon-group'></i></td><td>
-                            <p>Privé . Créé par : ".$createur['username']."</p>";
+                            <p>Privé . Créé par : " . $createur['username'] . "</p>";
                 }
                 ?>
             </td>
@@ -110,34 +125,51 @@ $map_options = array(
             </td>
         </tr>
     </table>
-    
-    <h3><i class="icon-user"></i> Organisateurs</h3>
-    <ul>
-        <?php
+    <table class="event_view">
+        <h3><i class="icon-user"></i> Organisateurs</h3>
+        <ul>
+            <?php
             foreach ($organisateurs as $organisateur) {
-               echo "<li>".$organisateur['User']['username']."</li>";
+                echo "<li>" . $organisateur['User']['username'] . "</li>";
             }
-        ?>
-    </ul>
-    
-    <h3><i class="icon-user"></i> Invités</h3>
-    <ul>
-        <?php
+            ?>
+        </ul>
+
+        <h3><i class="icon-user"></i> Invités</h3>
+        <ul>
+            <?php
             foreach ($invites as $invite) {
-               echo "<li>".$invite['User']['username']."</li>";
+                echo "<li>" . $invite['User']['username'] . "</li>";
             }
-        ?>
-    </ul>
-    <h3><i class="icon-user"></i> Participants</h3>
-    <ul>
-        <?php
+            ?>
+        </ul>
+        <h3><i class="icon-user"></i> Participants</h3>
+        <ul>
+            <?php
             foreach ($participants as $participant) {
-               echo "<li>".$participant['User']['username']."</li>";
+                echo "<li>" . $participant['User']['username'] . "</li>";
             }
-        ?>
-    </ul>
+            ?>
+        </ul>
+    </table>
     <br />
-<?php
-echo $this->Html->link("Retourner à la liste des événements", array('action' => 'index'), array('class' => 'btn btn-info', 'escape' => false));
-?>
+    <br />
+
+    <?php
+    if ($current_user == $createur['id'] || $boolOrganisateur == 1) {
+// Erwann et Paul upload fichier ---------------------------------------------
+
+        echo $this->html->link('Fichier template', '/csv/template.csv', array('class' => 'btn'));
+
+// Création du formulaire d'upload d'invités
+        echo $this->form->create('Event', array('type' => 'file', 'url' => 'addfile/'.$event['id']));
+        echo $this->form->input('', array('type' => 'file'));
+        echo $this->form->end('Sauvegarder le fichier');
+    }
+    ?>
+
+    <br />
+    <?php
+    echo $this->Html->link("Retourner à la liste des événements", array('action' => 'index'), array('class' => 'btn btn-info', 'escape' => false));
+    ?>
 </div>

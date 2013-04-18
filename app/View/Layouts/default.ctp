@@ -35,7 +35,7 @@
 
         <div class="container">
             <?php
-            $this->session->flash('auth');
+            $this->Session->flash('auth');
             echo $this->Session->flash();
             echo $this->fetch('content');
             ?>

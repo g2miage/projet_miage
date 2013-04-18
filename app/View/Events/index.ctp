@@ -30,7 +30,7 @@
             <?php echo $this->Html->link($event['Event']['title'], array('action' => 'view', $event['Event']['id'])); ?>
         </td>
         <td class="actions">
-            <?php echo $this->Html->link('<i class="icon-pencil"></i>', array('action' => 'edit', $event['Event']['id']), array('escape' => false)); ?>
+            
         </td>
         
     </tr>
