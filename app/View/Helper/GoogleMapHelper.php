@@ -57,7 +57,7 @@ class GoogleMapHelper extends AppHelper {
 	var $defaultWindowText = 'My Position';							// Default text inside the information window
 
 	//DEFAULT MARKER OPTIONS (method addMarker())
-	var $defaultInfoWindowM = true;								// Boolean to show an information window when you click the marker or not
+	var $defaultInfoWindowM = false;								// Boolean to show an information window when you click the marker or not
 	var $defaultWindowTextM = 'Marker info window';						// Default text inside the information window
 	var $defaultmarkerTitleM = "Title";							// Default marker title (HTML title tag)
 	var $defaultmarkerIconM = "http://maps.google.com/mapfiles/marker.png";			// Default icon of the marker
@@ -113,7 +113,8 @@ class GoogleMapHelper extends AppHelper {
 				var geocoder = new google.maps.Geocoder();
 
 				function geocodeAddress(address, action, map,markerId, markerTitle, markerIcon, markerShadow, windowText, showInfoWindow) {
-				    geocoder.geocode( { 'address': address}, function(results, status) {
+				setTimeout(function() {				   
+				   geocoder.geocode( { 'address': address}, function(results, status) {
 				      if (status == google.maps.GeocoderStatus.OK) {
 				      	if(action =='setCenter'){
 				      		setCenterMap(results[0].geometry.location);
@@ -125,11 +126,31 @@ class GoogleMapHelper extends AppHelper {
 				      	if(action =='addPolyline'){
 				      		return results[0].geometry.location;
 				      	}
-				      } else {
-				        alert('Geocode was not successful for the following reason: ' + status);
-				        return null;
-				      }
-				    });
+				      }else if (status === google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {    
+						setTimeout(function() {
+							geocoder.geocode( { 'address': address}, function(results, status) {
+							  if (status == google.maps.GeocoderStatus.OK) {
+								if(action =='setCenter'){
+									setCenterMap(results[0].geometry.location);
+								}
+								if(action =='setMarker'){
+									//return results[0].geometry.location;
+									setMarker(map,markerId,results[0].geometry.location,markerTitle, markerIcon, markerShadow,windowText, showInfoWindow);
+								}
+								if(action =='addPolyline'){
+									return results[0].geometry.location;
+								}
+							}else{
+								alert('Geocode was not successful for the following reason:' 
+									+ status);
+							}
+							});
+						}, 5000);
+						} else {
+							alert('Geocode was not successful for the following reason:' 
+								  + status);
+						} 
+				    })},200);
 				}";
 
 		$map .= "
