@@ -9,3 +9,4 @@ function WhenChecked()
         document.getElementById('prestat').style.visibility='hidden';
     }
 }
+    

@@ -46,8 +46,8 @@ class GoogleMapHelper extends AppHelper {
 	var $defaultType = 'HYBRID';								// Type of map (ROADMAP, SATELLITE, HYBRID or TERRAIN)
 	var $defaultCustom = "";								// Any other map option not mentioned before and available for the map.
 																						// For example 'mapTypeControl: true' (http://code.google.com/apis/maps/documentation/javascript/controls.html)
-	var $defaultLatitude = 48.87079;						// Default latitude if the browser doesn't support localization or you don't want localization
-	var $defaultLongitude = 2.31689;						// Default longitude if the browser doesn't support localization or you don't want localization
+	var $defaultLatitude = 2.31689;						// Default latitude if the browser doesn't support localization or you don't want localization
+	var $defaultLongitude = 48.87079;						// Default longitude if the browser doesn't support localization or you don't want localization
 	var $defaultLocalize = true;								// Boolean to localize your position or not
 	var $defaultMarker = true;								// Boolean to put a marker in the position or not
 	var $defaultMarkerTitle = 'My Position';						// Default marker title (HTML title tag)

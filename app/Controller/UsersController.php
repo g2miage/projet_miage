@@ -231,17 +231,20 @@ class UsersController extends AppController {
 				if(!empty($this->request->data['User']['dept'])){ // si les deux critères sont renseignés
 					$stmtopts = array(
 						'suptype_id = ' => $this->request->data['User']['suptype_id'],
-						'zip like ' => $this->request->data['User']['dept'].'%'
+						'zip like ' => $this->request->data['User']['dept'].'%',
+                                                'suptype_id <> ' => 0
 					);
 				}else{ // Type renseigné mais pas le Dept
 					$stmtopts = array(
-						'suptype_id = ' => $this->request->data['User']['suptype_id']
+						'suptype_id = ' => $this->request->data['User']['suptype_id'],
+                                                'suptype_id <> ' => 0
 					);
 				}
 			}else{ 
 				if(!empty($this->request->data['User']['dept'])){ // type non renseigné + dept renseigné
 					$stmtopts = array(
-						'zip like ' => $this->request->data['User']['dept'].'%'
+						'zip like ' => $this->request->data['User']['dept'].'%',
+                                                'suptype_id <> ' => 0
 					);
 				}else{ // rien renseigné....
 					$stmtopts = array();
@@ -258,7 +261,7 @@ class UsersController extends AppController {
     private function recherche($stmtopts,$id_dept) {
         $this->loadModel('Departement');
         // On cherche les éléments
-        $search_dept = "24000";
+        $search_dept = "";
         if (empty($stmtopts)) { //pas d'options pour la requete, on renvoie tt
             $data = $this->User->find('all', array('conditions' =>
 					array('suptype_id <> ' => 0)
@@ -276,7 +279,7 @@ class UsersController extends AppController {
 				));
 				$search_dept = $search_d['Departement']['dept'];
 			}else{
-				$search_dept = "24000";
+				$search_dept = "";
 			}
         }
 
@@ -291,5 +294,13 @@ class UsersController extends AppController {
             $this->set('noresults', 'Aucun prestataire trouvé');
         }
     }
-
+    
+    public function view($id) {
+        if (!$id) {
+            throw new NotFoundException(__('Invalid post'));
+        }
+        $supplier = $this->User->findById($id);
+        $this->User->id = $id;
+        $this->set('supplier',$supplier);
+    }
 }
