@@ -34,6 +34,16 @@
         ?>
 
         <div class="container">
+			<!--[if lt IE 8]>
+				<div style="margin-top:100px" class="alert alert-block alert-error">
+						<h4>Les années 80 sont terminées !</h4>
+						<p>
+							Votre navigateur est vieux et fatigué, et malheureusement vous ne pourrez pas profiter de toutes les fonctionnalités de notre site. 
+							<br />
+							Pourquoi ne pas choisir un <a href="http://www.browserchoice.eu/BrowserChoice/browserchoice_fr.htm" target="blank">navigateur plus récent</a> ?
+						</p>
+				</div>
+			<![endif]-->
             <?php
             $this->Session->flash('auth');
             echo $this->Session->flash();

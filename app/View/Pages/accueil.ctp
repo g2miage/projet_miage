@@ -38,12 +38,23 @@
 
 <!-- Main hero unit for a primary marketing message or call to action -->
 <div class ="jumbotron masthead">
+			<!--[if lt IE 8]>
+				<div style="margin-top:100px" class="alert alert-block alert-error">
+						<h4>Les années 80 sont terminées !</h4>
+						<p>
+							Votre navigateur est vieux et fatigué, et malheureusement vous ne pourrez pas profiter de toutes les fonctionnalités de notre site. 
+							<br />
+							Pourquoi ne pas choisir un <a href="http://www.browserchoice.eu/BrowserChoice/browserchoice_fr.htm" target="blank">navigateur plus récent</a> ?
+						</p>
+				</div>
+			<![endif]-->
     <div class ="container">
         <h1>Events</h1>
         <p>Bienvenue sur le site Events</p>        
     </div>
     </div>
     <div class ="container">
+
         <?php echo $this->Session->Flash(); ?>
         <div class="span9 offset1 centered well accueil-over">
        <?php if(!AuthComponent::user('id')){?>
