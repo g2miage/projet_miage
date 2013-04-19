@@ -29,3 +29,10 @@ echo $this->Form->input('role_id', array('label' => 'Prestataire', 'type' => 'ch
     echo $this->Form->input('captcha');
     echo $this->Form->end(array('label' => 'Enregistrer', 'class' => 'btn btn-primary'));
 ?>
+
+<script>
+    box = document.getElementById('UserRoleId');
+    if(!box.checked){
+        WhenChecked();
+    }
+</script>

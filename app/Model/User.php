@@ -85,7 +85,7 @@ class User extends AppModel {
             'rule' => array('validateSuppliers'),
             'message' => 'Les champs avec * sont obligatoires.',
             'on' => 'create'
-        ),
+        )
     );
 
     function identicalFieldValues($field = array(), $compare_field = null) {
