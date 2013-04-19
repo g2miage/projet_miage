@@ -36,7 +36,7 @@ class UsersController extends AppController {
             if (!empty($d['User']['password_confirm'])) {
                 $d['User']['password_confirm'] = Security::hash($d['User']['password_confirm'], null, true);
             }
-
+            
             $d['User']['creationdate'] = date('Y-m-d H:i:s');
             if ($d['User']['role_id'] == 0) {
                 $d['User']['scorpname'] = '';
