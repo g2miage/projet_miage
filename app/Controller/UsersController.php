@@ -36,7 +36,7 @@ class UsersController extends AppController {
             if (!empty($d['User']['password_confirm'])) {
                 $d['User']['password_confirm'] = Security::hash($d['User']['password_confirm'], null, true);
             }
-
+            
             $d['User']['creationdate'] = date('Y-m-d H:i:s');
             if ($d['User']['role_id'] == 0) {
                 $d['User']['scorpname'] = '';
@@ -48,7 +48,7 @@ class UsersController extends AppController {
                 $d['User']['city'] = '';
                 $d['User']['country'] = '';
             }
-            if ($this->User->save($d, true, array('username', 'password', 'mail', 'creationdate', 'scorpname', 'ssiret', 'suptype_id', 'sdesc','address','zip','city','country','captcha'))) {
+            if ($this->User->save($d, true, array('username', 'password', 'mail', 'creationdate', 'scorpname', 'ssiret', 'suptype_id', 'sdesc','address','zip','city','country','role_id','captcha'))) {
                 $link = array('controller' => 'users', 'action' => 'activate', $this->User->id . '-' . md5($d['User']['password']));
                 App::uses('CakeEmail', 'Network/Email');
                 $mail = new CakeEmail();
@@ -157,6 +157,7 @@ class UsersController extends AppController {
         $this->User->id = $user_id;
         if ($this->request->is('put') || $this->request->is('post')) {
             $d = $this->request->data;
+           
             $d['User']['id'] = $user_id;
             if (!empty($d['User']['password1'])) {
                 $d['User']['password'] = Security::hash($d['User']['password1'], null, true);
@@ -169,6 +170,12 @@ class UsersController extends AppController {
                 $d['User']['website'] = 'http://'.strtolower($d['User']['website']);
             }
             if (isset($d['User']['formUser']) && $d['User']['formUser'] == TRUE) {
+                if($d['User']['role_id'] == 0 && isset($d['User']['address1'])) {
+                    $d['User']['address'] = $d['User']['address1'];
+                    $d['User']['zip'] = $d['User']['zip1'];
+                    $d['User']['city'] = $d['User']['city1'];
+                    $d['User']['country'] = $d['User']['country1'];
+                }
                 if ($this->User->save($d, true, array('firstname', 'lastname', 'mail', 'tel', 'city', 'zip', 'country',
                             'address', 'sex', 'ssiret','scorpname','sdesc','suptype_id','website'))) {
                     $this->Session->setFlash("Votre profil a bien été modifié", "notif");
@@ -208,6 +215,7 @@ class UsersController extends AppController {
             
         } else {
             $this->request->data = $this->User->read();
+            
         }
         $this->request->data['User']['password1'] = $this->request->data['User']['password_confirm'] = '';
     }

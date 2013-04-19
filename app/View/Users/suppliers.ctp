@@ -68,7 +68,7 @@ echo "<ul class='inline'>
                     <?php echo $this->Html->link($supplier['User']['scorpname'], array('action' => 'view', $supplier['User']['id'])); ?>
                 </td>
                 <td>
-                      <?php echo $this->Html->link($supplier['Suptype']['stype'], array('action' => 'view', $supplier['User']['id'])); ?>
+                    <?php echo $this->Html->link($supplier['Suptype']['stype'], array('action' => 'view', $supplier['User']['id'])); ?>
                 </td>
 
             </tr>

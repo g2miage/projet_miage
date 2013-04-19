@@ -15,6 +15,7 @@ class Event extends AppModel{
     public $belongsTo = array(
         'Eventtype'
         );
+    
      public $hasAndBelongsToMany = array(
         'User' =>
             array(
@@ -28,59 +29,62 @@ class Event extends AppModel{
     );
      
      public $validate = array(
-       'title'  => array(
-            'alphaNumeric' => array(
-                'rule'    => 'notEmpty',
+       'title' => array(
+            array(
+                'rule' => 'notEmpty',
                 'required' => true,
-                'message'  => 'Chiffres et lettres uniquement !'
+                'allowEmpty' => false,
+                'message' => "Il faut indiquer un titre à votre événement"
             )),
+    
        'Event.desc' => array(
-                //'rule'    => array('minLength', 20  ),
+            array(
                 'rule'    => 'notEmpty',
-                'message'  => 'Chiffres et lettres uniquement !'
-         ),
+                'message'  => "Veuillez renseigner une description"
+         )),
+         
        'address' => array(
-            'alphaNumeric' => array(
-                'rule'    => 'notEmpty',
-                'required' => true,
-                'message'  => 'Chiffres et lettres uniquement !'
-            )
-         ),
+           array(
+               'rule'    => 'notEmpty',
+               'message'  => "Veuillez renseigner la zone"
+            )), 
+          
        'zip' => array(
-            'alphaNumeric' => array(
-                'rule'     => 'alphaNumeric',
-                'required' => true,
-                'message'  => 'Chiffres et lettres uniquement !'
-            )),
+            array(
+                'rule'    => 'notEmpty',
+                'message'  => "Veuillez renseigner la zone"
+           )),
+           
        'city' => array(
-            'alphaNumeric' => array(
-                'rule'     => 'notEmpty',
-                'required' => true,
-                'message'  => 'Chiffres et lettres uniquement !'
-            )),
+           array(
+                'rule'    => 'notEmpty',
+                'message'  => "Veuillez renseigner la zone"
+           )),
+           
        'startday' => array(
-           'alphaNumeric' => array(
+            array(
             'required' => true,
             'rule' => array('startDateValidation'),
             'message' => 'La date de début se trouve dans le passé' )),
+         
        'endday' => array(
-           'alphaNumeric' => array(
+              array(
             'required' => true,
             'rule' => array('endDateValidation'),
             'message' => 'Date de fin inférieur à la date de début' )),
+         
        'starttime' => array(
-            'alphaNumeric' => array(
+             array(
                 'rule'     => 'time',
                 'required' => true,
                 'message'  => 'Veuillez renseigner une heure valide'
             )),
        'endtime' => array(
-            'alphaNumeric' => array(
+             array(
                 'rule'     => 'time',
                 'required' => true,
                 'message'  => 'Veuillez renseigner une heure valide'
-            ))
-     );
+            )));
     
     function endDateValidation($field = array(), $compare_field = null) {
         foreach ($field as $key => $value) {

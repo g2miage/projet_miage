@@ -125,36 +125,86 @@ $map_options = array(
             </td>
         </tr>
     </table>
-    <table class="event_view">
+    
+ 
         <h3><i class="icon-user"></i> Organisateurs</h3>
-        <ul>
-            <?php
-            foreach ($organisateurs as $organisateur) {
-                echo "<li>" . $organisateur['User']['username'] . "</li>";
-            }
-            ?>
-        </ul>
+
+        <table  class="table table-striped table_index">
+<?php foreach ($organisateurs as $organisateur): ?>
+                <tr>
+                    <td>
+                        <?php echo $organisateur['User']['username']; ?>
+                    </td>
+                     <?php if ($current_user == $createur['id'] || $boolOrganisateur == 1) {?>
+                    <td class="actions">
+                        <?php echo $this->Html->link('<i class="icon-user"> Inviter</i>', array('action' => 'inviter',  $organisateur['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
+                    </td>
+                    <td class="actions">
+                        <?php echo $this->Html->link('<i class="icon-user"> Participant</i>', array('action' => 'participant', $organisateur['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
+                    </td>
+                    <td class="actions">
+                        <?php echo $this->Html->link('<i class="icon-user"> Supprimer</i>', array('action' => 'deleteEventUser', $organisateur['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
+                    </td>
+                     <?php }   ?>
+                </tr>
+            <?php endforeach; ?>
+          
+        </table>  
 
         <h3><i class="icon-user"></i> Invités</h3>
-        <ul>
-            <?php
-            foreach ($invites as $invite) {
-                echo "<li>" . $invite['User']['username'] . "</li>";
-            }
-            ?>
-        </ul>
+        <table  class="table table-striped table_index">
+
+            <?php foreach ($invites as $invite): ?>
+                <tr>
+                    <td>
+                        <?php echo $invite['User']['username']; ?>
+                    </td>
+                    <?php if ($current_user == $createur['id'] || $boolOrganisateur == 1) {?>
+                    <td class="actions">
+                        <?php echo $this->Html->link('<i class="icon-user"> Participant</i>', array('action' => 'participant',  $invite['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
+                    </td>
+                    <td class="actions">
+                        <?php echo $this->Html->link('<i class="icon-user"> Organisateur</i>', array('action' => 'organisateur', $invite['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
+                    </td>
+                    <td class="actions">
+                        <?php echo $this->Html->link('<i class="icon-user"> Supprimer</i>', array('action' => 'deleteEventUser', $invite['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
+                    </td>
+                     <?php }   ?>
+                </tr>
+            <?php endforeach; ?>
+        </table>  
+
+
         <h3><i class="icon-user"></i> Participants</h3>
-        <ul>
-            <?php
-            foreach ($participants as $participant) {
-                echo "<li>" . $participant['User']['username'] . "</li>";
-            }
-            ?>
-        </ul>
-    </table>
+        <table  class="table table-striped table_index">
+
+            <?php foreach ($participants as $participant): ?>
+                <tr>
+                    <td>
+                        <?php echo $participant['User']['username']; ?>
+                    </td>
+                    <?php if ($current_user == $createur['id'] || $boolOrganisateur == 1) {?>
+                    <td class="actions">
+                        <?php echo $this->Html->link('<i class="icon-user"> Inviter</i>', array('action' => 'inviter', $participant['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
+                    </td>
+                    <td class="actions">
+                        <?php echo $this->Html->link('<i class="icon-user"> Organisateur</i>', array('action' => 'organisateur', $participant['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
+                    </td>
+
+                    <td class="actions">
+                        <?php echo $this->Html->link('<i class="icon-user"> Supprimer</i>', array('action' => 'deleteEventUser', $participant['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right'));
+                        ?>
+                    </td>
+                    <?php }   ?>
+
+                </tr>
+            <?php endforeach; ?>
+        </table>  
+
     <br />
     <br />
 
+    <!-- Ajout d'user pas csv -->    
     <?php
     if ($current_user == $createur['id'] || $boolOrganisateur == 1) {
 // Erwann et Paul upload fichier ---------------------------------------------
@@ -162,7 +212,7 @@ $map_options = array(
         echo $this->html->link('Fichier template', '/csv/template.csv', array('class' => 'btn'));
 
 // Création du formulaire d'upload d'invités
-        echo $this->form->create('Event', array('type' => 'file', 'url' => 'addfile/'.$event['id']));
+        echo $this->form->create('Event', array('type' => 'file', 'url' => 'addfile/' . $event['id']));
         echo $this->form->input('', array('type' => 'file'));
         echo $this->form->end('Sauvegarder le fichier');
     }

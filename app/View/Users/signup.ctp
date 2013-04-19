@@ -9,14 +9,14 @@ echo $this->Form->input('password_confirm', array('label' => 'Confirmation Mot d
 echo $this->Form->input('role_id', array('label' => 'Prestataire', 'type' => 'checkbox', 'onclick' => 'WhenChecked()'));
 ?>
 
-<div id='prestat' style="display: none" >
+<div id='prestat' style="display: <?php echo(isset($this->data['User']['role_id']) && $this->data['User']['role_id'] == 1 ? 'block' : 'none');?>" >
     <?php
     echo $this->Form->input('scorpname', array('label' => 'Raison Sociale :'));
     echo $this->Form->input('ssiret', array('label' => 'SIRET :'));
     echo $this->Form->input('suptype_id', array('options' => array($stype)));
 //echo $this->Form->input('sdesc', array('label' => 'Type d\'activité'));
 
-    echo $this->Form->input('sdesc', array('label' => 'Type d\'activité'));
+    echo $this->Tinymce->input('User.sdesc', array('label' => 'Type d\'activité'),null, 'basic');
     echo $this->Form->input('address', array('label' => 'Adresse'));
     echo $this->Form->input('zip', array('label' => 'Code postal'));
     echo $this->Form->input('city', array('label' => 'Ville'));
@@ -26,6 +26,13 @@ echo $this->Form->input('role_id', array('label' => 'Prestataire', 'type' => 'ch
 <?php
 
     echo $this->Html->image('captcha.jpg', array('style' => 'padding: 0.5%;'));
-    echo $this->Form->input('captcha');
+    echo $this->Form->input('captcha',array('label' => 'Veuillez écrire le code'));
     echo $this->Form->end(array('label' => 'Enregistrer', 'class' => 'btn btn-primary'));
 ?>
+
+<script>
+    box = document.getElementById('UserRoleId');
+    if(!box.checked){
+        WhenChecked();
+    }
+</script>

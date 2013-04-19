@@ -38,7 +38,9 @@ class EventsController extends AppController {
         $event = $data['Event'];
 
         $createur = $data['User'];
-        $type = $this->Event->Eventtype->find();
+
+        $type = $this->Event->Eventtype->findById($data['Event']['eventtype_id']);
+
 
         $this->Event->EventsUsers->contain('User');
         $invites = $this->Event->EventsUsers->find('all', array(
@@ -89,9 +91,7 @@ class EventsController extends AppController {
                 $this->request->data['Event']['picture'] = '';
             }
 
-
-
-            if ($this->Event->save($this->request->data)) {
+            if ($this->Event->saveAll($this->request->data)) {
                 // enregistrement du user créateur
                 $eventId = $this->Event->id;
                 $this->requestAction('/EventsUsers/add/' . $eventId);
@@ -316,15 +316,14 @@ class EventsController extends AppController {
                                     'type_id  =' => "1")));
 
                             $UserCreatorId = $EventsUserCreator[0]['EventsUser']['user_id'];
-                            
+
                             $userCreator = $this->User->findById($UserCreatorId);
-                            if(empty($userCreator)){
+                            if (empty($userCreator)) {
                                 $userCreatorName = "Créateur inconnu";
+                            } else {
+                                $userCreatorName = $userCreator['User']['firstname'] . ' ' . $userCreator['User']['lastname'];
                             }
-                            else{
-                                $userCreatorName = $userCreator['User']['firstname'] . ' ' . $userCreator['User']['lastname']; 
-                            }
-                           
+
                             // Envoi du mail
                             App::uses('CakeEmail', 'Network/Email');
                             $mail = new CakeEmail();
@@ -386,29 +385,46 @@ class EventsController extends AppController {
     }
 
     // add organisateur
-    public function addorganisateur($id) {
+    public function addorganisateur($eventId) {
 
-        if ($this->request->is('post')) {
+        if (!empty($this->data)) {
             $chaine = $this->data['Event']['chaine'];
-
-            $d = $this->searchuser($chaine);
-
-            $this->set(array('resultat' => $d, 'e_id' => $id));
+        } else {
+            $chaine = "";
         }
+
+        $d = $this->searchuser($chaine, $eventId);
+
+        $this->set(array('resultat' => $d, 'e_id' => $eventId));
     }
 
-    public function searchuser($chaine) {
+    public function searchuser($chaine, $eventId) {
         $this->loadModel('User');
+        $this->loadModel('EventsUsers');
+        $currentUser = $this->Auth->user('id');
+        $creatorId = $this->EventsUsers->find('first', array(
+            'conditions' => array('EventsUsers.type_id' => 1, 'EventsUsers.event_id' => $eventId)));
+        $creatorId = $creatorId['EventsUsers']['id'];
+     
 
-        //$this->User->contain();
         $d = $this->User->find('all', array(
             'conditions' => array(
                 'OR' => array(
                     'User.username LIKE' => "%" . $chaine . "%",
                     'User.lastname LIKE' => "%" . $chaine . "%",
                     'User.firstname LIKE' => "%" . $chaine . "%"
-                ), 'User.role_id' => 0),
+                ),
+            ),
             'recursive' => -1));
+
+        foreach ($d as $key => $user) {
+           
+            if ($user['User']['id'] == $currentUser || $user['User']['id'] == $creatorId) {
+                unset($d[$key]);
+            }
+             
+        }
+        
 
         return $d;
     }
@@ -463,6 +479,33 @@ class EventsController extends AppController {
         }
         $this->redirect(array('action' => 'view', $e_id));
     }
+    
+    function participant($u_id, $e_id){
+                try {
+            $this->loadModel('EventsUsers');
+            $eventUser = $this->EventsUsers->find('all', array('conditions' => array('event_id' => $e_id, 'user_id' => $u_id)));
+            if (empty($eventUser)) {
+                $eventUser = array('event_id' => $e_id, 'user_id' => $u_id, 'type_id' => "5");
+                $this->EventsUsers->save($eventUser);
+            } else {
+                if ($this->Event->EventsUser->updateAll(
+                                array('EventsUser.type_id' => 5), array(
+                            'EventsUser.event_id' => $e_id,
+                            'EventsUser.user_id' => $u_id)
+                        )) {
+                    $this->mailinvitation($e_id, $u_id, 'Invité');
+                    $this->Session->setFlash('Vous avez ajouté un nouveau participant', 'notif');
+                } else {
+                    $this->Session->setFlash('Impossible ', 'notif', array('type' => 'error'));
+                }
+            }
+        } catch (Exception $exc) {
+            $this->Session->setFlash('Cet utilisateur est déjà invité ou organisateur', 'notif', array('type' => 'error'));
+        }
+        $this->redirect(array('action' => 'view', $e_id));
+
+    }
+    
 
     function mailinvitation($e_id, $u_id, $role) {
         $this->loadModel('User');
@@ -471,16 +514,14 @@ class EventsController extends AppController {
         $event = current($this->Event->findById($e_id));
 
         App::uses('CakeEmail', 'Network/Email');
-
-
         $mail = new CakeEmail();
-        $mail->from('no-reply@events.com')
-                ->to($user['mail'])
-                ->subject('Invitation Events')
-                ->emailFormat('html')
-                ->template('mailinvitation')
-                ->viewVars(array('name' => $invite['firstname'], 'user' => $user['lastname'], 'event' => $event['title'], 'role' => $role))
-                ->send();
+        /*  $mail->from('no-reply@events.com')
+          ->to($invite['mail'])
+          ->subject('Invitation Events')
+          ->emailFormat('html')
+          ->template('mailinvitation')
+          ->viewVars(array('name' => $invite['firstname'], 'user' => $user['lastname'], 'event' => $event['title'], 'role' => $role))
+          ->send(); */
     }
 
     function deleteimg($id) {
@@ -494,6 +535,13 @@ class EventsController extends AppController {
         }
 
         $this->redirect(array('action' => 'edit', $id));
+    }
+
+    function deleteEventUser($userId, $eventId) {
+        $this->loadModel('EventsUsers');
+        $eventUser = array('event_id' => $eventId, 'user_id' => $userId);
+        $this->EventsUsers->deleteAll($eventUser);
+        $this->redirect(array('action' => 'view', $eventId));
     }
 
 }

@@ -63,29 +63,24 @@ class User extends AppModel {
         ),
         'scorpname' => array(
             'rule' => array('validateSuppliers'),
-            'message' => 'Les champs avec * sont obligatoires.',
-            'on' => 'create'
+            'message' => 'Les champs avec * sont obligatoires.'
         ),
         'address' => array(
             'rule' => array('validateSuppliers'),
-            'message' => 'Les champs avec * sont obligatoires.',
-            'on' => 'create'
+            'message' => 'Les champs avec * sont obligatoires.'
         ),
         'zip' => array(
             'rule' => array('validateSuppliers'),
-            'message' => 'Les champs avec * sont obligatoires.',
-            'on' => 'create'
+            'message' => 'Les champs avec * sont obligatoires.'
         ),
         'city' => array(
             'rule' => array('validateSuppliers'),
-            'message' => 'Les champs avec * sont obligatoires.',
-            'on' => 'create'
+            'message' => 'Les champs avec * sont obligatoires.'
         ),
         'country' => array(
             'rule' => array('validateSuppliers'),
-            'message' => 'Les champs avec * sont obligatoires.',
-            'on' => 'create'
-        ),
+            'message' => 'Les champs avec * sont obligatoires.'
+        )
     );
 
     function identicalFieldValues($field = array(), $compare_field = null) {
