@@ -1,4 +1,4 @@
-<h1>Ajouter un organisateur</h1>
+<h1>Ajouter un membre à l'événement</h1>
 
    <?php echo $this->Form->create('Event',array('class'=>'form-search'));?> 
     <div class="input-append">
