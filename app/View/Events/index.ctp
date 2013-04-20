@@ -3,14 +3,18 @@
 
 <h1>Liste des événements</h1>
 
-
-
-    <?php echo $this->Form->create("Event",array('action' => 'index', 'div'=>false)); ?>
-<ul class="inline">
-    <li><?php echo $this->Form->input("searchEventTitle", array('label' => '', 'div'=>false)); ?> </li>
-    <li><?php echo $this->Form->end( array('label' =>"Rechercher", 'class'=>'btn btn-primary btn_align', 'div'=>false)); 
-?></li>
-</ul>
+<?php
+    $groups = array("biology", "economist", "programmers");
+    foreach ($events as $event):
+        $titles[]= $event['Event']['title'];
+    endforeach;
+    
+    echo $this->Form->create("Event",array('action' => 'index', 'div' =>false)); ?>
+    <ul class="inline">
+        <!--<li><?php //echo $this->Form->input("searchEventTitle", array('label' => '', 'div'=>false,'data-provide' => 'typeahead','data-source'=> '','escape'=>false)); ?> </li>-->
+        <input name="data[Event][searchEventTitle]" id="searchEventTitle" type="text" data-provide="typeahead" data-source='<?php echo json_encode($titles); ?>'>
+        <li><?php echo $this->Form->end( array('label' =>"Rechercher", 'class'=>'btn btn-primary btn_align', 'div'=>false)); ?></li>
+    </ul>
 
 
 <table  class="table table-striped table_index">
