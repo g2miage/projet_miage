@@ -137,10 +137,10 @@ $map_options = array(
                     </td>
                      <?php if ($current_user == $createur['id'] || $boolOrganisateur == 1) {?>
                     <td class="actions">
-                        <?php echo $this->Html->link('<i class="icon-user"> Inviter</i>', array('action' => 'inviter',  $organisateur['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
+                        <?php echo $this->Html->link('<i class="icon-user"> Invité</i>', array('action' => 'inviter',  $organisateur['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
                     </td>
                     <td class="actions">
-                        <?php echo $this->Html->link('<i class="icon-user"> Participant</i>', array('action' => 'participant', $organisateur['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
+                        <?php echo $this->Html->link('<i class="icon-user"> Participant&nbsp;&nbsp;&nbsp;</i>', array('action' => 'participant', $organisateur['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
                     </td>
                     <td class="actions">
                         <?php echo $this->Html->link('<i class="icon-user"> Supprimer</i>', array('action' => 'deleteEventUser', $organisateur['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
@@ -185,7 +185,7 @@ $map_options = array(
                     </td>
                     <?php if ($current_user == $createur['id'] || $boolOrganisateur == 1) {?>
                     <td class="actions">
-                        <?php echo $this->Html->link('<i class="icon-user"> Inviter</i>', array('action' => 'inviter', $participant['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
+                        <?php echo $this->Html->link('<i class="icon-user"> Invité</i>', array('action' => 'inviter', $participant['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
                     </td>
                     <td class="actions">
                         <?php echo $this->Html->link('<i class="icon-user"> Organisateur</i>', array('action' => 'organisateur', $participant['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
