@@ -36,7 +36,7 @@ $this->set('title_for_layout', 'Mon profil');
             <h6><?php echo 'Nous a rejoint le : '.$this->Time->format('d F y H:i', $user['User']['creationdate'])?></h6>	
         </div>
         <div class="span3">
-            <hr>
+            <hr />
             <address><?php echo $user['User']['address'].'<br>'.$user['User']['zip'].' '.$user['User']['city'].' <br>'.$user['User']['country'] ?></address>
             <?php
                 if($user['User']['website'] != null) { 
@@ -50,7 +50,7 @@ $this->set('title_for_layout', 'Mon profil');
         if($user['User']['suptype_id']!=0){
         ?>
         <div class="span3">
-            <hr> 
+            <hr /> 
             <h5><?php echo $user['Suptype']['stype'] ; ?></h5>
             <h6><?php echo "Raison Sociale : ".$user['User']['scorpname']?></h6>
             <h6><?php echo "Siret : ".$user['User']['ssiret']?></h6>
