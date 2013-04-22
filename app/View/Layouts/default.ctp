@@ -52,7 +52,9 @@
 
             <hr />
             <footer>
-                <p>&copy; G2 Miage 2013</p>
+                <div class='footer'>
+                    <p>&copy; G2 Miage 2013</p>
+                </div>
             </footer>
         </div>
 
