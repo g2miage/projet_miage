@@ -22,7 +22,7 @@ class EventsController extends AppController {
             }
         } else {
             $this->recherche("all");
-            // $this->set('events',$this->Event->find('all'));
+            $this->set('current_user', $this->Auth->user('id'));
         }
     }
 
