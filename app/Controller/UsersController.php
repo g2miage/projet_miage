@@ -253,11 +253,18 @@ class UsersController extends AppController {
             $this->redirect('/');
             die();
         }
+        
+        //$this->loadModel('EventsUser');
         $this->loadModel('Suptype');
         $this->loadModel('Departement');
+        $this->User->EventsUsers->contain('Event');
+        
+        
+        $listEvents = $this->User->EventsUsers->find('all',array('conditions'=>array('user_id'=> $user_id, 'type_id in (1,2)')));
+        $supplierEvents = $this->User->EventsUsers->find('all',array('conditions'=>array('type_id' => '4'),'contain' => false));
         $supt = $this->Suptype->find('list', array('fields' => array('stype')));
         $depts = $this->Departement->find('list', array('fields' => array('dept')));
-        $this->set(array('stype' => $supt,'depts'=>$depts));
+        $this->set(array('stype' => $supt,'depts'=>$depts, 'listevent'=>$listEvents, 'supplierevent' => $supplierEvents));
         
         //On verifie si une recherche a été effectuée
 		if(isset($this->request->data['User']['suptype_id']) && isset($this->request->data['User']['suptype_id'])){

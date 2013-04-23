@@ -9,7 +9,6 @@
         echo $this->Html->meta('icon');
 
         // Chargement des fichiers CSS
-        //echo $this->Html->css('cake.generic');
         echo $this->Html->css('bootstrap');
         echo $this->Html->css('bootstrap-responsive');
         echo $this->Html->css('main');
@@ -50,11 +49,8 @@
             echo $this->fetch('content');
             ?>
 
-            <hr />
             <footer>
-                <div class='footer'>
-                    <p>&copy; G2 Miage 2013</p>
-                </div>
+                <p>&copy; G2 Miage 2013</p>
             </footer>
         </div>
 

@@ -6,7 +6,7 @@ $full_address = $event['address'] . " " . $event['zip'] . " " . $event['city'];
 $map_options = array(
     'id' => 'map_canvas',
     'class' => 'event_map',
-    'width' => '450px',
+    'width' => 'inherit',
     'height' => '400px',
     'style' => 'box-shadow: 0px 3px 5px #8F8F8F',
     'zoom' => 10,
@@ -25,6 +25,61 @@ $map_options = array(
 
 <div class="event">
     <div class='padding'>
+        <div class='well'>
+            <div class="row">
+                <div class="span6">
+                    <?php
+                    if (!empty($event['picture'])) {
+                        echo "<tr><td></td><td>" . $this->Html->image($event['picture'], array('alt' => ':/', 'class' => 'img-event img-rounded')) . "</td></tr>";
+                    }
+                    ?>
+                </div>
+                <div class="span4 offset1">
+                    <table class="event_view">
+                        <tr>
+                            <td>
+                                <?php
+                                echo "<i class='icon-globe'></i></td><td>
+                                              <p>" . $typename . "</p>";
+                                ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <?php
+                                if ($event['visibility'] == 0) {
+                                    echo "<i class='icon-globe'></i></td><td>
+                                              <p>Public . Créé par : " . $createur['username'] . "</p>";
+                                } else {
+                                    echo "<i class='icon-group'></i></td><td>
+                            <p>Privé . Créé par : " . $createur['username'] . "</p>";
+                                }
+                                ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><i class="icon-time"></i></td>
+                            <td>
+                                <?php
+                                if ($event['startday'] == $event['endday']) {
+                                    echo "
+                                            Le <b>" . $event['startday'] . "</b> 
+                                            de <b><span class='text-success'>" . $event['starttime'] . "</span></b> 
+                                            à <b><span class='text-error'>" . $event['endtime'] . "</span></b></p>";
+                                } else {
+                                    echo " Commence le <b>" . $event['startday'] . "</b> 
+                              à partir de <b><span class='text-success'>" . $event['starttime'] . "</span></b> 
+                              et se termine le <b>" . $event['endday'] . "</b> le 
+                              à <b><span class='text-error'>" . $event['endtime'] . "</span></b>.</p>";
+                                }
+                                ?>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <br />
         <h1 class='title_event'><?php echo $event['title']; ?></h1>
         <?php
         $boolOrganisateur = 0;
@@ -52,8 +107,6 @@ $map_options = array(
                     $btnParticipant = 1;
                 }
             }
-
-
             if ($event['visibility'] == 0 && $btnInscription == 0 && $btnParticipant == 0) {
                 echo $this->Html->link("S'inscrire", array('action' => 'participate', $event['id']), array('class' => 'btn btn-large btn-success pull-right'));
             }
@@ -61,162 +114,116 @@ $map_options = array(
         ?>      
     </div>
 
-
-    <table class="event_view">
-        <tr>
-            <td>
-                <?php
-                echo "<i class='icon-globe'></i></td><td>
-                                              <p>" . $typename . "</p>";
-                ?>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <?php
-                if ($event['visibility'] == 0) {
-                    echo "<i class='icon-globe'></i></td><td>
-                                              <p>Public . Créé par : " . $createur['username'] . "</p>";
-                } else {
-                    echo "<i class='icon-group'></i></td><td>
-                            <p>Privé . Créé par : " . $createur['username'] . "</p>";
-                }
-                ?>
-            </td>
-        </tr>
-        <tr>
-            <td><i class="icon-time"></i></td>
-            <td>
-                <?php
-                if ($event['startday'] == $event['endday']) {
-                    echo "
-                                            Le <b>" . $event['startday'] . "</b> 
-                                            de <b><span class='text-success'>" . $event['starttime'] . "</span></b> 
-                                            à <b><span class='text-error'>" . $event['endtime'] . "</span></b></p>";
-                } else {
-                    echo " Commence le <b>" . $event['startday'] . "</b> 
-                              à partir de <b><span class='text-success'>" . $event['starttime'] . "</span></b> 
-                              et se termine le <b>" . $event['endday'] . "</b> le 
-                              à <b><span class='text-error'>" . $event['endtime'] . "</span></b>.</p>";
-                }
-                ?>
-            </td>
-        </tr>
-
-        <?php
-        if (!empty($event['picture'])) {
-            echo "<tr><td></td><td>" . $this->Html->image($event['picture'], array('alt' => ':/')) . "</td></tr>";
-        }
-        ?>
-
-        <tr>
-            <td><i class="icon-align-justify"></i></td>
-            <td>
+    <div class="tabbable"> <!-- Only required for left/right tabs -->
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab1" data-toggle="tab">Description</a></li>
+            <li><a href="#tab2" data-toggle="tab">Organisateurs & Invités</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab1">
                 <div class="row">
-                    <div class="span7">
+                    <div class="span6">
                         <?php echo nl2br($event['desc']); ?>
                     </div>
-                    <div class="span2">
+                    <div class="span5 offset1">
                         <?php
                         echo $this->GoogleMap->map($map_options);
                         ?>
                     </div>
                 </div>
-            </td>
-        </tr>
-    </table>
-    
- 
-        <h3><i class="icon-user"></i> Organisateurs</h3>
+            </div>
+            <div class="tab-pane" id="tab2">
+                <h3><i class="icon-user"></i> Organisateurs</h3>
 
-        <table  class="table table-striped table_index">
-<?php foreach ($organisateurs as $organisateur): ?>
-                <tr>
-                    <td>
-                        <?php echo $organisateur['User']['username']; ?>
-                    </td>
-                     <?php if ($current_user == $createur['id'] || $boolOrganisateur == 1) {?>
-                    <td class="actions">
-                        <?php echo $this->Html->link('<i class="icon-user"> Invité</i>', array('action' => 'inviter',  $organisateur['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
-                    </td>
-                    <td class="actions">
-                        <?php echo $this->Html->link('<i class="icon-user"> Participant&nbsp;&nbsp;&nbsp;</i>', array('action' => 'participant', $organisateur['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
-                    </td>
-                    <td class="actions">
-                        <?php echo $this->Html->link('<i class="icon-user"> Supprimer</i>', array('action' => 'deleteEventUser', $organisateur['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
-                    </td>
-                     <?php }   ?>
-                </tr>
-            <?php endforeach; ?>
-          
-        </table>  
+                <table  class="table table-striped table_index">
+                    <?php foreach ($organisateurs as $organisateur): ?>
+                        <tr>
+                            <td>
+                                <?php echo $organisateur['User']['username']; ?>
+                            </td>
+                            <?php if ($current_user == $createur['id'] || $boolOrganisateur == 1) { ?>
+                                <td class="actions">
+                                    <?php echo $this->Html->link('<i class="icon-user"> Invité</i>', array('action' => 'inviter', $organisateur['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
+                                </td>
+                                <td class="actions">
+                                    <?php echo $this->Html->link('<i class="icon-user"> Participant&nbsp;&nbsp;&nbsp;</i>', array('action' => 'participant', $organisateur['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
+                                </td>
+                                <td class="actions">
+                                    <?php echo $this->Html->link('<i class="icon-user"> Supprimer</i>', array('action' => 'deleteEventUser', $organisateur['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
+                                </td>
+                            <?php } ?>
+                        </tr>
+                    <?php endforeach; ?>
 
-        <h3><i class="icon-user"></i> Invités</h3>
-        <table  class="table table-striped table_index">
+                </table>  
 
-            <?php foreach ($invites as $invite): ?>
-                <tr>
-                    <td>
-                        <?php echo $invite['User']['username']; ?>
-                    </td>
-                    <?php if ($current_user == $createur['id'] || $boolOrganisateur == 1) {?>
-                    <td class="actions">
-                        <?php echo $this->Html->link('<i class="icon-user"> Participant</i>', array('action' => 'participant',  $invite['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
-                    </td>
-                    <td class="actions">
-                        <?php echo $this->Html->link('<i class="icon-user"> Organisateur</i>', array('action' => 'organisateur', $invite['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
-                    </td>
-                    <td class="actions">
-                        <?php echo $this->Html->link('<i class="icon-user"> Supprimer</i>', array('action' => 'deleteEventUser', $invite['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
-                    </td>
-                     <?php }   ?>
-                </tr>
-            <?php endforeach; ?>
-        </table>  
+                <h3><i class="icon-user"></i> Invités</h3>
+                <table  class="table table-striped table_index">
 
+                    <?php foreach ($invites as $invite): ?>
+                        <tr>
+                            <td>
+                                <?php echo $invite['User']['username']; ?>
+                            </td>
+                            <?php if ($current_user == $createur['id'] || $boolOrganisateur == 1) { ?>
+                                <td class="actions">
+                                    <?php echo $this->Html->link('<i class="icon-user"> Participant</i>', array('action' => 'participant', $invite['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
+                                </td>
+                                <td class="actions">
+                                    <?php echo $this->Html->link('<i class="icon-user"> Organisateur</i>', array('action' => 'organisateur', $invite['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
+                                </td>
+                                <td class="actions">
+                                    <?php echo $this->Html->link('<i class="icon-user"> Supprimer</i>', array('action' => 'deleteEventUser', $invite['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
+                                </td>
+                            <?php } ?>
+                        </tr>
+                    <?php endforeach; ?>
+                </table>  
 
-        <h3><i class="icon-user"></i> Participants</h3>
-        <table  class="table table-striped table_index">
+                <h3><i class="icon-user"></i> Participants</h3>
+                <table  class="table table-striped table_index">
 
-            <?php foreach ($participants as $participant): ?>
-                <tr>
-                    <td>
-                        <?php echo $participant['User']['username']; ?>
-                    </td>
-                    <?php if ($current_user == $createur['id'] || $boolOrganisateur == 1) {?>
-                    <td class="actions">
-                        <?php echo $this->Html->link('<i class="icon-user"> Invité</i>', array('action' => 'inviter', $participant['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
-                    </td>
-                    <td class="actions">
-                        <?php echo $this->Html->link('<i class="icon-user"> Organisateur</i>', array('action' => 'organisateur', $participant['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
-                    </td>
+                    <?php foreach ($participants as $participant): ?>
+                        <tr>
+                            <td>
+                                <?php echo $participant['User']['username']; ?>
+                            </td>
+                            <?php if ($current_user == $createur['id'] || $boolOrganisateur == 1) { ?>
+                                <td class="actions">
+                                    <?php echo $this->Html->link('<i class="icon-user"> Invité</i>', array('action' => 'inviter', $participant['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
+                                </td>
+                                <td class="actions">
+                                    <?php echo $this->Html->link('<i class="icon-user"> Organisateur</i>', array('action' => 'organisateur', $participant['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
+                                </td>
 
-                    <td class="actions">
-                        <?php echo $this->Html->link('<i class="icon-user"> Supprimer</i>', array('action' => 'deleteEventUser', $participant['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right'));
-                        ?>
-                    </td>
-                    <?php }   ?>
+                                <td class="actions">
+                                    <?php echo $this->Html->link('<i class="icon-user"> Supprimer</i>', array('action' => 'deleteEventUser', $participant['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right'));
+                                    ?>
+                                </td>
+                            <?php } ?>
 
-                </tr>
-            <?php endforeach; ?>
-        </table>  
+                        </tr>
+                    <?php endforeach; ?>
+                </table>  
 
-    <br />
-    <br />
+                <br />
+                <br />
 
-    <!-- Ajout d'user pas csv -->    
-    <?php
-    if ($current_user == $createur['id'] || $boolOrganisateur == 1) {
-// Erwann et Paul upload fichier ---------------------------------------------
+                <!-- Ajout d'user pas csv -->    
+                <?php
+                if ($current_user == $createur['id'] || $boolOrganisateur == 1) {
 
-        echo $this->html->link('Fichier template', '/csv/template.csv', array('class' => 'btn'));
+                    echo $this->html->link('Fichier template', '/csv/template.csv', array('class' => 'btn'));
 
-// Création du formulaire d'upload d'invités
-        echo $this->form->create('Event', array('type' => 'file', 'url' => 'addfile/' . $event['id']));
-        echo $this->form->input('', array('type' => 'file'));
-        echo $this->form->end('Sauvegarder le fichier');
-    }
-    ?>
+                    // Création du formulaire d'upload d'invités
+                    echo $this->form->create('Event', array('type' => 'file', 'url' => 'addfile/' . $event['id']));
+                    echo $this->form->input('', array('type' => 'file'));
+                    echo $this->form->end('Sauvegarder le fichier');
+                }
+                ?>
+            </div>
+        </div>
+    </div>
 
     <br />
     <?php

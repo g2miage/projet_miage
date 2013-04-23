@@ -5,12 +5,31 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400);
 
 body{
-    background-color: #F5F5F5;
+    background-color: #d2d1d0; 
+   
 }
 
-.navbar-fixed-top {
-    position : inherit;
+.jumbotron .container{
+    background-color:inherit;
 }
+
+.home{
+    background-color:inherit;
+}
+.container{
+    background-color: white;
+    padding: 20px;
+    padding-top: 60px;
+}
+
+.navbar-inner .container{
+    background-color: inherit;
+    padding: 0px;
+}
+.navbar-fixed-top{
+    margin-bottom: 0px;
+}
+
 
 
 /* Jumbotrons
@@ -19,114 +38,116 @@ body{
 /* Base class
 ------------------------- */
 .jumbotron {
-  position: relative;
-  padding: 40px 0;
-  color: #fff;
-  text-align: center;
-  text-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 30px rgba(0,0,0,.075);
-  -webkit-box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
-     -moz-box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
-          box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
+    position: relative;
+    padding: 40px 0;
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 30px rgba(0,0,0,.075);
+    -webkit-box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
+    -moz-box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
+    box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
 }
 .jumbotron h1 {
-  font-size: 80px;
-  font-weight: bold;
-  letter-spacing: -1px;
-  line-height: 1;
+    font-size: 80px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 1;
 }
 .jumbotron p {
-  font-size: 24px;
-  font-weight: 300;
-  line-height: 1.25;
-  margin-bottom: 30px;
+    font-size: 24px;
+    font-weight: 300;
+    line-height: 1.25;
+    margin-bottom: 30px;
 }
 
 /* Link styles (used on .masthead-links as well) */
 .jumbotron a {
-  color: #fff;
-  color: rgba(255,255,255,.5);
-  -webkit-transition: all .2s ease-in-out;
-     -moz-transition: all .2s ease-in-out;
-          transition: all .2s ease-in-out;
+    color: #fff;
+    color: rgba(255,255,255,.5);
+    -webkit-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
 }
 .jumbotron a:hover {
-  color: #fff;
-  text-shadow: 0 0 10px rgba(255,255,255,.25);
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255,255,255,.25);
 }
 
 /* Download button */
 .masthead .btn {
-  padding: 19px 24px;
-  font-size: 24px;
-  font-weight: 200;
-  color: #fff; /* redeclare to override the `.jumbotron a` */
-  border: 0;
-  -webkit-border-radius: 6px;
-     -moz-border-radius: 6px;
-          border-radius: 6px;
-  -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
-     -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
-  -webkit-transition: none;
-     -moz-transition: none;
-          transition: none;
+    padding: 19px 24px;
+    font-size: 24px;
+    font-weight: 200;
+    color: #fff; /* redeclare to override the `.jumbotron a` */
+    border: 0;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
+    -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
+    -webkit-transition: none;
+    -moz-transition: none;
+    transition: none;
 }
 .masthead .btn:hover {
-  -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
-     -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
+    -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
+    -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
 }
 .masthead .btn:active {
-  -webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.1);
-     -moz-box-shadow: inset 0 2px 4px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.1);
-          box-shadow: inset 0 2px 4px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.1);
+    -webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.1);
+    -moz-box-shadow: inset 0 2px 4px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.1);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.1);
 }
 
 
 /* Pattern overlay
 ------------------------- */
 .jumbotron .container {
-  position: relative;
-  z-index: 2;
+    position: relative;
+    z-index: 2;
 }
 .jumbotron:after {
-  content: '';
-  display: block;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: url(../img/banner.png) no-repeat bottom center;
-  opacity: .9;
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: url(../img/banner.png) no-repeat bottom center;
+    opacity: .9;
 }
 @media
 only screen and (-webkit-min-device-pixel-ratio: 2),
 only screen and (   min--moz-device-pixel-ratio: 2),
 only screen and (     -o-min-device-pixel-ratio: 2/1) {
 
-  .jumbotron:after {
-    background-size: 150px 150px;
-  }
+    .jumbotron:after {
+        background-size: 150px 150px;
+    }
 
 }
 
 /* Masthead (docs home)
 ------------------------- */
 .masthead {
-  padding: 70px 0 80px;
-  margin-bottom: 50px;
-  color: #fff;
+    padding: 70px 0 80px;
+    margin-bottom: 50px;
+    color: #fff;
 }
+
 .masthead h1 {
-  font-size: 120px;
-  line-height: 1;
-  letter-spacing: -2px;
+    font-size: 120px;
+    line-height: 1;
+    letter-spacing: -2px;
 }
+
 .masthead p {
-  font-size: 40px;
-  font-weight: 200;
-  line-height: 1.25;
+    font-size: 40px;
+    font-weight: 200;
+    line-height: 1.25;
 }
 
 /* Styles Accueil
@@ -135,7 +156,7 @@ only screen and (     -o-min-device-pixel-ratio: 2/1) {
 .accueil-over{
     background-color: #FFFFFF;
     text-align: center;
-    margin-top: -90px;
+    margin-top: -150px;
     margin-bottom : 50px;
     padding: 25px 30px;
     position: relative;
@@ -143,7 +164,7 @@ only screen and (     -o-min-device-pixel-ratio: 2/1) {
 }
 
 .accueil-over h3{
-  display: inline;
+    display: inline;
 }
 
 .accueil-over a {
@@ -166,22 +187,17 @@ only screen and (     -o-min-device-pixel-ratio: 2/1) {
     max-width: 250px;
 }
 
-
-
 h1{
     font-family: "Open Sans", arial, sans-serif;
     font-size:38px;
     font-weight: 300;
-    padding-top:30px;
     padding-bottom:20px;
     opacity:0.999;
 }
 
 .table_index {
-    
-     width:0px;
-     min-width:50%;
-     
+    width:0px;
+    min-width:50%;  
 }
 
 .actions {
@@ -198,20 +214,17 @@ h1{
 }
 
 .event h1{
-   display: inline;
-   font-size: 4em;
+    display: inline;
+    font-size: 3.5em;
 }
 
 .event .padding{
-    padding-top: 50px;
     padding-bottom: 40px;
 }
 
 .event .padding a{
     margin-right: 10px;
     margin-top:10px;
-   /* position: relative; */
-    
 }
 
 .ligne{
@@ -227,9 +240,8 @@ h1{
 
 .desc {
     width:95%;
-   display: inline;
-   text-align:justify;
-
+    display: inline;
+    text-align:justify;
 } 
 
 .btn_align {
@@ -244,28 +256,15 @@ h1{
     text-align: justify;
 }
 
-
 .alert{
     margin: 0px;
 }
 
-.event img{
+.img-event{
     margin : 0 auto;
-    text-align: center;
-    padding-bottom: 20px;
-    display: block; 
+    max-height: 200px;
 }
 
-
-
-img {
-width: auto 9;
-height: auto;
-max-width: 100%;
-vertical-align: middle;
-border: 0;
--ms-interpolation-mode: bicubic;
-}
 /* css for timepicker */
 .ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
 .ui-timepicker-div dl { text-align: left; }
@@ -296,14 +295,14 @@ border: 0;
 }
 
 .error input {
-  border-color: #953b39;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392;
-  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392;
-   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392;
+    border-color: #953b39;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392;
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392;
 }
 
-.img-rounded.supplier {
-  width: 250px;
+.img-rounded .supplier {
+    width: 250px;
 }
 
 footer{
@@ -312,4 +311,18 @@ footer{
     margin-top: 70px;
     border-top: 1px solid #e5e5e5;
     background-color: #f5f5f5;
+}
+
+.align-right{
+    text-align: right;
+
+}
+
+.navbar-inverse .brand {
+    color: white;
+    transition: color .2s ease-in;
+}
+
+.navbar .brand:hover{
+    color : orange;
 }
