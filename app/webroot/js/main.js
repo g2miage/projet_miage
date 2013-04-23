@@ -1,4 +1,4 @@
-function WhenChecked()
+/*function WhenChecked()
 {
     if (document.getElementById('UserRoleId').checked == 1)
     {
@@ -8,11 +8,9 @@ function WhenChecked()
         document.getElementById('UserZip').value ='';
         document.getElementById('UserCity').value ='';
         document.getElementById('UserCountry').value ='';
-        
     }
     else
     {   
-       
         document.getElementById('prestat').style.display = 'none';
         document.getElementById('UserScorpname').value ='Raison Sociale';
         document.getElementById('UserAddress').value ='Adresse';
@@ -21,5 +19,5 @@ function WhenChecked()
         document.getElementById('UserCountry').value ='pays';
     }
     
-}
+}*/
 

@@ -30,8 +30,6 @@ body{
     margin-bottom: 0px;
 }
 
-
-
 /* Jumbotrons
 -------------------------------------------------- */
 
@@ -325,4 +323,34 @@ footer{
 
 .navbar .brand:hover{
     color : orange;
+}
+
+.home .alert{
+    padding-top: 60px;
+}
+
+.signup{
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    -webkit-border-radius: 6px;
+    padding: 25px;
+    padding-top: 10px;
+    padding-right:30px;
+}
+.signup input, textarea{
+  font-size: 18px;
+  padding: 8px 10px;
+}
+
+.signup select{
+    height: 40px;
+    font-size: 18px;
+    padding: 8px 10px;
+}
+
+.signup img{
+    display: block; 
+    margin: 0 auto;
+    margin-top : 10px;
+    margin-bottom : 10px;
 }
