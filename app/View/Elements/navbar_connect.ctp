@@ -9,8 +9,8 @@
             <?php echo $this->Html->link("<i class='icon-group'></i> MyEvents", array('controller' => 'pages', 'action' => 'display'), array('class'=>'brand','escape'=>false)); ?>
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li><?php echo $this->Html->link('Contact', array('controller' => 'pages', 'action' => 'display','contact')); ?></li>
-                    <li><?php echo $this->Html->link('Evénements', array('controller' => 'events', 'action' => 'index')); ?></li>
+                    <li><?php echo $this->Html->link('<i class="icon-envelope"></i> Contact', array('controller' => 'pages', 'action' => 'display','contact'),array('escape'=>false)); ?></li>
+                    <li><?php echo $this->Html->link('<i class="icon-tasks"></i> Evénements', array('controller' => 'events', 'action' => 'index'),array('escape'=>false)); ?></li>
                     <li><?php echo $this->Html->link('Prestataires', array('controller' => 'Users', 'action' => 'suppliers')); ?></li>            
                 </ul>
                 <div class="pull-right">
@@ -20,7 +20,7 @@
                     <?php 
                         echo $this->Html->link(
                             //$this->Html->tag('i', null, array('class' => 'icon-user'))
-                            "<i class='icon-user'></i> Déconnexion",
+                            "<i class='icon-off'></i> Déconnexion",
                             array('action'=>'logout','controller'=>'users'), 
                             array('class'=>'btn btn-danger pull-right','escape'=>false)
                         ); 

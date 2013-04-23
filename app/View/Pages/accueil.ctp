@@ -20,37 +20,34 @@
 		echo $this->fetch('script');
 	?>
 </head>
-    <body class="home">
+<body class="home">
+    <?php
+        // l'utilisateur n'est pas connecté
+     if(AuthComponent::user('id')){
+        echo $this->Session->Flash();
+        echo $this->element('navbar_connect'); 
 
-         <?php
-            // l'utilisateur n'est pas connecté
-         if(AuthComponent::user('id')){
-            echo $this->Session->Flash();
-            echo $this->element('navbar_connect'); 
-            echo $this->Session->Flash();
-            
-        }
-        else{
-            echo $this->Session->Flash(); 
-           echo $this->element('navbar');
-        }
-        ?>
+    }else{
+        echo $this->Session->Flash(); 
+        echo $this->element('navbar');
+    }
+    ?>
 
-<div class ="jumbotron masthead">
-			<!--[if lt IE 8]>
-				<div style="margin-top:100px" class="alert alert-block alert-error">
-						<h4>Les années 80 sont terminées !</h4>
-						<p>
-							Votre navigateur est vieux et fatigué, et malheureusement vous ne pourrez pas profiter de toutes les fonctionnalités de notre site. 
-							<br />
-							Pourquoi ne pas choisir un <a href="http://www.browserchoice.eu/BrowserChoice/browserchoice_fr.htm" target="blank">navigateur plus récent</a> ?
-						</p>
-				</div>
-			<![endif]-->
-    <div class ="container">
-        <h1>MyEvents</h1>
-        <p>Bienvenue sur le site Events</p>        
-    </div>
+    <div class ="jumbotron masthead">
+        <!--[if lt IE 8]>
+                <div style="margin-top:100px" class="alert alert-block alert-error">
+                                <h4>Les années 80 sont terminées !</h4>
+                                <p>
+                                        Votre navigateur est vieux et fatigué, et malheureusement vous ne pourrez pas profiter de toutes les fonctionnalités de notre site. 
+                                        <br />
+                                        Pourquoi ne pas choisir un <a href="http://www.browserchoice.eu/BrowserChoice/browserchoice_fr.htm" target="blank">navigateur plus récent</a> ?
+                                </p>
+                </div>
+        <![endif]-->
+        <div class ="container">
+            <h1>MyEvents</h1>
+            <p>Bienvenue sur le site Events</p>        
+        </div>
     </div>
     <div class ="home container">
 
