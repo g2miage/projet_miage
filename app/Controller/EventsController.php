@@ -22,8 +22,8 @@ class EventsController extends AppController {
             }
         } else {
             $this->recherche("all");
-            $this->set('current_user', $this->Auth->user('id'));
         }
+        $this->set('current_user', $this->Auth->user('id'));
     }
 
     public function view($id) {
