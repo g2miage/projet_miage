@@ -247,13 +247,16 @@ class UsersController extends AppController {
         }
     }
     
-    public function suppliers() {
+    public function suppliers($eventId = null) {
         $user_id = $this->Auth->user('id');
         if (!$user_id) {
             $this->redirect('/');
             die();
         }
         
+        if(isset($eventId)) {
+             $this->set(array('eventId' => $eventId));
+        }
         //$this->loadModel('EventsUser');
         $this->loadModel('Suptype');
         $this->loadModel('Departement');

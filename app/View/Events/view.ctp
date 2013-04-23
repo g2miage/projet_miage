@@ -91,6 +91,7 @@ $map_options = array(
 
         if ($current_user == $createur['id'] || $boolOrganisateur == 1) {
             echo $this->Html->link("Modifier l'événement", array('action' => 'edit', $event['id']), array('class' => 'btn btn-info pull-right'));
+            echo $this->Html->link("Ajouter un préstataire", array('controller' => 'Users', 'action' => 'suppliers'), array('class' => 'btn btn-info pull-right'));
             echo $this->Html->link("Inviter un ami ", array('action' => 'addorganisateur', $event['id']), array('class' => 'btn btn-info pull-right'));
         } else {
             $btnInscription = 0;
@@ -118,6 +119,10 @@ $map_options = array(
         <ul class="nav nav-tabs">
             <li class="active"><a href="#tab1" data-toggle="tab">Description</a></li>
             <li><a href="#tab2" data-toggle="tab">Organisateurs & Invités</a></li>
+           <?php 
+           if ($current_user == $createur['id'] || $boolOrganisateur == 1) { 
+           echo '<li><a href="#tab3" data-toggle="tab">Préstataires</a></li>';
+           }?>
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tab1">
@@ -208,7 +213,8 @@ $map_options = array(
 
                 <br />
                 <br />
-
+                <div>
+                     <h4>Ajouter des invités</h4>
                 <!-- Ajout d'user pas csv -->    
                 <?php
                 if ($current_user == $createur['id'] || $boolOrganisateur == 1) {
@@ -221,6 +227,23 @@ $map_options = array(
                     echo $this->form->end('Sauvegarder le fichier');
                 }
                 ?>
+                </div>
+            </div>
+            
+            <div class="tab-pane" id="tab3">
+
+                <table  class="table table-striped table_index">
+                    <?php foreach ($prestataires as $prestataire): ?>
+                        <tr>
+                            <td>
+                                <?php echo $prestataire['User']['username']; ?>
+                            </td>
+                           
+                        </tr>
+                    <?php endforeach; ?>
+
+                </table>  
+                
             </div>
         </div>
     </div>
