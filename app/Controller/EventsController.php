@@ -8,7 +8,7 @@
 class EventsController extends AppController {
 
     // Helper GoogleMap
-    public $helpers = array('GoogleMap', 'Tinymce', 'Rating');
+    public $helpers = array('GoogleMap', 'Tinymce');
 
     public function index() {
         //On verifie si une recherche a été effectuée,
@@ -542,13 +542,6 @@ class EventsController extends AppController {
         }
 
         $this->redirect(array('action' => 'edit', $id));
-    }
-
-    function deleteEventUser($userId, $eventId) {
-        $this->loadModel('EventsUsers');
-        $eventUser = array('event_id' => $eventId, 'user_id' => $userId);
-        $this->EventsUsers->deleteAll($eventUser);
-        $this->redirect(array('action' => 'view', $eventId));
     }
 
 }
