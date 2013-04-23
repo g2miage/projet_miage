@@ -125,7 +125,6 @@ echo $this->Form->create("Event", array('action' => 'index', 'div' => false));
                         foreach ($event['EventsUsers'] as $evUser):
                             if ($evUser['user_id'] == $current_user) {
                                 if ($evUser['type_id'] == 3) {
-                                    debug($evUser);
                                     array_push($eventsInvite, $event);
                                 }
                             }
