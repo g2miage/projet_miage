@@ -13,6 +13,11 @@ class EventsController extends AppController {
     public function index() {
         //On verifie si une recherche a été effectuée,
         $this->loadModel('Type');
+        $this->loadModel('User');
+        $idUser = $this->Auth->user('id');
+        $userSuptypeId = $this->User->find('list',array(
+        'fields' => array('id', 'suptype_id'),
+         'conditions' => array('id' => $idUser)));
         $userType = $this->Type->find('list',array(
         'fields' => array('id', 'type')));
         if (isset($this->request->data['Event']['searchEventTitle']) == TRUE
@@ -27,6 +32,7 @@ class EventsController extends AppController {
             $this->recherche("all");
         }
         $this->set('current_user', $this->Auth->user('id'));
+        $this->set('userSuptypeId', $userSuptypeId);
         $this->set('userType', $userType);
     }
 
