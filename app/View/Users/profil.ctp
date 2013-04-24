@@ -1,19 +1,16 @@
 <?php
 $this->set('title_for_layout', 'Mon profil');
 ?>
-<div class='padding'><h1 class="muted">Mon Profil
+<div class='padding'><h1 class="text-info">Mon Profil
         <?php
         echo $this->Html->link("Modifier le Profil", array('action' => 'edit', $user['User']['id']), array('class' => 'btn btn-info pull-right'));
         ?></h1>
 </div>
 
-<div class="container">
-
     <!-- Example row of columns -->
     <h2><?php echo $user['User']['firstname'].' '.$user['User']['lastname'] ?> </h2>
     <h5><?php echo $user['Suptype']['stype'] ; ?></h5>
     <div class="row">
-
         <div class="span3">
             <hr />
             <?php 
@@ -37,13 +34,13 @@ $this->set('title_for_layout', 'Mon profil');
         </div>
         <div class="span3">
             <hr />
+            <h6><?php echo "mail : ".$user['User']['mail']?></h6>
+            <h6><?php echo "Tél : ".$user['User']['tel'];$cars=array();?></h6>
             <address><?php echo $user['User']['address'].'<br>'.$user['User']['zip'].' '.$user['User']['city'].' <br>'.$user['User']['country'] ?></address>
             <?php
                 if($user['User']['website'] != null) { 
                     echo '<h6>site web : '.$this->Html->link($user['User']['website'],$user['User']['website'], array('admin'=>false)).'</h6>';
                 } ?>
-            <h6><?php echo "mail : ".$user['User']['mail']?></h6>
-            <h6><?php echo "Tél : ".$user['User']['tel'];$cars=array();?></h6>
 
         </div>
         <?php
@@ -60,5 +57,3 @@ $this->set('title_for_layout', 'Mon profil');
         }
         ?>
     </div><!-- /row -->
-
-</div>

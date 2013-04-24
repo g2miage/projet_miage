@@ -1,39 +1,15 @@
 jQuery(function($) {
-    // affiche/cache la div pour l'enregistrement en tant que prestataire
-    document.getElementById('UserScorpname').value ='Raison Sociale';
-    document.getElementById('UserAddress').value ='Adresse';
-    document.getElementById('UserZip').value ='Code postal';
-    document.getElementById('UserCity').value ='Ville';
-    document.getElementById('UserCountry').value ='pays';
-    $("#prestabox").click(function(){
-        // Si cochée
-        if ($("#prestabox").is(":checked")){
-            $("#presta").show("fast");
-            document.getElementById('UserScorpname').value ='';
-            document.getElementById('UserAddress').value ='';
-            document.getElementById('UserZip').value ='';
-            document.getElementById('UserCity').value ='';
-            document.getElementById('UserCountry').value ='';
-        } else {
-            $("#presta").hide("fast");
-            document.getElementById('UserScorpname').value ='Raison Sociale';
-            document.getElementById('UserAddress').value ='Adresse';
-            document.getElementById('UserZip').value ='Code postal';
-            document.getElementById('UserCity').value ='Ville';
-            document.getElementById('UserCountry').value ='pays';
-        }
-    });
-    
+
     // Trad des noms pour le calendrier/l'heure
     $.datepicker.regional['fr'] = {
         closeText: 'Fermer',
-        prevText: '<Pr�c',
+        prevText: '<Préc',
         nextText: 'Suiv>',
         currentText: 'Courant',
-        monthNames: ['Janvier', 'F�vrier', 'Mars', 'Avril', 'Mai', 'Juin',
-            'Juillet', 'Ao�t', 'Septembre', 'Octobre', 'Novembre', 'D�cembre'],
-        monthNamesShort: ['Jan', 'F�v', 'Mar', 'Avr', 'Mai', 'Jun',
-            'Jul', 'Ao�', 'Sep', 'Oct', 'Nov', 'D�c'],
+        monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+            'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+        monthNamesShort: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun',
+            'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'],
         dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
         dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
         dayNamesMin: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
@@ -54,4 +30,32 @@ jQuery(function($) {
     $("#EventStartday").datepicker($.datepicker.regional[ "fr" ]);
     $('#EventStarttime').timepicker($.datepicker.regional[ "fr" ]);
     $('#EventEndtime').timepicker($.datepicker.regional[ "fr" ]);
+    
+    
+    // affiche/cache la div pour l'enregistrement en tant que prestataire
+    document.getElementById('UserScorpname').value ='Raison Sociale';
+    document.getElementById('UserAddress').value ='Adresse';
+    document.getElementById('UserZip').value ='Code postal';
+    document.getElementById('UserCity').value ='Ville';
+    document.getElementById('UserCountry').value ='pays';
+    
+    $("#prestabox").click(function(){
+        // Si cochée
+        if ($("#prestabox").is(":checked")){
+            $("#presta").show("fast");
+            document.getElementById('UserScorpname').value ='';
+            document.getElementById('UserAddress').value ='';
+            document.getElementById('UserZip').value ='';
+            document.getElementById('UserCity').value ='';
+            document.getElementById('UserCountry').value ='';
+        } else {
+            $("#presta").hide("fast");
+            document.getElementById('UserScorpname').value ='Raison Sociale';
+            document.getElementById('UserAddress').value ='Adresse';
+            document.getElementById('UserZip').value ='Code postal';
+            document.getElementById('UserCity').value ='Ville';
+            document.getElementById('UserCountry').value ='pays';
+        }
+    });
+    
 });
