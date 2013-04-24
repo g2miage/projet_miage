@@ -12,6 +12,9 @@ class EventsController extends AppController {
 
     public function index() {
         //On verifie si une recherche a été effectuée,
+        $this->loadModel('Type');
+        $userType = $this->Type->find('list',array(
+        'fields' => array('id', 'type')));
         if (isset($this->request->data['Event']['searchEventTitle']) == TRUE
         ) {
 
@@ -24,6 +27,7 @@ class EventsController extends AppController {
             $this->recherche("all");
         }
         $this->set('current_user', $this->Auth->user('id'));
+        $this->set('userType', $userType);
     }
 
     public function view($id) {
@@ -178,10 +182,11 @@ class EventsController extends AppController {
 
         // On cherche les éléments
         if ($type == "all") {
-            $data = $this->Event->find('all');
+            $data = $this->Event->find('all', array('order' => 'endday DESC, endtime DESC'));
         } else {
             $data = $data = $this->Event->find('all', array('conditions' =>
-                array('Event.title LIKE' => '%' . $this->request->data['Event']['searchEventTitle'] . '%')));
+                array('Event.title LIKE' => '%' . $this->request->data['Event']['searchEventTitle'] . '%'), 
+                array ('order' => 'endday DESC, endtime DESC')));
         }
 
         $i = 0;
