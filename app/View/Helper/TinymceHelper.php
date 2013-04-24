@@ -156,7 +156,25 @@ class TinymceHelper extends AppHelper {
                 'convert_fonts_to_spans' => false
             );
         }
- 
+         // Basic
+        if($name == 'basic2'){
+            return array(
+                'theme' => 'advanced',
+                'plugins' => '',
+                'theme_advanced_buttons1' => 'bold,italic,underline,|,bullist,numlist',
+                'theme_advanced_buttons2' => '',
+                'theme_advanced_buttons3' => '',
+                'theme_advanced_toolbar_location' => 'top',
+                'theme_advanced_toolbar_align' => 'center',
+                'theme_advanced_statusbar_location' => 'center',
+                'theme_advanced_resizing' => true,
+                'theme_advanced_resize_horizontal' => true,
+                'width' => 570,
+                'skin' => "bootstrap",
+                'mode' => "textareas",
+                'convert_fonts_to_spans' => false
+            );
+        }
         // Simple
         if($name == 'simple'){
             return array(

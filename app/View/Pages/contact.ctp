@@ -1,18 +1,18 @@
-<h1>Nous contacter</h1>
-<div class="container">
-<div class="span6">
-  <form>
-      <div class="controls controls-row">
-          <input id="name" name="name" type="text" class="span3" placeholder="Name"> 
-          <input id="email" name="email" type="email" class="span3" placeholder="Email address">
-      </div>
-      <div class="controls">
-          <textarea id="message" name="message" class="span6" placeholder="Your Message" rows="5"></textarea>
-      </div>
-      
-      <div class="controls">
-          <button id="contact-submit" type="submit" class="btn btn-primary input-medium pull-right">Send</button>
-      </div>
-  </form>
-</div>
+<div class="row">
+    <div class="span4 offset4 signup">
+        <h1 class='text-center text-info'>Nous contacter</h1>
+        <form>
+            <div class="controls controls-row">
+                <input id="name" name="name" type="text" class="span4" placeholder="Nom" /> <br />
+                <input id="email" name="email" type="email" class="span4" placeholder="Adresse mail" />
+            </div>
+            <div class="controls">
+                <textarea id="message" name="message" class="span4" placeholder="Message" rows="5"></textarea>
+            </div>
+            <hr />
+            <div class="controls">
+                <button id="contact-submit" type="submit" class="btn btn-large btn-success btn-block btn-primary">Envoyer</button>
+            </div>
+        </form>
+    </div>
 </div>

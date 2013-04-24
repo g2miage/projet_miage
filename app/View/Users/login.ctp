@@ -1,4 +1,3 @@
-
 <div class="row">
     <div class="span4 offset4 signup">
         <h1 class='text-center text-info'>Connexion</h1>
