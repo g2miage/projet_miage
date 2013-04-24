@@ -20,6 +20,7 @@
         echo $this->Html->script('main');
 
         ?>
+        
     </head>
     <body>
 
@@ -45,7 +46,7 @@
 			<![endif]-->
             <?php
             $this->Session->flash('auth');
-            echo $this->Session->flash();
+            echo $this->Session->flash().'<br />';
             echo $this->fetch('content');
             ?>
 

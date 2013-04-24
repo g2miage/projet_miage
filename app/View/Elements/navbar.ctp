@@ -9,7 +9,7 @@
             <?php echo $this->Html->link("<i class='icon-group'></i> MyEvents", array('controller' => 'pages', 'action' => 'display'), array('class'=>'brand','escape'=>false)); ?>
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                     <li><?php echo $this->Html->link('Contact', array('controller' => 'pages', 'action' => 'display', 'contact')); ?></li>
+                     <li><?php echo $this->Html->link('<i class="icon-envelope"></i> Contact', array('controller' => 'pages', 'action' => 'display', 'contact'),array('escape'=>false)); ?></li>
                 </ul>      
                 <form class="navbar-form pull-right" action="/projet_miage/users/login" id="UserLoginForm" method="post" accept-charset="utf-8">
                     <input type="hidden" name="_method" value="POST"/>

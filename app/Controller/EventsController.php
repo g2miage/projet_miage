@@ -60,6 +60,11 @@ class EventsController extends AppController {
             'conditions' => array('EventsUsers.type_id' => 2, 'EventsUsers.event_id' => $id),
             'fields' => array('User.id', 'User.username')
         ));
+        
+        $prestataires = $this->Event->EventsUsers->find('all', array(
+            'conditions' => array('EventsUsers.type_id' => 4, 'EventsUsers.event_id' => $id),
+            'fields' => array('User.id', 'User.username')
+        ));
 
         if (!$event) {
             throw new NotFoundException(__('Invalid post'));
@@ -72,7 +77,8 @@ class EventsController extends AppController {
             'organisateurs' => $organisateurs,
             'participants' => $participants,
             'current_user' => $current_user,
-            'typename' => $type['Eventtype']['name']
+            'typename' => $type['Eventtype']['name'],
+            'prestataires' => $prestataires
         );
 
         $this->set($v);
@@ -242,10 +248,10 @@ class EventsController extends AppController {
 
     public function addfile($eventId) {
         $this->loadModel('User');
-        $this->uploadCsv('csv', $this->request->data, '', 'projet');
-        $fichier = 'csv/projet.csv';
+        $this->uploadCsv('csv', $this->request->data, '', 'projet_'.$eventId);
+        $fichier = 'csv/projet_'.$eventId.'.csv';
 
-        $handle = @fopen("csv/projet.csv", "r");
+        $handle = @fopen('csv/projet_'.$eventId.'.csv', "r");
 
         if ($handle) {
             while (($buffer = fgets($handle, 4096)) != false) {
@@ -385,6 +391,7 @@ class EventsController extends AppController {
                 echo "Error: unexpected fgets() fail\n";
             }
             fclose($handle);
+            unlink('csv/projet_'.$eventId.'.csv');
         }
         $this->redirect(array('action' => 'view', $eventId));
     }
@@ -540,13 +547,6 @@ class EventsController extends AppController {
         }
 
         $this->redirect(array('action' => 'edit', $id));
-    }
-
-    function deleteEventUser($userId, $eventId) {
-        $this->loadModel('EventsUsers');
-        $eventUser = array('event_id' => $eventId, 'user_id' => $userId);
-        $this->EventsUsers->deleteAll($eventUser);
-        $this->redirect(array('action' => 'view', $eventId));
     }
 
 }

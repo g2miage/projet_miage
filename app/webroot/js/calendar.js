@@ -1,13 +1,39 @@
 jQuery(function($) {
+    // affiche/cache la div pour l'enregistrement en tant que prestataire
+    document.getElementById('UserScorpname').value ='Raison Sociale';
+    document.getElementById('UserAddress').value ='Adresse';
+    document.getElementById('UserZip').value ='Code postal';
+    document.getElementById('UserCity').value ='Ville';
+    document.getElementById('UserCountry').value ='pays';
+    $("#prestabox").click(function(){
+        // Si cochÃ©e
+        if ($("#prestabox").is(":checked")){
+            $("#presta").show("fast");
+            document.getElementById('UserScorpname').value ='';
+            document.getElementById('UserAddress').value ='';
+            document.getElementById('UserZip').value ='';
+            document.getElementById('UserCity').value ='';
+            document.getElementById('UserCountry').value ='';
+        } else {
+            $("#presta").hide("fast");
+            document.getElementById('UserScorpname').value ='Raison Sociale';
+            document.getElementById('UserAddress').value ='Adresse';
+            document.getElementById('UserZip').value ='Code postal';
+            document.getElementById('UserCity').value ='Ville';
+            document.getElementById('UserCountry').value ='pays';
+        }
+    });
+    
+    // Trad des noms pour le calendrier/l'heure
     $.datepicker.regional['fr'] = {
         closeText: 'Fermer',
-        prevText: '<Préc',
+        prevText: '<Prï¿½c',
         nextText: 'Suiv>',
         currentText: 'Courant',
-        monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
-            'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-        monthNamesShort: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun',
-            'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'],
+        monthNames: ['Janvier', 'Fï¿½vrier', 'Mars', 'Avril', 'Mai', 'Juin',
+            'Juillet', 'Aoï¿½t', 'Septembre', 'Octobre', 'Novembre', 'Dï¿½cembre'],
+        monthNamesShort: ['Jan', 'Fï¿½v', 'Mar', 'Avr', 'Mai', 'Jun',
+            'Jul', 'Aoï¿½', 'Sep', 'Oct', 'Nov', 'Dï¿½c'],
         dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
         dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
         dayNamesMin: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
