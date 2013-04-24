@@ -30,7 +30,8 @@ echo $this->Form->create("Event", array('action' => 'index', 'div' => false));
         <li><a href="#invite" data-toggle="tab">Auxquels je suis invité</a></li>
         <li><a href="#public" data-toggle="tab">Evenements publics</a></li>
         <li><a href="#passe" data-toggle="tab">Evenements passés</a></li>
-        <?php if($userSuptypeId[$current_user] == "4"){ ?>
+        <?php 
+        if($userSuptypeId[$current_user] != "0"){ ?>
         <li><a href="#prestataire" data-toggle="tab">Prestations pour ces évenements</a></li>
         <?php } ?>
     </ul>

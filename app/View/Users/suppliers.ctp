@@ -136,7 +136,7 @@ echo "<ul class='inline'>
                                                                     break;
                                                                 }
                                                             }
-                                                            if (!$trouve) {
+                                                            if (!isset($trouve) || !$trouve) {
                                                                 echo $this->Form->create(null, array('url' => array('controller' => 'eventsUsers', 'action' => 'addsupplier')));
                                                                 echo $this->Form->checkbox('avertirTel').' Contact par téléphone<br/>';
                                                                 echo $this->Form->checkbox('avertirMail').' Contact par mail<br/>';
