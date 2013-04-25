@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<?php echo $this->Html->docType('html5'); ?>
 <html>
 <head>
 	<?php echo $this->Html->charset(); ?>
@@ -9,7 +9,6 @@
 		echo $this->Html->meta('icon');
                 
                 // Chargement des fichiers CSS
-		//echo $this->Html->css('cake.generic');
                 echo $this->Html->css('bootstrap');
                 echo $this->Html->css('bootstrap-responsive');
                 echo $this->Html->css('main');
@@ -46,7 +45,7 @@
         <![endif]-->
         <div class ="container">
             <h1>MyEvents</h1>
-            <p>Bienvenue sur le site Events</p>        
+            <p>Bienvenue sur le site MyEvents</p>        
         </div>
     </div>
     <div class ="home container">
@@ -64,18 +63,14 @@
            <?php echo $this->Html->link('Evénements',  array('controller'=>'Events','action'=>'Index'), array('class'=>'btn btn-success btn-large'));
        
        }
-            
-            ?>
+        ?>
         
         </div>
             <!-- Example row of columns -->
             <div class="accueil">
-                
-                <!--<h2 class="accueil-over centered well">Créez et gérez facilement tous vos événements !</h2>-->
-                
                  <div class="row">
                     <div class="span3">
-                        <?php echo $this->Html->image('qui_sommes_nous_accueil.png', array('alt' => 'qui_sommes_nous','class'=>'img-rounded')); ?>
+                        <?php echo $this->Html->image('qui_sommes_nous_accueil.png', array('alt' => 'qui_sommes_nous','class'=>'img-rounded','url' => array('controller' => 'pages', 'action' => 'display', 'qui_sommes_nous'))); ?>
                         <h3>
                             <?php           
                                 echo $this->Html->link('<i class="icon-group"></i> Qui Sommes-nous?', array('controller' => 'pages', 'action' => 'display', 'qui_sommes_nous'),array('escape'=>false));
@@ -86,7 +81,7 @@
                         </p>
                     </div>
                     <div class="span3">
-                        <?php echo $this->Html->image('fonctionnement_accueil.png', array('alt' => 'fonctionnement','class'=>'img-rounded')); ?>
+                        <?php echo $this->Html->image('fonctionnement_accueil.png', array('alt' => 'fonctionnement','class'=>'img-rounded','url' => array('controller' => 'pages', 'action' => 'display', 'fonctionnement'))); ?>
                         <h3> 
                             <?php           
                                 echo $this->Html->link('<i class="icon-magic"></i> Fonctionnement', array('controller' => 'pages', 'action' => 'display', 'fonctionnement'),array('escape'=>false));
@@ -97,7 +92,7 @@
                         </p>
                    </div>
                     <div class="span3">
-                        <?php echo $this->Html->image('espace_pro_accueil.png', array('alt' => 'espace_pro','class'=>'img-rounded')); ?>
+                        <?php echo $this->Html->image('espace_pro_accueil.png', array('alt' => 'espace_pro','class'=>'img-rounded','url' => array('controller' => 'pages', 'action' => 'display', 'espace_pro'))); ?>
                         <h3>
                             <?php           
                                 echo $this->Html->link('<i class="icon-glass"></i>  Espace Pro', array('controller' => 'pages', 'action' => 'display', 'espace_pro'),array('escape'=>false));
@@ -108,7 +103,7 @@
                         </p>
                     </div>
                     <div class="span3">
-                        <?php echo $this->Html->image('contact_accueil.png', array('alt' => 'contact','class'=>'img-rounded')); ?>
+                        <?php echo $this->Html->image('contact_accueil.png', array('alt' => 'contact','class'=>'img-rounded','url' => array('controller' => 'pages', 'action' => 'display', 'contact'))); ?>
                         <h3>
                             <?php           
                                 echo $this->Html->link('<i class="icon-globe"></i>  Contactez-nous', array('controller' => 'pages', 'action' => 'display', 'contact'),array('escape'=>false));

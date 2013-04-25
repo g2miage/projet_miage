@@ -94,12 +94,24 @@ $map_options = array(
                 $boolOrganisateur = 1;
             }
         }
+        
+        $boolPrestataire = 0;
+        foreach ($prestataires as $prestataire){
+            if($prestataire['User']['id'] == $current_user){
+                $boolPrestataire = 1;
+            }
+        }
 
         if ($current_user == $createur['id'] || $boolOrganisateur == 1 && $boolEstPasse == 0) {
             echo $this->Html->link("Modifier l'événement", array('action' => 'edit', $event['id']), array('class' => 'btn btn-info pull-right'));
             echo $this->Html->link("Ajouter un prestataire", array('controller' => 'Users', 'action' => 'suppliers', $event['id']), array('class' => 'btn btn-info pull-right'));
             echo $this->Html->link("Inviter un ami ", array('action' => 'addorganisateur', $event['id']), array('class' => 'btn btn-info pull-right'));
-        } else {
+        } 
+        elseif($boolPrestataire == 1){
+             echo $this->Html->link("Discuter avec les organisateurs", array('action' => 'index', $event['id'],  'controller' => 'Messages'), array('class' => 'btn btn-info pull-right'));
+          
+        }
+        else {
             $btnInscription = 0;
             foreach ($invites as $invite) {
                 if ($current_user == $invite['User']['id'] && $boolEstPasse == 0) {
@@ -124,8 +136,9 @@ $map_options = array(
     <div class="tabbable"> <!-- Only required for left/right tabs -->
         <ul class="nav nav-tabs">
             <li class="active"><a href="#tab1" data-toggle="tab">Description</a></li>
-            <li><a href="#tab2" data-toggle="tab">Organisateurs & Invités</a></li>
-            <?php
+            <?php if ($boolPrestataire != 1){
+            echo '<li><a href="#tab2" data-toggle="tab">Organisateurs & Invités</a></li>';
+            } 
             if ($current_user == $createur['id'] || $boolOrganisateur == 1) {
                 echo '<li><a href="#tab3" data-toggle="tab">Prestataires</a></li>';
             }
@@ -248,6 +261,9 @@ $map_options = array(
                             <?php
                             if ($current_user == $createur['id'] || $boolOrganisateur == 1 && $boolEstPasse == 0) {
                                 ?>
+                                <td>
+                                   <?= $this->html->link('<i class="icon-align-justify"> Voir la discussion</i>', array('action' => 'index', 'controller' => 'Messages', $event['id'], $prestataire['User']['id']), array('escape' => false, 'class' => 'pull-right')) ?>
+                                </td>
                                 <td>
                                     <?= $this->html->link('<i class="icon-trash"> Supprimer</i>', array('action' => 'delete', 'controller' => 'eventsUsers', $prestataire['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')) ?>
                                 </td>

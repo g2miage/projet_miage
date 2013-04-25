@@ -31,6 +31,7 @@ class EventsController extends AppController {
         } else {
             $this->recherche("all");
         }
+        
         $this->set('current_user', $this->Auth->user('id'));
         $this->set('userSuptypeId', $userSuptypeId);
         $this->set('userType', $userType);

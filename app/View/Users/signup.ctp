@@ -1,4 +1,4 @@
-<div class='row si'>
+<div class='row'>
 <div class='span4 offset4 signup'>
         <h1 class='text-center text-info'>Inscription</h1>
         <hr />
@@ -25,7 +25,7 @@ echo $this->Form->input('role_id', array('label' => 'Je suis un prestataire', 't
 </div>
 <?php
     
-    echo $this->Html->image('captcha.jpg',array('class'=>'img-rounded   '));
+    echo $this->Html->image('captcha.jpg',array('class'=>'img-rounded'));
     echo $this->Form->input('captcha',array('label'=>'','placeholder' => 'Veuillez écrire le code','class'=>'span4'));
     echo "<hr />";
     echo $this->Form->end(array('label' => 'Créer mon compte !', 'class' => 'btn btn-large btn-success btn-block btn-primary'));
