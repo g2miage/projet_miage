@@ -3,7 +3,7 @@
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php echo $title_for_layout; ?>
+           MyEvents - La gestion d'événements facile !
 	</title>
 	<?php
 		echo $this->Html->meta('icon');

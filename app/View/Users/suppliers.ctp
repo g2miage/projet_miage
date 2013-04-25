@@ -1,5 +1,5 @@
 <?php
-echo $this->Html->script('geo');
+//echo $this->Html->script('geo');
 $this->Html->script('http://maps.google.com/maps/api/js?sensor=true', false);
 
 // si recherche alors localize passe a false et on met l'adresse du département dans address
@@ -91,7 +91,7 @@ echo "<ul class='inline'>
                                         echo $this->Html->Link('Inviter',array('action' => 'addsupplier', 'controller' => 'eventsUsers',$eventId, $supplier['User']['id']),array('class'=> 'btn btn-primary'));
                                     } else {
                                 ?>
-                                <a href='#myModal<?= $i ?>' role='button' class='btn btn-primary' data-toggle='modal'>Inviter</a>
+                                <a href='#myModal<?= $i ?>' role='button' class='btn btn-center' data-toggle='modal'>Contacter</a>
                                 <div id="myModal<?= $i ?>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -99,12 +99,12 @@ echo "<ul class='inline'>
                                     </div>
                                     <div class="modal-body">
                                         <?php
-                                            echo '<h5>Coordonnées : </h5>';
-                                            echo '<address>';
-                                            echo $supplier['User']['scorpname'].'<br/>';
-                                            echo $supplier['User']['address'].'<br/>';
-                                            echo $supplier['User']['zip'].' '.$supplier['User']['city'].'<br/>';
-                                            echo 'Tel : '.$supplier['User']['tel'].'<br/>';
+                                            echo '<h5>Coordonnées</h5>';
+                                                echo '<address>';
+                                                echo $supplier['User']['scorpname'].'<br/>';
+                                                echo $supplier['User']['address'].'<br/>';
+                                                echo $supplier['User']['zip'].' '.$supplier['User']['city'].'<br/>';
+                                                echo 'Tel : '.$supplier['User']['tel'].'<br/>';
                                             echo '</address>';
                                         ?>
                                         <div class="accordion" id="accordion<?= $i ?>">
