@@ -13,7 +13,7 @@ else {
 echo $this->Form->create("Event", array('action' => 'index', 'div' => false));
 ?>
 <ul class="inline">
-    <!--<li><?php //echo $this->Form->input("searchEventTitle", array('label' => '', 'div'=>false,'data-provide' => 'typeahead','data-source'=> '','escape'=>false));                    ?> </li>-->
+    <!--<li><?php //echo $this->Form->input("searchEventTitle", array('label' => '', 'div'=>false,'data-provide' => 'typeahead','data-source'=> '','escape'=>false));                     ?> </li>-->
     <input name="data[Event][searchEventTitle]" id="searchEventTitle" type="text" data-provide="typeahead" data-source='<?php echo json_encode($titles); ?>'>
     <li><?php echo $this->Form->end(array('label' => "Rechercher", 'class' => 'btn btn-primary btn_align', 'div' => false)); ?></li>
     <li>
@@ -30,9 +30,8 @@ echo $this->Form->create("Event", array('action' => 'index', 'div' => false));
         <li><a href="#invite" data-toggle="tab">Auxquels je suis invité</a></li>
         <li><a href="#public" data-toggle="tab">Evenements publics</a></li>
         <li><a href="#passe" data-toggle="tab">Evenements passés</a></li>
-        <?php 
-        if($userSuptypeId[$current_user] != "0"){ ?>
-        <li><a href="#prestataire" data-toggle="tab">Prestations pour ces évenements</a></li>
+        <?php if ($userSuptypeId[$current_user] != "0") { ?>
+            <li><a href="#prestataire" data-toggle="tab">Prestations pour ces évenements</a></li>
         <?php } ?>
     </ul>
     <div class="tab-content">
@@ -48,7 +47,13 @@ echo $this->Form->create("Event", array('action' => 'index', 'div' => false));
                                 $dateFin = date_create_from_format('d/m/Y H:i', $event['Event']['endday'] . ' ' . $event['Event']['endtime']);
                                 $dateFin = $dateFin->format('d/m/Y H:i');
                                 if ($dateFin > date('d/m/Y H:m')) {
-                                    echo $this->Html->link($event['Event']['title'], array('action' => 'view', $event['Event']['id']));
+                                    echo $this->Html->link($event['Event']['title'], array(
+                                        'controller' => 'Events',
+                                        'action' => 'view',
+                                        $event['Event']['id'],
+                                        Inflector::slug($event['Event']['title'], '-')
+                                            )
+                                    );
                                 } else {
 
                                     echo $this->Html->link($event['Event']['title'], array('action' => 'view', $event['Event']['id']), array('class' => 'text-error'));
@@ -57,60 +62,71 @@ echo $this->Form->create("Event", array('action' => 'index', 'div' => false));
 
                             </td>
                             <td>
-                                <?php
-                                $publicBool = TRUE;
-                                foreach ($event['EventsUsers'] as $evUser):
-                                    if ($evUser['user_id'] == $current_user) {
-                                        echo $userType[$evUser['type_id']];
-                                        $publicBool = FALSE;
-                                    }
-                                endforeach;
-                                if ($publicBool == true) {
-                                    echo "Evenement public";
-                                }
-                                ?>
+        <?php
+        $publicBool = TRUE;
+        foreach ($event['EventsUsers'] as $evUser):
+            if ($evUser['user_id'] == $current_user) {
+                echo $userType[$evUser['type_id']];
+                $publicBool = FALSE;
+            }
+        endforeach;
+        if ($publicBool == true) {
+            echo "Evenement public";
+        }
+        ?>
                             </td>
                             <td>
-                                <?php
-                                echo $event['Event']['startday'];
-                                ?>
+        <?php
+        echo $event['Event']['startday'];
+        ?>
                             </td>
                         </tr>
-                        <?php
-                    endforeach;
-                }
-                ?>
+        <?php
+    endforeach;
+}
+?>
             </table>
         </div>
         <div class="tab-pane" id="organise">
             <table  class="table table-striped table_index">
-                <?php
-                if (isset($events)) {
-                    $eventsCreated = array();
-                    foreach ($events as $event):
-                        foreach ($event['EventsUsers'] as $evUser):
-                            if ($evUser['user_id'] == $current_user) {
-                                if ($evUser['type_id'] == 1 || $evUser['type_id'] == 2) {
-                                    array_push($eventsCreated, $event);
-                                }
-                            }
-                        endforeach;
-                    endforeach;
-                    foreach ($eventsCreated as $eventCreated):
-                        ?>
+<?php
+if (isset($events)) {
+    $eventsCreated = array();
+    foreach ($events as $event):
+        foreach ($event['EventsUsers'] as $evUser):
+            if ($evUser['user_id'] == $current_user) {
+                if ($evUser['type_id'] == 1 || $evUser['type_id'] == 2) {
+                    array_push($eventsCreated, $event);
+                }
+            }
+        endforeach;
+    endforeach;
+    foreach ($eventsCreated as $eventCreated):
+        ?>
 
                         <tr>
                             <td >
-                                <?php
-                                $dateFin = date_create_from_format('d/m/Y H:i', $eventCreated['Event']['endday'] . ' ' . $eventCreated['Event']['endtime']);
-                                $dateFin = $dateFin->format('d/m/Y H:i');
-                                if ($dateFin > date('d/m/Y H:m')) {
-                                    echo $this->Html->link($eventCreated['Event']['title'], array('action' => 'view', $eventCreated['Event']['id']));
-                                } else {
+        <?php
+        $dateFin = date_create_from_format('d/m/Y H:i', $eventCreated['Event']['endday'] . ' ' . $eventCreated['Event']['endtime']);
+        $dateFin = $dateFin->format('d/m/Y H:i');
+        if ($dateFin > date('d/m/Y H:m')) {
+            echo $this->Html->link($eventCreated['Event']['title'], array(
+                'controller' => 'Events',
+                'action' => 'view',
+                $eventCreated['Event']['id'],
+                Inflector::slug($eventCreated['Event']['title'], '-')
+                    )
+            );
+        } else {
 
-                                    echo $this->Html->link($eventCreated['Event']['title'], array('action' => 'view', $eventCreated['Event']['id']), array('class' => 'text-error'));
-                                }
-                                ?>
+            echo $this->Html->link($eventCreated['Event']['title'], array(
+                'controller' => 'Events',
+                'action' => 'view',
+                $eventCreated['Event']['id'],
+                Inflector::slug($eventCreated['Event']['title'], '-')
+                    ), array('class' => 'text-error'));
+        }
+        ?>
                             </td>
                             <td>
                                 <?php
@@ -118,10 +134,10 @@ echo $this->Form->create("Event", array('action' => 'index', 'div' => false));
                                 ?>
                             </td>
                         </tr>
-                        <?php
-                    endforeach;
-                }
-                ?>
+                                <?php
+                            endforeach;
+                        }
+                        ?>
             </table>
         </div>
         <div class="tab-pane" id="participe">
@@ -143,7 +159,13 @@ echo $this->Form->create("Event", array('action' => 'index', 'div' => false));
                         $dateFin = $dateFin->format('d/m/Y H:i');
                         if ($dateFin > date('d/m/Y H:m')) {
                             echo '<tr><td>';
-                            echo $this->Html->link($eventParticpe['Event']['title'], array('action' => 'view', $eventParticpe['Event']['id']));
+                            echo $this->Html->link($eventParticpe['Event']['title'], array(
+                                'controller' => 'Events',
+                                'action' => 'view',
+                                $eventParticpe['Event']['id'],
+                                Inflector::slug($eventParticpe['Event']['title'], '-')
+                                    )
+                            );
                             echo '</td>';
                             echo '<td>';
                             echo $eventParticpe['Event']['startday'];
@@ -174,7 +196,13 @@ echo $this->Form->create("Event", array('action' => 'index', 'div' => false));
                         $dateFin = $dateFin->format('d/m/Y H:i');
                         if ($dateFin > date('d/m/Y H:m')) {
                             echo '<tr><td>';
-                            echo $this->Html->link($eventInvite['Event']['title'], array('action' => 'view', $eventInvite['Event']['id']));
+                            echo $this->Html->link($eventInvite['Event']['title'], array(
+                                'controller' => 'Events',
+                                'action' => 'view',
+                                $eventInvite['Event']['id'],
+                                Inflector::slug($eventInvite['Event']['title'], '-')
+                                    )
+                            );
                             echo '</td>';
                             echo '<td>';
                             echo $eventInvite['Event']['startday'];
@@ -191,20 +219,26 @@ echo $this->Form->create("Event", array('action' => 'index', 'div' => false));
                 if (isset($events)) {
                     foreach ($events as $event):
                         ?>
-                        <?php
-                        $dateFin = date_create_from_format('d/m/Y H:i', $event['Event']['endday'] . ' ' . $event['Event']['endtime']);
-                        $dateFin = $dateFin->format('d/m/Y H:i');
-                        if ($dateFin < date('d/m/Y H:m') || $event['Event']['visibility'] == TRUE) {
-                            echo '<tr><td>';
-                            echo $this->Html->link($event['Event']['title'], array('action' => 'view', $event['Event']['id']));
-                            echo '</td>';
-                            echo '<td>';
-                            echo $event['Event']['startday'];
-                            echo '</td></tr>';
-                        }
-                    endforeach;
-                }
-                ?>
+        <?php
+        $dateFin = date_create_from_format('d/m/Y H:i', $event['Event']['endday'] . ' ' . $event['Event']['endtime']);
+        $dateFin = $dateFin->format('d/m/Y H:i');
+        if ($dateFin < date('d/m/Y H:m') || $event['Event']['visibility'] == TRUE) {
+            echo '<tr><td>';
+            echo $this->Html->link($event['Event']['title'], array(
+                'controller' => 'Events',
+                'action' => 'view',
+                $event['Event']['id'],
+                Inflector::slug($event['Event']['title'], '-')
+                    )
+            );
+            echo '</td>';
+            echo '<td>';
+            echo $event['Event']['startday'];
+            echo '</td></tr>';
+        }
+    endforeach;
+}
+?>
             </table>
         </div>
         <div class="tab-pane" id="passe">
@@ -216,7 +250,13 @@ echo $this->Form->create("Event", array('action' => 'index', 'div' => false));
                         $dateFin = $dateFin->format('d/m/Y H:i');
                         if ($dateFin < date('d/m/Y H:m')) {
                             echo '<tr><td>';
-                            echo $this->Html->link($event['Event']['title'], array('action' => 'view', $event['Event']['id']));
+                            echo $this->Html->link($event['Event']['title'], array(
+                                'controller' => 'Events',
+                                'action' => 'view',
+                                $event['Event']['id'],
+                                Inflector::slug($event['Event']['title'], '-')
+                                    )
+                            );
                             echo '</td>';
                             echo '<td>';
                             echo $event['Event']['startday'];
@@ -227,7 +267,7 @@ echo $this->Form->create("Event", array('action' => 'index', 'div' => false));
                 ?>
             </table>
         </div>
-             <div class="tab-pane" id="prestataire">
+        <div class="tab-pane" id="prestataire">
             <table  class="table table-striped table_index">
                 <?php
                 if (isset($events)) {
@@ -241,21 +281,32 @@ echo $this->Form->create("Event", array('action' => 'index', 'div' => false));
                             }
                         endforeach;
                     endforeach;
-        foreach ($eventsPresta as $eventPresta):
+                    foreach ($eventsPresta as $eventPresta):
                         ?>
 
                         <tr>
                             <td >
-                                <?php
-                                $dateFin = date_create_from_format('d/m/Y H:i', $eventPresta['Event']['endday'] . ' ' . $eventPresta['Event']['endtime']);
-                                $dateFin = $dateFin->format('d/m/Y H:i');
-                                if ($dateFin > date('d/m/Y H:m')) {
-                                    echo $this->Html->link($eventPresta['Event']['title'], array('action' => 'view', $eventPresta['Event']['id']));
-                                } else {
+                        <?php
+                        $dateFin = date_create_from_format('d/m/Y H:i', $eventPresta['Event']['endday'] . ' ' . $eventPresta['Event']['endtime']);
+                        $dateFin = $dateFin->format('d/m/Y H:i');
+                        if ($dateFin > date('d/m/Y H:m')) {
+                            echo $this->Html->link($eventPresta['Event']['title'], array(
+                                'controller' => 'Events',
+                                'action' => 'view',
+                                $eventPresta['Event']['id'],
+                                Inflector::slug($eventPresta['Event']['title'], '-')
+                                    )
+                            );
+                        } else {
 
-                                    echo $this->Html->link($eventPresta['Event']['title'], array('action' => 'view', $eventPresta['Event']['id']), array('class' => 'text-error'));
-                                }
-                                ?>
+                            echo $this->Html->link($eventPresta['Event']['title'], array(
+                                'controller' => 'Events',
+                                'action' => 'view',
+                                $eventPresta['Event']['id'],
+                                Inflector::slug($eventPresta['Event']['title'], '-')
+                                    ), array('class' => 'text-error'));
+                        }
+                        ?>
                             </td>
                             <td>
                                 <?php
@@ -263,10 +314,10 @@ echo $this->Form->create("Event", array('action' => 'index', 'div' => false));
                                 ?>
                             </td>
                         </tr>
-<?php
-                    endforeach;
-                }
-                ?>
+                                <?php
+                            endforeach;
+                        }
+                        ?>
             </table>
         </div>
     </div>

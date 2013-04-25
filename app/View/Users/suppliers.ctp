@@ -76,7 +76,19 @@ echo "<ul class='inline'>
 
                     <tr>
                         <td >
-                            <?php echo $this->Html->link($supplier['User']['scorpname'], array('action' => 'view', $supplier['User']['id'])); ?>
+                            <?php //echo $this->Html->link($supplier['User']['scorpname'], array('action' => 'view', $supplier['User']['id'])); ?>
+                        
+                        	<?php 
+                                    echo $this->Html->link(
+                                        $supplier['User']['scorpname'],
+                                        array(
+                                            'controller' => 'Users',
+                                            'action' => 'view', 
+                                            $supplier['User']['id'],
+                                            Inflector::slug($supplier['User']['scorpname'], '-')
+                                        )
+                                    ); 
+                                    ?>
                         </td>
                         <td>
                             <?php echo $this->Html->link($supplier['Suptype']['stype'], array('action' => 'view', $supplier['User']['id'])); ?>

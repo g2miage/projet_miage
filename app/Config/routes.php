@@ -33,6 +33,23 @@
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
         Router::connect('/img/captcha.jpg', array('controller' => 'users', 'action' => 'captcha'));
 
+        // Routes pour les prestataires
+        Router::connect(
+            '/prestataire/*',
+            array('controller' => 'Users', 'action' => 'view')
+        );
+        
+        
+        // Routes pour les evenements
+        Router::connect(
+            '/evenements',
+            array('controller' => 'Events', 'action' => 'index')
+        );
+        
+        Router::connect(
+            '/evenement/*',
+            array('controller' => 'Events', 'action' => 'view')
+        );
 /**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.
