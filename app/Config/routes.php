@@ -33,12 +33,26 @@
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
         Router::connect('/img/captcha.jpg', array('controller' => 'users', 'action' => 'captcha'));
 
+        // Inscription/connexion
+        Router::connect('/inscription', array('controller' => 'Users', 'action' => 'signup'));
+        Router::connect('/connexion', array('controller' => 'Users', 'action' => 'login'));
+        
         // Routes pour les prestataires
+        Router::connect(
+            '/prestataires',
+            array('controller' => 'Users', 'action' => 'suppliers')
+        );
+        
         Router::connect(
             '/prestataire/*',
             array('controller' => 'Users', 'action' => 'view')
         );
         
+        //lien vers mon profil
+        Router::connect(
+            '/profil',
+            array('controller' => 'Users', 'action' => 'profil')
+        );
         
         // Routes pour les evenements
         Router::connect(

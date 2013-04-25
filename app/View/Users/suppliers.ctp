@@ -38,7 +38,7 @@ if ($localize) {
 <div id="maposition"></div>
 
 <?php
-echo $this->Form->create("User", array('action' => 'suppliers', 'div' => false));
+echo $this->Form->create("User", array('action' => 'suppliers'));
 echo "<ul class='inline'>
 <li>" . $this->Form->input('suptype_id', array('options' => array($stype), 'empty' => 'type de prestataire', 'div' => false, 'label' => '')) . "</li>
 <li>" . $this->Form->input('dept', array('options' => array($depts), 'empty' => 'département', 'div' => false, 'label' => '')) . "</li>
@@ -91,7 +91,14 @@ echo "<ul class='inline'>
                                     ?>
                         </td>
                         <td>
-                            <?php echo $this->Html->link($supplier['Suptype']['stype'], array('action' => 'view', $supplier['User']['id'])); ?>
+                            <?php echo $this->Html->link($supplier['Suptype']['stype'], 
+                                        array(
+                                            'controller' => 'Users',
+                                            'action' => 'view', 
+                                            $supplier['User']['id'],
+                                            Inflector::slug($supplier['User']['scorpname'], '-')
+                                        )
+                                    ); ?>
                         </td>
                         <?php
                         if (!empty($listevent)) {

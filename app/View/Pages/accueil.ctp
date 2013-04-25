@@ -60,7 +60,7 @@
        }  
        else{?>
               <h3>Accède facilement aux événements !</h3>
-           <?php echo $this->Html->link('Evénements',  array('controller'=>'Events','action'=>'Index'), array('class'=>'btn btn-success btn-large'));
+           <?php echo $this->Html->link('Evénements',  array('controller'=>'Events','action'=>'index'), array('class'=>'btn btn-success btn-large'));
        
        }
         ?>
