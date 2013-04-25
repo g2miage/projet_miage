@@ -90,6 +90,8 @@ class Event extends AppModel{
         foreach ($field as $key => $value) {
             $endDate = $value.' '.$this->data[$this->name]['endtime'];
             $startDate = $this->data[$this->name]['startday'].' '.$this->data[$this->name]['starttime'];
+            $startDate = date_create_from_format('d/m/Y H:i', $startDate);
+            $endDate = date_create_from_format('d/m/Y H:i', $endDate);
             if($startDate > $endDate) {
                 return FALSE;
             }
@@ -99,10 +101,11 @@ class Event extends AppModel{
     
     function startDateValidation($field = array(), $compare_field = null) {
         foreach ($field as $key => $value) {
+            
             $startTime = $value . ' ' . $this->data[$this->name]['starttime'];
             $startTime = date_create_from_format('d/m/Y H:i', $startTime);
-            $startTime = $startTime->format('d/m/Y H:i');
-            if ($startTime < date('d/m/Y H:m')) {
+            $nowDate = date_create_from_format('d/m/Y H:i', date('d/m/Y H:m'));         
+            if ($startTime < $nowDate) {
                 return FALSE;
             }
         }

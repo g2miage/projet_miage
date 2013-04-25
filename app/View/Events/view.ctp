@@ -85,8 +85,8 @@ $map_options = array(
         $boolOrganisateur = 0;
         $boolEstPasse = 0;
         $dateFin = date_create_from_format('d/m/Y H:i', $event['endday'] . ' ' . $event['endtime']);
-        $dateFin = $dateFin->format('d/m/Y H:i');
-        if($dateFin < date('d/m/Y H:m')){
+        $nowDate = date_create_from_format('d/m/Y H:i', date('d/m/Y H:m'));
+        if($dateFin < $nowDate){
             $boolEstPasse = 1;     
         }
         foreach ($organisateurs as $organisateur) {
