@@ -83,32 +83,38 @@ $map_options = array(
         <h1 class='title_event'><?php echo $event['title']; ?></h1>
         <?php
         $boolOrganisateur = 0;
+        $boolEstPasse = 0;
+        $dateFin = date_create_from_format('d/m/Y H:i', $event['endday'] . ' ' . $event['endtime']);
+        $dateFin = $dateFin->format('d/m/Y H:i');
+        if($dateFin < date('d/m/Y H:m')){
+            $boolEstPasse = 1;     
+        }
         foreach ($organisateurs as $organisateur) {
             if ($organisateur['User']['id'] == $current_user) {
                 $boolOrganisateur = 1;
             }
         }
 
-        if ($current_user == $createur['id'] || $boolOrganisateur == 1) {
+        if ($current_user == $createur['id'] || $boolOrganisateur == 1 && $boolEstPasse == 0) {
             echo $this->Html->link("Modifier l'événement", array('action' => 'edit', $event['id']), array('class' => 'btn btn-info pull-right'));
-            echo $this->Html->link("Ajouter un préstataire", array('controller' => 'Users', 'action' => 'suppliers', $event['id']), array('class' => 'btn btn-info pull-right'));
+            echo $this->Html->link("Ajouter un prestataire", array('controller' => 'Users', 'action' => 'suppliers', $event['id']), array('class' => 'btn btn-info pull-right'));
             echo $this->Html->link("Inviter un ami ", array('action' => 'addorganisateur', $event['id']), array('class' => 'btn btn-info pull-right'));
         } else {
             $btnInscription = 0;
             foreach ($invites as $invite) {
-                if ($current_user == $invite['User']['id']) {
+                if ($current_user == $invite['User']['id'] && $boolEstPasse == 0) {
                     echo $this->Html->link("S'inscrire", array('action' => 'participate', $event['id']), array('class' => 'btn btn-success pull-right'));
                     $btnInscription = 1;
                 }
             }
             $btnParticipant = 0;
             foreach ($participants as $participant) {
-                if ($current_user == $participant['User']['id']) {
+                if ($current_user == $participant['User']['id'] && $boolEstPasse == 0) {
                     echo $this->Html->link("Se désinscrire", array('action' => 'refuse', $event['id']), array('class' => 'btn btn-warning pull-right'));
                     $btnParticipant = 1;
                 }
             }
-            if ($event['visibility'] == 0 && $btnInscription == 0 && $btnParticipant == 0) {
+            if ($event['visibility'] == 0 && $btnInscription == 0 && $btnParticipant == 0 && $boolEstPasse == 0) {
                 echo $this->Html->link("S'inscrire", array('action' => 'participate', $event['id']), array('class' => 'btn btn-large btn-success pull-right'));
             }
         }
@@ -121,7 +127,7 @@ $map_options = array(
             <li><a href="#tab2" data-toggle="tab">Organisateurs & Invités</a></li>
             <?php
             if ($current_user == $createur['id'] || $boolOrganisateur == 1) {
-                echo '<li><a href="#tab3" data-toggle="tab">Préstataires</a></li>';
+                echo '<li><a href="#tab3" data-toggle="tab">Prestataires</a></li>';
             }
             ?>
         </ul>
@@ -147,7 +153,7 @@ $map_options = array(
                             <td>
                             <?php echo $organisateur['User']['username']; ?>
                             </td>
-                                <?php if ($current_user == $createur['id'] || $boolOrganisateur == 1) { ?>
+                                <?php if ($current_user == $createur['id'] || $boolOrganisateur == 1 && $boolEstPasse == 0) { ?>
                                 <td class="actions">
         <?php echo $this->Html->link('<i class="icon-user"> Invité</i>', array('action' => 'inviter', $organisateur['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
                                 </td>
@@ -171,7 +177,7 @@ $map_options = array(
                             <td>
                             <?php echo $invite['User']['username']; ?>
                             </td>
-                                <?php if ($current_user == $createur['id'] || $boolOrganisateur == 1) { ?>
+                                <?php if ($current_user == $createur['id'] || $boolOrganisateur == 1 && $boolEstPasse == 0) { ?>
                                 <td class="actions">
         <?php echo $this->Html->link('<i class="icon-user"> Participant</i>', array('action' => 'participant', $invite['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
                                 </td>
@@ -194,7 +200,7 @@ $map_options = array(
                             <td>
                             <?php echo $participant['User']['username']; ?>
                             </td>
-                                <?php if ($current_user == $createur['id'] || $boolOrganisateur == 1) { ?>
+                                <?php if ($current_user == $createur['id'] || $boolOrganisateur == 1 && $boolEstPasse == 0) { ?>
                                 <td class="actions">
         <?php echo $this->Html->link('<i class="icon-user"> Invité</i>', array('action' => 'inviter', $participant['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')); ?>
                                 </td>
@@ -218,7 +224,7 @@ $map_options = array(
                     <h4>Ajouter des invités</h4>
                     <!-- Ajout d'user pas csv -->    
                     <?php
-                    if ($current_user == $createur['id'] || $boolOrganisateur == 1) {
+                    if ($current_user == $createur['id'] || $boolOrganisateur == 1 && $boolEstPasse == 0) {
 
                         echo $this->html->link('Fichier template', '/csv/template.csv', array('class' => 'btn'));
 
@@ -240,7 +246,7 @@ $map_options = array(
                             <?= $this->html->link($prestataire['User']['username'], array('action' => 'view', 'controller' => 'users', $prestataire['User']['id'])) ?>
                             </td>
                             <?php
-                            if ($current_user == $createur['id'] || $boolOrganisateur == 1) {
+                            if ($current_user == $createur['id'] || $boolOrganisateur == 1 && $boolEstPasse == 0) {
                                 ?>
                                 <td>
                                     <?= $this->html->link('<i class="icon-trash"> Supprimer</i>', array('action' => 'delete', 'controller' => 'eventsUsers', $prestataire['User']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right')) ?>
