@@ -5,7 +5,7 @@ if ($type == 'organisateurs') {
 
     echo '<h1>Communication avec les organisateurs</h1>';
 }
-echo '<h3>'.$this->html->link($eventName,array('action' => 'view', 'controller' => 'events', $messages[0]['Message']['event_id'])).'</h3>';
+echo '<h3>' . $this->html->link($eventName, array('action' => 'view', 'controller' => 'events', $eventId)) . '</h3>';
 ?>
 <div class="tabbable"> <!-- Only required for left/right tabs -->
     <ul class="nav nav-tabs">
@@ -39,9 +39,6 @@ echo '<h3>'.$this->html->link($eventName,array('action' => 'view', 'controller' 
                 echo '</tr></table>';
             }
 
-
-
-
             // Création du formulaire de contact presta
 
             echo $this->Form->create('Message', array('action' => 'addMessage', 'div' => false));
@@ -63,19 +60,60 @@ echo '<h3>'.$this->html->link($eventName,array('action' => 'view', 'controller' 
                 echo '<table class="table">';
 
                 if ($file['Message']['orga_username'] == NULL) {
-                    echo $file['Message']['date'].'  '.$supplierName;
+                    echo $file['Message']['date'] . '  ' . $supplierName;
                     echo '<tr class="warning"><td>' . $this->Html->link($path['filename'], '/' . $file['Message']['file']) . '</td>';
+
                     if ($type == 'prestataires') {
+                        if ($file['Message']['status'] == 1) {
+                            echo '<td>Document Validé</td>';
+                        } else {
+                            echo '<td>Document Refusé</td>';
+                        }
                         echo '<td>';
                         echo $this->Html->link('<i class="icon-trash"></i>', array('action' => 'delete', $file['Message']['id'], $type, $eventId), array('escape' => false, 'class' => 'pull-right'));
                         echo '</td>';
+                    } else {
+                        if ($file['Message']['status'] == 1) {
+                            
+                            echo '<td>Document Validé</td>';
+                        } else {
+                            echo '<td>Document Refusé</td>';
+                        }
+                        echo '<td>';
+                        echo $this->Html->link('<i class="icon-ok"></i>', array('action' => 'validateDoc', $file['Message']['id'], $type, $eventId, $supplierId), array('escape' => false, 'class' => 'pull-right'));
+                        echo '</td>';
+                        echo '<td>';
+                        echo $this->Html->link('<i class="icon-remove"></i>', array('action' => 'refuseDoc', $file['Message']['id'], $type, $eventId, $supplierId), array('escape' => false, 'class' => 'pull-right'));
+                        echo '</td>';
                     }
                 } else {
-                    echo $file['Message']['date'].'  '.$file['Message']['orga_username'];
+                    echo $file['Message']['date'] . '  ' . $file['Message']['orga_username'];
                     echo '<tr class="success"><td>' . $this->Html->link($path['filename'], '/' . $file['Message']['file']) . '</td>';
+
                     if ($type == 'organisateurs') {
+                        if ($file['Message']['status'] == 1) {
+                            echo '<td>Document Validé</td>';
+                        } else {
+                            echo '<td>Document Refusé</td>';
+                        }
                         echo '<td>';
                         echo $this->Html->link('<i class="icon-trash"></i>', array('action' => 'delete', $file['Message']['id'], $type, $eventId, $supplierId), array('escape' => false, 'class' => 'pull-right'));
+                        echo '</td>';
+                    } else {
+                        echo '<td>';
+                        if ($file['Message']['status'] == 1) {
+                            echo '<td>Document Validé</td>';
+                        } else {
+                            echo '<td>Document Refusé</td>';
+                        }
+                        echo '</td>';
+
+                        echo '<td>';
+                        echo $this->Html->link('<i class="icon-ok"></i>', array('action' => 'validateDoc', $file['Message']['id'], $type, $eventId), array('escape' => false, 'class' => 'pull-right'));
+                        echo '</td>';
+
+                        echo '<td>';
+                        echo $this->Html->link('<i class="icon-remove"></i>', array('action' => 'refuseDoc', $file['Message']['id'], $type, $eventId), array('escape' => false, 'class' => 'pull-right'));
                         echo '</td>';
                     }
                 }

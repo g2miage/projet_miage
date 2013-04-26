@@ -82,27 +82,32 @@ class MessagesController extends AppController {
             $file = $this->uploadFile('files', $this->request->data, '');
             $type = $this->request->data['typeUser'];
             if (array_key_exists('urls', $file)) {
+          
                 if ($type == 'organisateurs') {
-                    $message = array('user_id' => $this->request->data['Message']['supplierId'],
+                    $orgaUsername = $this->getCurrentUsername();
+                    $message = array(
+                        'user_id' => $this->request->data['Message']['supplierId'],
                         'event_id' => $this->request->data['Message']['eventId'],
-                        'orga_username' => $this->getCurrentUsername(), 'date' => date('Y-m-d H:i:s'),
-                        'file' => $file['urls'][0], 'presta_event' => '0');
+                        'date' => date('Y-m-d H:i:s'),
+                        'orga_username' => $orgaUsername, 
+                        'file' => $file['urls'][0],
+                        'presta_event' => '0');
                 } else {
                     $message = array('user_id' => $this->Auth->user('id'),
                         'event_id' => $this->request->data['Message']['eventId'],
                         'orga_username' => null, 'date' => date('Y-m-d H:i:s'),
                         'file' => $file['urls'][0], 'presta_event' => '0');
                 }
-                if ($this->Message->save($message, true, array('user_id', 'event_id', 'orga_id', 'date', 'file','presta_event'))) {
+                if ($this->Message->save($message, true, array('user_id', 'event_id', 'orga_username', 'date', 'file','presta_event'))) {
                     //$this->Session->setFlash('Vous avez ajouté un fichier', 'notif');
                 }
             } else {
                 $this->Session->setFlash('Votre fichier n\'a pas pu être sauvegarder.', 'notif', array('type' => 'error'));
             }
             if ($type == 'organisateurs') {
-                $this->redirect(array('action' => 'index', $this->request->data['Message']['eventId'], $this->request->data['Message']['supplierId']));
+               $this->redirect(array('action' => 'index', $this->request->data['Message']['eventId'], $this->request->data['Message']['supplierId']));
             } else {
-                $this->redirect(array('action' => 'index', $this->request->data['Message']['eventId']));
+               $this->redirect(array('action' => 'index', $this->request->data['Message']['eventId']));
             }
         }
     }
@@ -132,6 +137,27 @@ class MessagesController extends AppController {
         $this->redirect(array('action' => 'view', 'controller' => 'events', $eventId));
     }
 
+    function validateDoc($messageId, $type, $eventId, $userId = null){
+        $message = current($this->Message->findById($messageId));
+        $this->Message->updateAll( array('status' => 1), array('Message.id' => $messageId));
+        if ($type == 'organisateurs') {
+            $this->redirect(array('action' => 'index', $eventId, $userId));
+        } else {
+            $this->redirect(array('action' => 'index', $eventId));
+        }
+    }
+ 
+    
+    function refuseDoc($messageId, $type, $eventId, $userId = null){
+        $message = current($this->Message->findById($messageId));
+        $this->Message->updateAll( array('status' => 0), array('Message.id' => $messageId));
+        if ($type == 'organisateurs') {
+            $this->redirect(array('action' => 'index', $eventId, $userId));
+        } else {
+            $this->redirect(array('action' => 'index', $eventId));
+        }
+    }
+    
 }
 
 ?>
