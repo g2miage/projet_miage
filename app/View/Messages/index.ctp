@@ -1,10 +1,11 @@
 <?php
-if($type == 'organisateurs') {
-    echo '<h1>Communication avec '. $supplierName .'</h1>';
+if ($type == 'organisateurs') {
+    echo '<h1>Communication avec ' . $supplierName . '</h1>';
 } else {
 
     echo '<h1>Communication avec les organisateurs</h1>';
 }
+echo '<h3>'.$this->html->link($eventName,array('action' => 'view', 'controller' => 'events', $messages[0]['Message']['event_id'])).'</h3>';
 ?>
 <div class="tabbable"> <!-- Only required for left/right tabs -->
     <ul class="nav nav-tabs">
@@ -17,9 +18,9 @@ if($type == 'organisateurs') {
             foreach ($messages as $message) {
                 echo '<table class="table">';
 
-                if ($message['Message']['orga_id'] == NULL) {
+                if ($message['Message']['orga_username'] == NULL) {
 
-                    echo $message['Message']['date'].'  '.$supplierName;
+                    echo $message['Message']['date'] . '  ' . $supplierName;
                     echo '<tr class="warning"><td>' . $message['Message']['message'] . '</td>';
                     if ($type == 'prestataires') {
                         echo '<td>';
@@ -27,7 +28,7 @@ if($type == 'organisateurs') {
                         echo '</td>';
                     }
                 } else {
-                    echo $message['Message']['date'].'  Organisateur';
+                    echo $message['Message']['date'] . '  ' . $message['Message']['orga_username'];
                     echo '<tr class="success"><td>' . $message['Message']['message'] . '</td>';
                     if ($type == 'organisateurs') {
                         echo '<td>';
@@ -55,23 +56,23 @@ if($type == 'organisateurs') {
             ?>
         </div>
         <div class="tab-pane" id="tab2">
-            
+
             <?php
             foreach ($files as $file) {
                 $path = pathinfo($file['Message']['file']);
                 echo '<table class="table">';
 
-                echo $file['Message']['date'];
-
-                if ($file['Message']['orga_id'] == NULL) {
-                    echo '<tr class="warning"><td>' .$this->Html->link($path['filename'], '/'.$file['Message']['file']) . '</td>';
+                if ($file['Message']['orga_username'] == NULL) {
+                    echo $file['Message']['date'].'  '.$supplierName;
+                    echo '<tr class="warning"><td>' . $this->Html->link($path['filename'], '/' . $file['Message']['file']) . '</td>';
                     if ($type == 'prestataires') {
                         echo '<td>';
                         echo $this->Html->link('<i class="icon-trash"></i>', array('action' => 'delete', $file['Message']['id'], $type, $eventId), array('escape' => false, 'class' => 'pull-right'));
                         echo '</td>';
                     }
                 } else {
-                    echo '<tr class="success"><td>' . $this->Html->link($path['filename'], '/'.$file['Message']['file']) . '</td>';
+                    echo $file['Message']['date'].'  '.$file['Message']['orga_username'];
+                    echo '<tr class="success"><td>' . $this->Html->link($path['filename'], '/' . $file['Message']['file']) . '</td>';
                     if ($type == 'organisateurs') {
                         echo '<td>';
                         echo $this->Html->link('<i class="icon-trash"></i>', array('action' => 'delete', $file['Message']['id'], $type, $eventId, $supplierId), array('escape' => false, 'class' => 'pull-right'));
@@ -79,7 +80,6 @@ if($type == 'organisateurs') {
                     }
                 }
                 echo '</tr></table>';
-                
             }
             echo $this->form->create('Message', array('type' => 'file', 'action' => 'addfile'));
             echo $this->Form->input('Message.eventId', array('type' => 'hidden', 'value' => $eventId));
