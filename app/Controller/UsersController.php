@@ -341,14 +341,19 @@ class UsersController extends AppController {
 
     public function view($id) {
         if (!$id) {
-            throw new NotFoundException(__('Invalid post'));
+            throw new NotFoundException();
         }
         $user_id = $this->Auth->user('id');
         if (!$user_id) {
-            $this->redirect('/');
-            die();
+            throw new ForbiddenException();
         }
+        // Récupération des infos du presta
         $supplier = $this->User->findById($id);
+        //si on ne trouve pas d'infos
+        if(!$supplier){
+            throw new NotFoundException();
+        }
+        
         $this->User->id = $id;
         $this->set('supplier', $supplier);
 
