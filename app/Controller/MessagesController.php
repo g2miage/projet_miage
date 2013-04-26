@@ -3,14 +3,16 @@
 class MessagesController extends AppController {
 
     function index($eventId, $supplierId = null) {
+        $this->loadModel('User');
         if ($supplierId != null) {
-            $this->loadModel('User');
             $user = current($this->User->findById($supplierId));
             $this->set('supplierName', $user['username']);
             $this->set('supplierId', $supplierId);
             $this->set('type', 'organisateurs');
         } else {
             $supplierId = $this->Auth->user('id');
+            $user = current($this->User->findById($supplierId));
+            $this->set('supplierName', $user['username']);
             $this->set('type', 'prestataires');
         }
         $messages = $this->Message->find('all', array(

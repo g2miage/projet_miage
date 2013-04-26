@@ -17,8 +17,9 @@ if($type == 'organisateurs') {
             foreach ($messages as $message) {
                 echo '<table class="table">';
 
-                echo $message['Message']['date'];
                 if ($message['Message']['orga_id'] == NULL) {
+
+                    echo $message['Message']['date'].'  '.$supplierName;
                     echo '<tr class="warning"><td>' . $message['Message']['message'] . '</td>';
                     if ($type == 'prestataires') {
                         echo '<td>';
@@ -26,6 +27,7 @@ if($type == 'organisateurs') {
                         echo '</td>';
                     }
                 } else {
+                    echo $message['Message']['date'].'  Organisateur';
                     echo '<tr class="success"><td>' . $message['Message']['message'] . '</td>';
                     if ($type == 'organisateurs') {
                         echo '<td>';

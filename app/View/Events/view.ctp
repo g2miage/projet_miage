@@ -235,6 +235,14 @@ $map_options = array(
                 <br />
                 <div>
                     <h4>Ajouter des invités</h4>
+                    <p> Vous pouvez aussi ajouter plusieurs invités en même temps à partir d'un fichier, voici la démarche à suivre :</p>
+                    <ol>
+                        <li>Télécharger le fichier modèle (en appuyant sur le bouton fichier template)</li>
+                        <li>Remplissez-le en suivant le modèle</li>
+                        <li>Uploader le fichier que vous avez rempli grâce au formulaire ci-dessous</li>
+                        <li>Sauvegardez le fichier</li>
+                    </ol>
+                    <p>Si tout s'est bien passé, vous avez maintenant ajouté vos invités qui devraient apparaître ci-dessus \o/.</p>
                     <!-- Ajout d'user pas csv -->    
                     <?php
                     if ($current_user == $createur['id'] || $boolOrganisateur == 1 && $boolEstPasse == 0) {
