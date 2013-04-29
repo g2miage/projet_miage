@@ -74,10 +74,20 @@ $map_options = array(
                                 ?>
                             </td>
                         </tr>
-                        <tr>
-                            <td><i class="icon-star"></i></td>
-                            <td><?php echo 'Note de l\'événement : ' . $noteMoyenne; ?></td>
-                        </tr>
+                        <?php
+                        if ($noteMoyenne != 0) {
+                            ?>
+                            <tr>
+                                <td>
+                                    <?php
+                                    for ($i = 1; $i <= round($noteMoyenne); $i++) {
+                                        echo '<i class="icon-star"></i>';
+                                    }
+                                    echo '</td>';
+                                    echo ' <td>Note de l\'événement : ' . $noteMoyenne . '</td>';
+                                    echo '</tr>';
+                                }
+                                ?>
                     </table>
                 </div>
             </div>
@@ -292,9 +302,9 @@ $map_options = array(
                         echo '<table class="table">';
                         echo $message['Message']['date'] . '  ' . $message['User']['username'];
                         echo '<tr class="success"><td>' . $message['Message']['message'] . '</td>';
-                        if($message['Message']['user_id'] == $current_user){
+                        if ($message['Message']['user_id'] == $current_user) {
                             echo '<td>';
-                            echo $this->Html->link('<i class="icon-trash"></i>', array('action' => 'delete', 'controller' => 'messages', $message['Message']['id'],$event['id']), array('escape' => false, 'class' => 'pull-right'));
+                            echo $this->Html->link('<i class="icon-trash"></i>', array('action' => 'delete', 'controller' => 'messages', $message['Message']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right'));
                             echo '</td>';
                         }
                         echo '</tr>';

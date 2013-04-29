@@ -55,6 +55,22 @@ class MessagesController extends AppController {
             $date = date('Y-m-d H:i:s');
             $message = array('event_id' => $eventId, 'user_id' => $userId, 'message' => $text, 'satus' => '0', 'date' => $date, 'orga_username' => $orga_username,'presta_event' => '0');
             $this->Message->save($message);
+            $this->loadModel('MessagesUser');
+            $this->loadModel('EventsUser');
+            $users = $this->EventsUser->find('all', array(
+                'conditions' => array(
+                    'event_id' => $eventId,
+                    'user_id <> ' => $this->Auth->user('id'),
+                    'type_id in (1,2)'),
+                'fields' => array('user_id')
+                ));
+            foreach($users as $user) {
+                $this->MessagesUser->save(array('message_id' => $this->Message->id, 'user_id' => $user['EventsUser']['user_id']));
+            }
+            if ($type == 'organisateurs') {
+                $this->MessagesUser->save(array('message_id' => $this->Message->id, 'user_id' => $userId));
+            }
+            
             if ($type == 'organisateurs') {
                 $this->redirect(array('action' => 'index', $eventId, $userId));
             } else {
@@ -134,8 +150,42 @@ class MessagesController extends AppController {
               'presta_event' => '1', 'date' => date('Y-m-d H:i:s')
             );
             
-            if(!$this->Message->save($message)) {
-                $this->Session->setFlash('Votre message \'a pas pu être envoyé correctement, veuillez réessayer.', 'notif', array('type' => 'error'));
+            if($this->Message->save($message)) {
+                $this->loadModel('MessagesUser');
+                $this->loadModel('EventsUser');
+                $this->loadModel('Message');
+                //$this->MessagesUser->save(array('user_id' => $this->Auth-user('id'), 'event_id' => $eventId, 'status' => 1));
+                $orgas = $this->EventsUser->find('all', array(
+                    'conditions' => array(
+                        'event_id' => $eventId,
+                        'user_id <> ' => $this->Auth->user('id'),
+                        'type_id in (1,2)'),
+                    'fields' => array('user_id')
+                ));
+                $users = $this->Message->find('all', array(
+                    'conditions' => array(
+                        'event_id' => $eventId,
+                        'user_id <> ' => $this->Auth->user('id'),
+                        'presta_event' => '1'),
+                    'fields' => array('DISTINCT user_id')
+                ));
+                foreach($orgas as $orga) {
+                    $this->MessagesUser->save(array('message_id' => $this->Message->id, 'user_id' => $orga['EventsUser']['user_id']));
+                }
+                foreach($users as $user) {
+                    $trouve = false;
+                    foreach($orgas as $orga) {
+                        if($user['Message']['user_id'] == $orga['EventsUser']['user_id']) {
+                            $trouve = true;
+                            break;
+                        }
+                    }
+                    if(!$trouve) {
+                        $this->MessagesUser->save(array('message_id' => $this->Message->id, 'user_id' => $user['Message']['user_id']));
+                    }
+                }
+            } else {
+                $this->Session->setFlash('Votre message n\'a pas pu être envoyé correctement, veuillez réessayer.', 'notif', array('type' => 'error'));
             }
         }
         $this->redirect(array('action' => 'view', 'controller' => 'events', $eventId));
