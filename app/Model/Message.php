@@ -7,6 +7,10 @@ class Message extends AppModel{
             'foreignKey'   => 'user_id'
         )
     );
+    
+    public $hasMany = array(
+        'MessagesUsers'
+    );
 }
 
 ?>

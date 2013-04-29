@@ -14,7 +14,9 @@ class User extends AppModel {
             'error' => 'Le code captcha n\'est pas bon.'
         ));
     public $hasMany = array(
-        'EventsUsers');
+                        'EventsUsers',
+                        'MessagesUsers'
+                 );
     public $belongsTo = array(
         'Suptype');
     public $hasAndBelongsToMany = array(
