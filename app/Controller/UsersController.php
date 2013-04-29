@@ -370,5 +370,19 @@ class UsersController extends AppController {
         $this->autoRender = false;
         $this->Captcha->generate();
     }
+    
+        public function messages() {
+            $this->loadModel('MessagesUsers');
+            $this->set('title_for_layout', 'Mes Messages');
+            // récup des messages de l'user
+            $messages = $this->MessagesUsers->find(
+                'all', 
+                array(
+                    'fields'=>'status,event_id,Event.title',
+                    'conditions' => array('user_id' => $this->Auth->user('id'))
+                )
+            );
+            $this->set(array('messages' => $messages));
+    }
 
 }

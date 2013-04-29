@@ -1,6 +1,6 @@
 
 jQuery(function($) {
-    $('.dropdown-toggle').dropdown();
+    $('.tooltip').tooltip('show');
     
     // clignotement kikoo de l'enveloppe
     for (var i = 0; i<3; i++) {

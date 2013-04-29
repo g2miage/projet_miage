@@ -5,12 +5,13 @@ class Message extends AppModel{
         'User' => array(
             'className'    => 'User',
             'foreignKey'   => 'user_id'
+        ),
+        'Event' => array(
+            'className'    => 'Event',
+            'foreignKey'   => 'event_id'
         )
     );
-    
-    public $hasMany = array(
-        'MessagesUsers'
-    );
+
 }
 
 ?>

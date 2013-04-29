@@ -9,7 +9,7 @@ class Event extends AppModel{
     public $actsAs = array('Containable');
     
     public $hasMany = array(
-        'EventsUsers'
+        'EventsUsers','MessagesUsers'
     );
     
     public $belongsTo = array(
