@@ -130,7 +130,7 @@ echo $this->Form->create("Event", array('action' => 'index', 'div' => false));
                             </td>
                             <td>
                                 <?php
-                                echo $event['Event']['startday'];
+                                echo $eventCreated['Event']['startday'];
                                 ?>
                             </td>
                         </tr>
