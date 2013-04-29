@@ -63,17 +63,21 @@ class MessagesController extends AppController {
         }
     }
 
-    function delete($messageId, $type, $eventId, $userId = null) {
+    function delete($messageId, $eventId = null,$type = null, $userId = null) {
         $message = current($this->Message->findById($messageId));
         if (!empty($message['file'])) {
             $fileTmp = new File($message['file'], false, 0777);
             $fileTmp->delete();
         }
         $this->Message->delete($messageId);
-        if ($type == 'organisateurs') {
-            $this->redirect(array('action' => 'index', $eventId, $userId));
-        } else {
-            $this->redirect(array('action' => 'index', $eventId));
+        if ($type != null && $eventId != null) {
+            if ($type == 'organisateurs') {
+                $this->redirect(array('action' => 'index', $eventId, $userId));
+            } else {
+                $this->redirect(array('action' => 'index', $eventId));
+            }
+        } elseif ($eventId != null) {
+            $this->redirect(array('action' => 'view', 'controller' => 'events', $eventId));
         }
     }
 
