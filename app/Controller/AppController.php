@@ -296,5 +296,18 @@ class AppController extends Controller {
             return $result;
         }
     }
+    
+    
+    // fonction qui check le nombre de messages non lus de l'utilisateur
+    public function checkNbMsg(){
+        $this->loadModel('MessagesUsers');
+        $messages = $this->MessagesUsers->find('all', array(
+            'conditions' => array(
+                'MessagesUsers.user_id' => $this->Auth->user('id'),
+                'MessagesUsers.status' => 1,
+            )
+        ));
+        return $nbmsg = count($messages);
+    } 
 
 }
