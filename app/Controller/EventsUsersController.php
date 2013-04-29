@@ -91,6 +91,19 @@ class EventsUsersController extends AppController {
         $this->EventsUser->deleteAll($eventUser, false);
         $this->redirect(array('action' => 'view', 'controller' => 'events', $eventId));
     }
+    function rateEvent(){
+       if ($this->request->is('post')){
+           $rate = $this->request->data['EventsUser']['rating'] + 1 ;
+           
+           if(!$this->EventsUser->updateAll( array('EventsUser.note' => $rate),
+                   array('EventsUser.event_id'=>$this->request->data['EventsUser']['event_id'],'EventsUser.user_id'=>$this->Auth->user('id')) ))
+           {
+               $this->session->setFlash('La mise à jour de la note n\'a pas été prise en compte');
+           }
+                          $this->redirect(array('action'=>'view','controller'=>'events',$this->request->data['EventsUser']['event_id']));
+
+       }
+    }
 
 }
 
