@@ -1,5 +1,13 @@
-jQuery(function($) {
 
+jQuery(function($) {
+    $('.dropdown-toggle').dropdown();
+    
+    // clignotement kikoo de l'enveloppe
+    for (var i = 0; i<3; i++) {
+        $(".blink").fadeOut("slow");
+        $(".blink").fadeIn("slow");
+    }
+    
     // Trad des noms pour le calendrier/l'heure
     $.datepicker.regional['fr'] = {
         closeText: 'Fermer',
@@ -38,7 +46,7 @@ jQuery(function($) {
     document.getElementById('UserZip').value ='Code postal';
     document.getElementById('UserCity').value ='Ville';
     document.getElementById('UserCountry').value ='pays';
-    
+
     $("#prestabox").click(function(){
         // Si cochée
         if ($("#prestabox").is(":checked")){

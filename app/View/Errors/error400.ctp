@@ -1,32 +1,29 @@
-<?php
-/**
- *
- * PHP 5
- *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       app.View.Errors
- * @since         CakePHP(tm) v 0.10.0.1076
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
- */
-?>
-<h2><?php echo $name; ?></h2>
-<p class="error">
-	<strong><?php echo __d('cake', 'Error'); ?>: </strong>
-	<?php printf(
-		__d('cake', 'The requested address %s was not found on this server.'),
-		"<strong>'{$url}'</strong>"
-	); ?>
-</p>
-<?php
-if (Configure::read('debug') > 0):
-	echo $this->element('exception_stack_trace');
-endif;
-?>
+<div class='row'>
+    <div class='span8 offset2 form2'>
+                <?php if ($error instanceof ForbiddenException) { ?>
+                    <h1 class='text-center text-warning'><b>Vous n'êtes pas connecté <span class='muted'>:(</span></b></h1>
+                    <hr />
+                    <div class="text-center">
+                        <!--<div class="span6 offset1 ">-->
+                            <h4>Vous devez être connecté pour accèder à cette page !</h4>
+                            <br />
+                                <h5>Vous avez déjà un compte ?</h5>
+                                <?php echo $this->Html->link('Je me connecte !',  array('controller'=>'Users','action'=>'login'),array('class'=>'btn btn-info'));?>
+                                <br />
+                                <br />
+                                <h5>Pas encore de compte ?</h5>
+                                <?php echo $this->Html->link('Je crée mon compte !',  array('controller'=>'Users','action'=>'signup'),array('class'=>'btn btn-success'));?>
+                <?php } else { ?>
+                    <h1 class='text-center text-error'><b>Page non trouvée <span class='muted'>:(</span></b></h1>
+                    <hr />
+                    <div class="text-center">
+                        <!--<div class="span6 offset1 ">-->
+                            <h4>La page que vous recherchez n'existe pas !</h4>
+                            <br />
+                            <?php echo $this->Html->link('Retourner à l\'accueil',  '/',array('class'=>'btn btn-info'));?>
+                <?php } ?>
+                    
+                        <!--</div>-->
+                    </div>
+    </div>
+</div>

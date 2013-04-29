@@ -38,6 +38,7 @@ class EventsController extends AppController {
     }
 
     public function view($id) {
+        
         if (!$id) {
             throw new NotFoundException(__('Invalid post'));
         }
@@ -72,6 +73,15 @@ class EventsController extends AppController {
             'conditions' => array('EventsUsers.type_id' => 4, 'EventsUsers.event_id' => $id),
             'fields' => array('User.id', 'User.username')
         ));
+        $rate = $this->Event->EventsUsers->find('first', array(
+            'conditions' => array('EventsUsers.user_id' => $current_user, 'EventsUsers.event_id' => $id),
+            'fields' => array('EventsUsers.note')
+        ));
+        
+        $this->loadModel('Message');
+        $messages = $this->Message->find('all', array(
+            'conditions' => array('event_id' => $id, 'presta_event' => '1')
+        ));
 
         if (!$event) {
             throw new NotFoundException(__('Invalid post'));
@@ -85,7 +95,9 @@ class EventsController extends AppController {
             'participants' => $participants,
             'current_user' => $current_user,
             'typename' => $type['Eventtype']['name'],
-            'prestataires' => $prestataires
+            'prestataires' => $prestataires,
+            'messages' => $messages,
+            'note'=>$rate['EventsUsers']['note']
         );
 
         $this->set($v);
