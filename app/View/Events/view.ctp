@@ -126,19 +126,17 @@ $map_options = array(
         
         
         echo '<div class="pull-right">';
-        //echo "<fieldset class='rating'>";
         echo '  Noter l\'événement :</br> ';
-        echo $this->Form->create('EventsUser', array('action'=>'rateEvent','controller'=>'eventsUsers'),array('fieldset'=>array('class'=>"rating")));
+        echo $this->Form->create('EventsUser', array('action'=>'rateEvent','controller'=>'eventsUsers',
+        'inputDefaults' => array (
+            'fieldset' => false,
+            'legend' => false
+        )));
         echo $this->Form->hidden('event_id',array('value' => $event['id']));
-        //echo $this->Form->inputs(array('fieldset' => false));
-        echo $this->Form->input('rating',array('type'=>'radio', 'options'=> range(1,5),'value'=>$note-1,'onclick'=>'this.form.submit()'));
+        echo "<fieldset class='rating'>";
+        echo $this->Form->input('rating',array('type'=>'radio', 'options'=> range(1,5),'value'=>$note-1,'onclick'=>'this.form.submit()', 'div' => false));
+        echo '</fieldset>';
         echo $this->Form->end();
-        //echo "<input type='radio' id='star5' name='rating' value='5' onclick='rate(value)'/><label for='star5' title='Rocks!'>5 stars</label>";
-        //echo "<input type='radio' id='star4' name='rating' value='4' onclick='rate(value)'/><label for='star4' title='Pretty good'>4 stars</label>";
-        //echo "<input type='radio' id='star3' name='rating' value='3' onclick='rate(value)'/><label for='star3' title='Meh'>3 stars</label>";
-        //echo "<input type='radio' id='star2' name='rating' value='2' onclick='rate(value)'/><label for='star2' title='Kinda bad'>2 stars</label>";
-        //echo "<input type='radio' id='star1' name='rating' value='1' onclick='rate(value)'/><label for='star1' title='Sucks big time'>1 star</label>";
-        //echo '</fieldset>';
         echo '</div>';
         }
         
