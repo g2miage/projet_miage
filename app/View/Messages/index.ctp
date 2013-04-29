@@ -24,7 +24,7 @@ echo '<h3>' . $this->html->link($eventName, array('action' => 'view', 'controlle
                     echo '<tr class="warning"><td>' . $message['Message']['message'] . '</td>';
                     if ($type == 'prestataires') {
                         echo '<td>';
-                        echo $this->Html->link('<i class="icon-trash"></i>', array('action' => 'delete', $message['Message']['id'], $type, $eventId), array('escape' => false, 'class' => 'pull-right'));
+                        echo $this->Html->link('<i class="icon-trash"></i>', array('action' => 'delete', $message['Message']['id'], $eventId, $type), array('escape' => false, 'class' => 'pull-right'));
                         echo '</td>';
                     }
                 } else {
@@ -32,7 +32,7 @@ echo '<h3>' . $this->html->link($eventName, array('action' => 'view', 'controlle
                     echo '<tr class="success"><td>' . $message['Message']['message'] . '</td>';
                     if ($type == 'organisateurs') {
                         echo '<td>';
-                        echo $this->Html->link('<i class="icon-trash"></i>', array('action' => 'delete', $message['Message']['id'], $type, $eventId, $supplierId), array('escape' => false, 'class' => 'pull-right'));
+                        echo $this->Html->link('<i class="icon-trash"></i>', array('action' => 'delete', $message['Message']['id'], $eventId, $type, $supplierId), array('escape' => false, 'class' => 'pull-right'));
                         echo '</td>';
                     }
                 }

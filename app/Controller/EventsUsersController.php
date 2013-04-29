@@ -93,8 +93,7 @@ class EventsUsersController extends AppController {
     }
     function rateEvent(){
        if ($this->request->is('post')){
-           $rate = $this->request->data['EventsUser']['rating'] + 1 ;
-           
+           $rate = $this->request->data['EventsUser']['rating'];
            if(!$this->EventsUser->updateAll( array('EventsUser.note' => $rate),
                    array('EventsUser.event_id'=>$this->request->data['EventsUser']['event_id'],'EventsUser.user_id'=>$this->Auth->user('id')) ))
            {

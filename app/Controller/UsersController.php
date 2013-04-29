@@ -264,7 +264,7 @@ class UsersController extends AppController {
         $this->loadModel('Departement');
         $this->User->EventsUsers->contain('Event');
 
-        $listEvents = $this->User->EventsUsers->find('all', array('conditions' => array('user_id' => $user_id, 'type_id in (1,2)')));
+        $listEvents = $this->User->EventsUsers->find('all', array('conditions' => array('user_id' => $user_id, 'type_id in (1,2)', 'str_to_date(endday, \'%d/%m/%Y\') > date_format(now(),\'%Y-%m-%d\')')));
         $supplierEvents = $this->User->EventsUsers->find('all', array('conditions' => array('type_id' => '4'), 'contain' => false));
         $supt = $this->Suptype->find('list', array('fields' => array('stype')));
         $depts = $this->Departement->find('list', array('fields' => array('dept')));

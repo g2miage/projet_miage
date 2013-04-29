@@ -15,11 +15,11 @@ class EventsController extends AppController {
         $this->loadModel('Type');
         $this->loadModel('User');
         $idUser = $this->Auth->user('id');
-        $userSuptypeId = $this->User->find('list',array(
-        'fields' => array('id', 'suptype_id'),
-         'conditions' => array('id' => $idUser)));
-        $userType = $this->Type->find('list',array(
-        'fields' => array('id', 'type')));
+        $userSuptypeId = $this->User->find('list', array(
+            'fields' => array('id', 'suptype_id'),
+            'conditions' => array('id' => $idUser)));
+        $userType = $this->Type->find('list', array(
+            'fields' => array('id', 'type')));
         if (isset($this->request->data['Event']['searchEventTitle']) == TRUE
         ) {
 
@@ -31,14 +31,14 @@ class EventsController extends AppController {
         } else {
             $this->recherche("all");
         }
-        
+
         $this->set('current_user', $this->Auth->user('id'));
         $this->set('userSuptypeId', $userSuptypeId);
         $this->set('userType', $userType);
     }
 
     public function view($id) {
-        
+
         if (!$id) {
             throw new NotFoundException(__('Invalid post'));
         }
@@ -68,7 +68,7 @@ class EventsController extends AppController {
             'conditions' => array('EventsUsers.type_id' => 2, 'EventsUsers.event_id' => $id),
             'fields' => array('User.id', 'User.username')
         ));
-        
+
         $prestataires = $this->Event->EventsUsers->find('all', array(
             'conditions' => array('EventsUsers.type_id' => 4, 'EventsUsers.event_id' => $id),
             'fields' => array('User.id', 'User.username')
@@ -77,12 +77,12 @@ class EventsController extends AppController {
             'conditions' => array('EventsUsers.user_id' => $current_user, 'EventsUsers.event_id' => $id),
             'fields' => array('EventsUsers.note')
         ));
-        
+
         $this->loadModel('Message');
         $messages = $this->Message->find('all', array(
             'conditions' => array('event_id' => $id, 'presta_event' => '1')
         ));
-
+        $this->getAverageNote($id);
         if (!$event) {
             throw new NotFoundException(__('Invalid post'));
         }
@@ -97,7 +97,8 @@ class EventsController extends AppController {
             'typename' => $type['Eventtype']['name'],
             'prestataires' => $prestataires,
             'messages' => $messages,
-            'note'=>$rate['EventsUsers']['note']
+            'note' => $rate['EventsUsers']['note'],
+            'noteMoyenne' => round($this->getAverageNote($id),1)
         );
 
         $this->set($v);
@@ -210,8 +211,8 @@ class EventsController extends AppController {
             $data = $this->Event->find('all', array('order' => 'endday DESC, endtime DESC'));
         } else {
             $data = $data = $this->Event->find('all', array('conditions' =>
-                array('Event.title LIKE' => '%' . $this->request->data['Event']['searchEventTitle'] . '%'), 
-                array ('order' => 'endday DESC, endtime DESC')));
+                array('Event.title LIKE' => '%' . $this->request->data['Event']['searchEventTitle'] . '%'),
+                array('order' => 'endday DESC, endtime DESC')));
         }
 
         $i = 0;
@@ -267,10 +268,10 @@ class EventsController extends AppController {
 
     public function addfile($eventId) {
         $this->loadModel('User');
-        $this->uploadCsv('csv', $this->request->data, '', 'projet_'.$eventId);
-        $fichier = 'csv/projet_'.$eventId.'.csv';
+        $this->uploadCsv('csv', $this->request->data, '', 'projet_' . $eventId);
+        $fichier = 'csv/projet_' . $eventId . '.csv';
 
-        $handle = @fopen('csv/projet_'.$eventId.'.csv', "r");
+        $handle = @fopen('csv/projet_' . $eventId . '.csv', "r");
 
         if ($handle) {
             while (($buffer = fgets($handle, 4096)) != false) {
@@ -410,7 +411,7 @@ class EventsController extends AppController {
                 echo "Error: unexpected fgets() fail\n";
             }
             fclose($handle);
-            unlink('csv/projet_'.$eventId.'.csv');
+            unlink('csv/projet_' . $eventId . '.csv');
         }
         $this->redirect(array('action' => 'view', $eventId));
     }
@@ -436,7 +437,7 @@ class EventsController extends AppController {
         $creatorId = $this->EventsUsers->find('first', array(
             'conditions' => array('EventsUsers.type_id' => 1, 'EventsUsers.event_id' => $eventId)));
         $creatorId = $creatorId['EventsUsers']['id'];
-     
+
 
         $d = $this->User->find('all', array(
             'conditions' => array(
@@ -449,13 +450,12 @@ class EventsController extends AppController {
             'recursive' => -1));
 
         foreach ($d as $key => $user) {
-           
+
             if ($user['User']['id'] == $currentUser || $user['User']['id'] == $creatorId) {
                 unset($d[$key]);
             }
-             
         }
-        
+
 
         return $d;
     }
@@ -510,9 +510,9 @@ class EventsController extends AppController {
         }
         $this->redirect(array('action' => 'view', $e_id));
     }
-    
-    function participant($u_id, $e_id){
-                try {
+
+    function participant($u_id, $e_id) {
+        try {
             $this->loadModel('EventsUsers');
             $eventUser = $this->EventsUsers->find('all', array('conditions' => array('event_id' => $e_id, 'user_id' => $u_id)));
             if (empty($eventUser)) {
@@ -534,9 +534,7 @@ class EventsController extends AppController {
             $this->Session->setFlash('Cet utilisateur est déjà invité ou organisateur', 'notif', array('type' => 'error'));
         }
         $this->redirect(array('action' => 'view', $e_id));
-
     }
-    
 
     function mailinvitation($e_id, $u_id, $role) {
         $this->loadModel('User');
@@ -566,6 +564,24 @@ class EventsController extends AppController {
         }
 
         $this->redirect(array('action' => 'edit', $id));
+    }
+
+    private function getAverageNote($id) {
+        $this->loadModel('EventsUser');
+        $moyenne = $this->EventsUser->find('first',
+        array(
+            'conditions' => array(
+                'EventsUser.event_id' => $id,
+                'EventsUser.note <>' => '0'
+            ),
+            'recursive' => 1,
+            'fields' => array(
+                'AVG( EventsUser.note ) AS average',
+            // +whatever else you need
+            )
+        )
+        );
+        return $moyenne[0]['average'];
     }
 
 }
