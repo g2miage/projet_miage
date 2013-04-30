@@ -211,6 +211,7 @@ $map_options = array(
             }
             if ($current_user == $createur['id'] || $boolOrganisateur == 1) {
                 echo '<li><a href="#tab4" data-toggle="tab">Prestataires</a></li>';
+                echo '<li><a href="#tab5" data-toggle="tab">Documents</a></li>';
             }
             ?>
         </ul>
@@ -381,6 +382,29 @@ $map_options = array(
 
                 </table>  
 
+            </div>
+                  <div class="tab-pane" id="tab5">
+                <?php
+                if(!empty($docs)){
+                foreach ($docs as $doc) {
+                    $path = pathinfo($doc['Message']['file']);
+                    echo '<table class="table">';
+                    echo $doc['Message']['date'] . '  ' . $doc['Message']['orga_username'];
+                    if ($doc['Message']['user_id'] == $current_user) {
+                        echo '<tr class="success"><td>' . $this->Html->link($path['filename'], '/' . $doc['Message']['file']) . '</td>';
+                    } else {
+                        echo '<tr class="warning"><td>' . $this->Html->link($path['filename'], '/' . $doc['Message']['file']) . '</td>';
+                    }
+                    echo '</tr></table>';
+                }
+                }
+
+                echo $this->form->create('Message', array('type' => 'file', 'controller' => 'Messages', 'action' => 'addFileEvent'));
+                echo $this->form->input('', array('type' => 'file'));
+                echo $this->Form->input('Message.eventId', array('type' => 'hidden', 'value' => $event['id']));
+                echo $this->Form->input('Message.userId', array('type' => 'hidden', 'value' => $current_user));
+                echo $this->form->end('Sauvegarder le fichier');
+                ?>
             </div>
         </div>
     </div>

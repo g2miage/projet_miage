@@ -230,6 +230,30 @@ class MessagesController extends AppController {
         }
     }
 
+    function addFileEvent() {
+        $file = $this->uploadFile('files', $this->request->data, '');
+        $eventId = $this->request->data['Message']['eventId'];
+        $userId = $this->request->data['Message']['userId'];
+        $this->loadModel('User');
+        $orga = $this->User->findById($userId);
+
+        $orgaUsername = $orga['User']['username'];
+        $message = array(
+            'user_id' => $userId,
+            'event_id' => $eventId,
+            'date' => date('Y-m-d H:i:s'),
+            'orga_username' => $orgaUsername,
+            'file' => $file['urls'][0],
+            'presta_event' => '1');
+        debug($message);
+        if ($message['file'] != NULL) {
+            if (!$this->Message->save($message, true, array('user_id', 'event_id', 'date', 'orga_username', 'file', 'presta_event'))) {
+                $this->Session->setFlash('Votre document n\'a pas pu être envoyé correctement, veuillez réessayer.', 'notif', array('type' => 'error'));
+            }
+        }
+        $this->redirect(array('controller' => 'Events', 'action' => 'view', $eventId));
+    }
+
 }
 
 ?>

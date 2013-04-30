@@ -80,8 +80,17 @@ class EventsController extends AppController {
 
         $this->loadModel('Message');
         $messages = $this->Message->find('all', array(
-            'conditions' => array('event_id' => $id, 'presta_event' => '1')
+            'conditions' => array('event_id' => $id, 'message <>' => "" , 'presta_event' => '1')
         ));
+        
+        $docs = $this->Message->find('all', array(
+                     'conditions' => array(
+                         'event_id' => $id,
+                         'presta_event' => '1',
+                         'file <>' => "" 
+                         )));      
+         
+         
         $this->getAverageNote($id);
         if (!$event) {
             throw new NotFoundException(__('Invalid post'));
@@ -98,7 +107,8 @@ class EventsController extends AppController {
             'prestataires' => $prestataires,
             'messages' => $messages,
             'note' => $rate['EventsUsers']['note'],
-            'noteMoyenne' => round($this->getAverageNote($id),1)
+            'noteMoyenne' => round($this->getAverageNote($id),1),
+            'docs' => $docs
         );
 
         $this->set($v);
