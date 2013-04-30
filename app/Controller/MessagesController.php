@@ -6,7 +6,7 @@ class MessagesController extends AppController {
         $this->loadModel('User');
         $this->loadModel('Event');
         $currentEvent = current($this->Event->findById($eventId));
-        
+
         if ($supplierId != null) {
             $user = current($this->User->findById($supplierId));
             $this->set('supplierName', $user['username']);
@@ -53,7 +53,7 @@ class MessagesController extends AppController {
             $text = $this->request->data['Message']['message'];
             $eventId = $this->request->data['Message']['eventId'];
             $date = date('Y-m-d H:i:s');
-            $message = array('event_id' => $eventId, 'user_id' => $userId, 'message' => $text, 'satus' => '0', 'date' => $date, 'orga_username' => $orga_username,'presta_event' => '0');
+            $message = array('event_id' => $eventId, 'user_id' => $userId, 'message' => $text, 'satus' => '0', 'date' => $date, 'orga_username' => $orga_username, 'presta_event' => '0');
             $this->Message->save($message);
             $this->loadModel('MessagesUser');
             $this->loadModel('EventsUser');
@@ -63,15 +63,23 @@ class MessagesController extends AppController {
                     'user_id <> ' => $this->Auth->user('id'),
                     'type_id in (1,2)'),
                 'fields' => array('user_id')
-                ));
-            foreach($users as $user) {
-                $this->MessagesUser->save(array('message_id' => $this->Message->id, 'user_id' => $user['EventsUser']['user_id']));
+            ));
+            foreach ($users as $user) {
+                $existOrga = $this->MessagesUser->find('all', array('conditions' => array('event_id' => $eventId, 'user_id' => $user['EventsUser']['user_id'])));
+                if (empty($existOrga)) {
+                    $this->MessagesUser->save(array('event_id' => $eventId, 'user_id' => $user['EventsUser']['user_id']));
+                } else {
+                    $this->MessagesUser->updateAll(array('status' => '0'), array('event_id' => $eventId, 'user_id' => $user['EventsUser']['user_id']));
+                }
             }
+
             if ($type == 'organisateurs') {
-                $this->MessagesUser->save(array('message_id' => $this->Message->id, 'user_id' => $userId));
-            }
-            
-            if ($type == 'organisateurs') {
+                $existSupplier = $this->MessagesUser->find('all', array('conditions' => array('event_id' => $eventId, 'user_id' => $userId)));
+                if (empty($existSupplier)) {
+                    $this->MessagesUser->save(array('event_id' => $eventId, 'user_id' => $userId));
+                } else {
+                    $this->MessagesUser->updateAll(array('status' => '0'), array('event_id' => $eventId, 'user_id' => $userId));
+                }
                 $this->redirect(array('action' => 'index', $eventId, $userId));
             } else {
                 $this->redirect(array('action' => 'index', $eventId));
@@ -79,7 +87,7 @@ class MessagesController extends AppController {
         }
     }
 
-    function delete($messageId, $eventId = null,$type = null, $userId = null) {
+    function delete($messageId, $eventId = null, $type = null, $userId = null) {
         $message = current($this->Message->findById($messageId));
         if (!empty($message['file'])) {
             $fileTmp = new File($message['file'], false, 0777);
@@ -102,14 +110,14 @@ class MessagesController extends AppController {
             $file = $this->uploadFile('files', $this->request->data, '');
             $type = $this->request->data['typeUser'];
             if (array_key_exists('urls', $file)) {
-          
+
                 if ($type == 'organisateurs') {
                     $orgaUsername = $this->getCurrentUsername();
                     $message = array(
                         'user_id' => $this->request->data['Message']['supplierId'],
                         'event_id' => $this->request->data['Message']['eventId'],
                         'date' => date('Y-m-d H:i:s'),
-                        'orga_username' => $orgaUsername, 
+                        'orga_username' => $orgaUsername,
                         'file' => $file['urls'][0],
                         'presta_event' => '0');
                 } else {
@@ -118,16 +126,16 @@ class MessagesController extends AppController {
                         'orga_username' => null, 'date' => date('Y-m-d H:i:s'),
                         'file' => $file['urls'][0], 'presta_event' => '0');
                 }
-                if ($this->Message->save($message, true, array('user_id', 'event_id', 'orga_username', 'date', 'file','presta_event'))) {
+                if ($this->Message->save($message, true, array('user_id', 'event_id', 'orga_username', 'date', 'file', 'presta_event'))) {
                     //$this->Session->setFlash('Vous avez ajouté un fichier', 'notif');
                 }
             } else {
                 $this->Session->setFlash('Votre fichier n\'a pas pu être sauvegarder.', 'notif', array('type' => 'error'));
             }
             if ($type == 'organisateurs') {
-               $this->redirect(array('action' => 'index', $this->request->data['Message']['eventId'], $this->request->data['Message']['supplierId']));
+                $this->redirect(array('action' => 'index', $this->request->data['Message']['eventId'], $this->request->data['Message']['supplierId']));
             } else {
-               $this->redirect(array('action' => 'index', $this->request->data['Message']['eventId']));
+                $this->redirect(array('action' => 'index', $this->request->data['Message']['eventId']));
             }
         }
     }
@@ -138,19 +146,19 @@ class MessagesController extends AppController {
         $orga_username = $currentUser['username'];
         return $orga_username;
     }
-    
+
     function addMessageEvent() {
         if ($this->request->is('post')) {
             $eventId = $this->request->data['Message']['eventId'];
-            $userId =  $this->Auth->user('id');
+            $userId = $this->Auth->user('id');
             $message = array(
-              'event_id' => $eventId,
-              'user_id' => $userId,
-              'message' => $this->request->data['Message']['message'],
-              'presta_event' => '1', 'date' => date('Y-m-d H:i:s')
+                'event_id' => $eventId,
+                'user_id' => $userId,
+                'message' => $this->request->data['Message']['message'],
+                'presta_event' => '1', 'date' => date('Y-m-d H:i:s')
             );
-            
-            if($this->Message->save($message)) {
+
+            if ($this->Message->save($message)) {
                 $this->loadModel('MessagesUser');
                 $this->loadModel('EventsUser');
                 $this->loadModel('Message');
@@ -169,19 +177,30 @@ class MessagesController extends AppController {
                         'presta_event' => '1'),
                     'fields' => array('DISTINCT user_id')
                 ));
-                foreach($orgas as $orga) {
-                    $this->MessagesUser->save(array('message_id' => $this->Message->id, 'user_id' => $orga['EventsUser']['user_id']));
+                foreach ($orgas as $orga) {
+                    $existOrga = $this->MessagesUser->find('all', array('conditions' => array('event_id' => $eventId, 'user_id' => $orga['EventsUser']['user_id'])));
+                    if (empty($existOrga)) {
+                        $this->MessagesUser->save(array('event_id' => $eventId, 'user_id' => $orga['EventsUser']['user_id']));
+                    } else {
+                        $this->MessagesUser->updateAll(array('status' => '0'), array('event_id' => $eventId, 'user_id' => $orga['EventsUser']['user_id']));
+                    }
                 }
-                foreach($users as $user) {
+                foreach ($users as $user) {
+
                     $trouve = false;
-                    foreach($orgas as $orga) {
-                        if($user['Message']['user_id'] == $orga['EventsUser']['user_id']) {
+                    foreach ($orgas as $orga) {
+                        if ($user['Message']['user_id'] == $orga['EventsUser']['user_id']) {
                             $trouve = true;
                             break;
                         }
                     }
-                    if(!$trouve) {
-                        $this->MessagesUser->save(array('message_id' => $this->Message->id, 'user_id' => $user['Message']['user_id']));
+                    if (!$trouve) {
+                        $existUser = $this->MessagesUser->find('all', array('conditions' => array('event_id' => $eventId, 'user_id' => $user['Message']['user_id'])));
+                        if (empty($existUser)) {
+                            $this->MessagesUser->save(array('event_id' => $eventId, 'user_id' => $user['Message']['user_id']));
+                        } else {
+                            $this->MessagesUser->updateAll(array('status' => '0'), array('event_id' => $eventId, 'user_id' => $user['Message']['user_id']));
+                        }
                     }
                 }
             } else {
@@ -191,27 +210,26 @@ class MessagesController extends AppController {
         $this->redirect(array('action' => 'view', 'controller' => 'events', $eventId));
     }
 
-    function validateDoc($messageId, $type, $eventId, $userId = null){
+    function validateDoc($messageId, $type, $eventId, $userId = null) {
         $message = current($this->Message->findById($messageId));
-        $this->Message->updateAll( array('status' => 1), array('Message.id' => $messageId));
+        $this->Message->updateAll(array('status' => 1), array('Message.id' => $messageId));
         if ($type == 'organisateurs') {
             $this->redirect(array('action' => 'index', $eventId, $userId));
         } else {
             $this->redirect(array('action' => 'index', $eventId));
         }
     }
- 
-    
-    function refuseDoc($messageId, $type, $eventId, $userId = null){
+
+    function refuseDoc($messageId, $type, $eventId, $userId = null) {
         $message = current($this->Message->findById($messageId));
-        $this->Message->updateAll( array('status' => 0), array('Message.id' => $messageId));
+        $this->Message->updateAll(array('status' => 0), array('Message.id' => $messageId));
         if ($type == 'organisateurs') {
             $this->redirect(array('action' => 'index', $eventId, $userId));
         } else {
             $this->redirect(array('action' => 'index', $eventId));
         }
     }
-    
+
 }
 
 ?>
