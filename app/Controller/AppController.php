@@ -304,7 +304,7 @@ class AppController extends Controller {
         $messages = $this->MessagesUsers->find('all', array(
             'conditions' => array(
                 'MessagesUsers.user_id' => $this->Auth->user('id'),
-                'MessagesUsers.status' => 1,
+                'MessagesUsers.status' => 0,
             )
         ));
         return $nbmsg = count($messages);
