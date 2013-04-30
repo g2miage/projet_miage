@@ -583,5 +583,19 @@ class EventsController extends AppController {
         );
         return $moyenne[0]['average'];
     }
+    
+     function paiementInscription(){
+        $prix = $this->Event->pot;
+        debug($this->Event->amount);
+        $eventId = $this->request->data['EventsUser']['eventId'];
+        $userId = $this->request->data['EventsUser']['userId'];
+      $this->Event->EventsUser->updateAll(
+                                array('EventsUser.pot' => $prix, 'EventsUser.type_id' => 5 ), array(
+                            'EventsUser.event_id' => $eventId,
+                            'EventsUser.user_id' => $userId,)
+                        );
+      $this->Session->setFlash('Votre inscription a été prise en compte', 'notif');
+      $this->redirect(array('action' => 'view', $eventId));
+    }
 
 }
