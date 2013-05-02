@@ -126,11 +126,13 @@ $map_options = array(
             echo $this->Html->link("Discuter avec les organisateurs", array('action' => 'index', $event['id'], 'controller' => 'Messages'), array('class' => 'btn btn-info pull-right'));
         } else {
             $btnInscription = 0;
+            $estPayant = 0;
             foreach ($invites as $invite) {
                 if ($current_user == $invite['User']['id'] && $boolEstPasse == 0 && ($event['amount'] == 0 || $event['amount'] == NULL)) {
                     echo $this->Html->link("S'inscrire", array('action' => 'participate', $event['id']), array('class' => 'btn btn-success pull-right'));
                     $btnInscription = 1;
                 }elseif ($current_user == $invite['User']['id'] && $boolEstPasse == 0 && ($event['amount'] != 0 || $event['amount'] != null)) {
+                    $estPayant = 1;
                     ?>
                     <a href='#myModal<?php $i ?>' role='button' class='btn btn-success pull-right' data-toggle='modal'>S'inscrire</a>
                     <div id="myModal<?php $i ?>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -194,7 +196,7 @@ $map_options = array(
                     echo '</div>';
                 }
             }
-            if ($event['visibility'] == 0 && $btnInscription == 0 && $btnParticipant == 0 && $boolEstPasse == 0) {
+            if ($event['visibility'] == 0 && $btnInscription == 0 && $btnParticipant == 0 && $boolEstPasse == 0 && $estPayant == 0) {
                 echo $this->Html->link("S'inscrire", array('action' => 'participate', $event['id']), array('class' => 'btn btn-large btn-success pull-right'));
             }
         }
@@ -392,8 +394,14 @@ $map_options = array(
                     echo $doc['Message']['date'] . '  ' . $doc['Message']['orga_username'];
                     if ($doc['Message']['user_id'] == $current_user) {
                         echo '<tr class="success"><td>' . $this->Html->link($path['filename'], '/' . $doc['Message']['file']) . '</td>';
+                        echo '<td>';
+                        echo $this->Html->link('<i class="icon-trash"></i>', array('action' => 'delete', 'controller' => 'messages', $doc['Message']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right'));
+                        echo '</td>';
                     } else {
                         echo '<tr class="warning"><td>' . $this->Html->link($path['filename'], '/' . $doc['Message']['file']) . '</td>';
+                        echo '<td>';
+                        echo $this->Html->link('<i class="icon-trash"></i>', array('action' => 'delete', 'controller' => 'messages', $doc['Message']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right'));   
+                        echo '</td>';
                     }
                     echo '</tr></table>';
                 }
