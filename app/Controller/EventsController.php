@@ -8,7 +8,7 @@
 class EventsController extends AppController {
 
     // Helper GoogleMap
-    public $helpers = array('GoogleMap', 'Tinymce');
+    public $helpers = array('GoogleMap', 'Tinymce','Csv');
 
     public function index() {
         //On verifie si une recherche a été effectuée,
@@ -606,6 +606,13 @@ class EventsController extends AppController {
                         );
       $this->Session->setFlash('Votre inscription a été prise en compte', 'notif');
       $this->redirect(array('action' => 'view', $eventId));
+    }
+    
+    function download() {
+        $this->set('events', $this->Event->find('all'));
+        $this->layout = null;
+        $this->autoLayout = false;
+        Configure::write('debug ','0');
     }
 
 }

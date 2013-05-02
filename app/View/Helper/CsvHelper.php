@@ -2,9 +2,9 @@
 
 class CsvHelper extends AppHelper {
 
-    var $delimiter = ',';
+    var $delimiter = ';';
     var $enclosure = '"';
-    var $filename = 'Export.csv';
+    var $filename = 'Export_MyEvent.csv';
     var $line = array();
     var $buffer;
 

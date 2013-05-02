@@ -394,8 +394,14 @@ $map_options = array(
                     echo $doc['Message']['date'] . '  ' . $doc['Message']['orga_username'];
                     if ($doc['Message']['user_id'] == $current_user) {
                         echo '<tr class="success"><td>' . $this->Html->link($path['filename'], '/' . $doc['Message']['file']) . '</td>';
+                        echo '<td>';
+                        echo $this->Html->link('<i class="icon-trash"></i>', array('action' => 'delete', 'controller' => 'messages', $doc['Message']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right'));
+                        echo '</td>';
                     } else {
                         echo '<tr class="warning"><td>' . $this->Html->link($path['filename'], '/' . $doc['Message']['file']) . '</td>';
+                        echo '<td>';
+                        echo $this->Html->link('<i class="icon-trash"></i>', array('action' => 'delete', 'controller' => 'messages', $doc['Message']['id'], $event['id']), array('escape' => false, 'class' => 'pull-right'));   
+                        echo '</td>';
                     }
                     echo '</tr></table>';
                 }

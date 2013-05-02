@@ -72,12 +72,37 @@ class PagesController extends AppController {
 		}
                if($title_for_layout == "Accueil"){
                     $this->layout = null; // la page d'accueil utilise un layout différent
+                }else{
+                    if($title_for_layout == "Contact"){
+                        // si le formulaire est posté
+                        if($this->request->data){
+                            $name = $this->request->data['Page']['name'];
+                            $email = $this->request->data['Page']['email'];
+                            // Envoi du mail
+                            App::uses('CakeEmail', 'Network/Email');
+                            $mail = new CakeEmail();
+                            $mail->from($email);
+                            $mail->to('g2.miage@gmail.com');
+                            $mail->cc($email);
+                            $mail->subject("Contact de $name");
+                            $mail->emailFormat('html');
+                            $mail->template('mailprestataire');
+                            $mail->viewVars(array(
+                                    'eventTitle' => 'Contact de '.$name,
+                                    'username' => $name,
+                                    'firstname' => '', 
+                                    'lastname' => '',
+                                    'message' => $this->request->data['Page']['desc']
+                                )
+                            );
+                            $mail->send();
+                            $this->Session->setFlash("Votre mail a bien été envoyé !", "notif");
+                        }
+                    }
                 }
 		$this->set(compact('page', 'subpage', 'title_for_layout'));
 		$this->render(implode('/', $path));
 
                 
 	}
-        
-     
 }
