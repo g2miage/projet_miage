@@ -78,8 +78,6 @@ class PagesController extends AppController {
                         if($this->request->data){
                             $name = $this->request->data['Page']['name'];
                             $email = $this->request->data['Page']['email'];
-                            $desc = $this->request->data['Page']['desc'];
-                            
                             // Envoi du mail
                             App::uses('CakeEmail', 'Network/Email');
                             $mail = new CakeEmail();
@@ -94,7 +92,7 @@ class PagesController extends AppController {
                                     'username' => $name,
                                     'firstname' => '', 
                                     'lastname' => '',
-                                    'message' => $desc
+                                    'message' => $this->request->data['Page']['desc']
                                 )
                             );
                             $mail->send();
