@@ -88,7 +88,7 @@ class PagesController extends AppController {
                             $mail->emailFormat('html');
                             $mail->template('mailprestataire');
                             $mail->viewVars(array(
-                                    'eventTitle' => "Contact de $name",
+                                    'eventTitle' => 'Contact de '.$name,
                                     'username' => $name,
                                     'firstname' => '', 
                                     'lastname' => '',
