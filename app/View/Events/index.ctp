@@ -255,8 +255,8 @@ echo $this->Form->create("Event", array('action' => 'index', 'div' => false));
                                 'action' => 'view',
                                 $event['Event']['id'],
                                 Inflector::slug($event['Event']['title'], '-')
-                                    )
-                            );
+                                    ), array('class' => 'text-error'));
+                           // );
                             echo '</td>';
                             echo '<td>';
                             echo $event['Event']['startday'];
