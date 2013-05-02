@@ -340,7 +340,7 @@ class UsersController extends AppController {
     }
 
     public function view($id) {
-        
+
         if (!$id) {
             throw new NotFoundException();
         }
@@ -351,16 +351,39 @@ class UsersController extends AppController {
         // Récupération des infos du presta
         $supplier = $this->User->findById($id);
         //si on ne trouve pas d'infos
-        if(!$supplier){
+        if (!$supplier) {
             throw new NotFoundException();
         }
-        $this->loadModel('SupplierRating');
-        $note = $this->SupplierRating->find('first',array('conditions'=> array('id_user'=> $user_id , 'id_supplier' => $id),'fields'=>array('note')));
-        $this->User->id = $id;
-        $this->set('note',$note['SupplierRating']['note']);
-        $this->set('supplier', $supplier);
-        $this->set('title_for_layout', 'Prestataire ' . $supplier['User']['scorpname']);
         
+        // Cherche si l'utilisateur courant et le prestataire ont un événement en commun
+        // Si oui, on pourra le noter
+        $this->loadModel('Supplierrating');
+        $this->loadModel('EventsUser');
+        $eventsSuppliers = $this->EventsUser->find('all', array('conditions' =>
+            array('user_id' => $id)));
+        $eventsOrgas = $this->EventsUser->find('all', array('conditions' =>
+            array('user_id' => $user_id, 'type_id IN (1,2)')));
+        $ontTravailleEnsemble = false;
+        foreach ($eventsSuppliers as $eventsSupplier) {
+            foreach ($eventsOrgas as $eventsOrga) {
+                if ($eventsSupplier['EventsUser']['event_id'] == $eventsOrga['EventsUser']['event_id']) {
+                    $ontTravailleEnsemble = true;
+                    break;
+                }
+            }
+            if($ontTravailleEnsemble) {
+                break;
+            }
+        }
+        $note = $this->Supplierrating->find('first', array('conditions' => array('id_user' => $user_id, 'id_supplier' => $id), 'fields' => array('note')));
+        $this->User->id = $id;
+        $this->set('canRate',$ontTravailleEnsemble);
+        if (!empty($note)) {
+            $this->set('note', $note['Supplierrating']['note']);
+        }
+        $this->set('supplier', $supplier);
+        $this->set('noteMoyenne', round($this->getAverageNote($id),1));
+        $this->set('title_for_layout', 'Prestataire ' . $supplier['User']['scorpname']);
     }
 
     /**
@@ -373,27 +396,30 @@ class UsersController extends AppController {
         $this->autoRender = false;
         $this->Captcha->generate();
     }
-    
-        public function messages() {
-            $this->loadModel('MessagesUsers');
-            $this->set('title_for_layout', 'Mes Messages');
-            // récup des messages de l'user
-            $messages = $this->MessagesUsers->find(
-                'all', 
-                array(
-                    'fields'=>'status,event_id,Event.title',
-                    'conditions' => array('user_id' => $this->Auth->user('id'))
+
+    public function messages() {
+        $this->loadModel('MessagesUsers');
+        $this->set('title_for_layout', 'Mes Messages');
+        // récup des messages de l'user
+        $messages = $this->MessagesUsers->find(
+                'all', array(
+            'fields' => 'status,event_id,Event.title',
+            'conditions' => array('user_id' => $this->Auth->user('id'))
                 )
-            );
-            $this->set(array('messages' => $messages));
+        );
+        $this->set(array('messages' => $messages));
     }
-    
-    public function readMsg($idevent,$titleevent){
+
+    public function readMsg($idevent, $titleevent) {
         $this->loadModel('MessagesUsers');
         $user_id = $this->Auth->user('id');
-        if (!$user_id) { throw new ForbiddenException(); }
-        if(!$idevent){ throw new NotFoundException(); }
-        $this->MessagesUsers->updateAll(array('status'=>1),array('event_id'=>$idevent,'user_id'=>$user_id));
+        if (!$user_id) {
+            throw new ForbiddenException();
+        }
+        if (!$idevent) {
+            throw new NotFoundException();
+        }
+        $this->MessagesUsers->updateAll(array('status' => 1), array('event_id' => $idevent, 'user_id' => $user_id));
         $this->redirect(array(
             'controller' => 'Events',
             'action' => 'view',
@@ -401,4 +427,21 @@ class UsersController extends AppController {
             Inflector::slug($titleevent, '-'))
         );
     }
+    
+    private function getAverageNote($id) {
+        $this->loadModel('Supplierrating');
+        $moyenne = $this->Supplierrating->find('first',
+        array(
+            'conditions' => array(
+                'Supplierrating.id_supplier' => $id
+            ),
+            'recursive' => 1,
+            'fields' => array(
+                'AVG( Supplierrating.note ) AS average'
+            )
+        )
+        );
+        return $moyenne[0]['average'];
+    }
+
 }

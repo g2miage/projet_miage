@@ -27,29 +27,40 @@ $map_options = array(
 <!-- Example row of columns -->
 <h2><?php echo $supplier['User']['firstname'] . ' ' . $supplier['User']['lastname'] ?> </h2>
 <?php
-echo '<div class="pull-right">';
 
-
-echo '  Noter l\'événement :</br> ';
-echo $this->Form->create('Supplierratings', array('action' => 'rate', 'controller' => 'supplierratings',
-    'inputDefaults' => array(
-        'fieldset' => false,
-        'legend' => false
-)));
-echo $this->Form->hidden('supplier_id', array('value' => $supplier['User']['id']));
-echo "<fieldset class='rating'>";
-$options = array(
-    5 => '5',
-    4 => '4',
-    3 => '3',
-    2 => '2',
-    1 => '1'
-);
-echo $this->Form->input('rating', array('type' => 'radio', 'options' => $options, 'value' => $note, 'onclick' => 'this.form.submit()', 'div' => false));
-echo '</fieldset>';
-echo $this->Form->end();
-echo '</div>';
-
+if (isset($noteMoyenne)) {
+    echo 'Note : ' . $noteMoyenne.'  ' ;
+    for ($i = 1; $i <= round($noteMoyenne); $i++) {
+        echo '<i class="icon-star"></i>';
+    }
+}
+if($canRate) {
+    echo '<div class="pull-right">';
+    echo '  Noter ce prestataire :</br> ';
+    echo $this->Form->create('Supplierratings', array('action' => 'rate', 'controller' => 'supplierratings',
+        'inputDefaults' => array(
+            'fieldset' => false,
+            'legend' => false
+    )));
+    echo $this->Form->hidden('supplier_id', array('value' => $supplier['User']['id']));
+    echo $this->Form->hidden('scorpname', array('value' => $supplier['User']['scorpname']));
+    echo "<fieldset class='rating'>";
+    $options = array(
+        5 => '5',
+        4 => '4',
+        3 => '3',
+        2 => '2',
+        1 => '1'
+    );
+    if(isset($note)){
+        echo $this->Form->input('rating', array('type' => 'radio', 'options' => $options, 'value' => $note, 'onclick' => 'this.form.submit()', 'div' => false));
+    } else {
+        echo $this->Form->input('rating', array('type' => 'radio', 'options' => $options, 'onclick' => 'this.form.submit()', 'div' => false));
+    }
+    echo '</fieldset>';
+    echo $this->Form->end();
+    echo '</div>';
+}
 
 if (file_exists($supplier['User']['picture'])) {
     $url = substr($supplier['User']['picture'], 4);
