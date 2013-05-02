@@ -340,6 +340,7 @@ class UsersController extends AppController {
     }
 
     public function view($id) {
+        
         if (!$id) {
             throw new NotFoundException();
         }
@@ -353,11 +354,13 @@ class UsersController extends AppController {
         if(!$supplier){
             throw new NotFoundException();
         }
-        
+        $this->loadModel('SupplierRating');
+        $note = $this->SupplierRating->find('first',array('conditions'=> array('id_user'=> $user_id , 'id_supplier' => $id),'fields'=>array('note')));
         $this->User->id = $id;
+        $this->set('note',$note['SupplierRating']['note']);
         $this->set('supplier', $supplier);
-
         $this->set('title_for_layout', 'Prestataire ' . $supplier['User']['scorpname']);
+        
     }
 
     /**
