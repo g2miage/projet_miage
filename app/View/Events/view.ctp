@@ -127,9 +127,43 @@ $map_options = array(
         } else {
             $btnInscription = 0;
             foreach ($invites as $invite) {
-                if ($current_user == $invite['User']['id'] && $boolEstPasse == 0) {
+                if ($current_user == $invite['User']['id'] && $boolEstPasse == 0 && ($event['amount'] == 0 || $event['amount'] == NULL)) {
                     echo $this->Html->link("S'inscrire", array('action' => 'participate', $event['id']), array('class' => 'btn btn-success pull-right'));
                     $btnInscription = 1;
+                }elseif ($current_user == $invite['User']['id'] && $boolEstPasse == 0 && ($event['amount'] != 0 || $event['amount'] != null)) {
+                    ?>
+                    <a href='#myModal<?php $i ?>' role='button' class='btn btn-success pull-right' data-toggle='modal'>S'inscrire</a>
+                    <div id="myModal<?php $i ?>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h3>Paiement pour inscription à l'événement</h3>
+                        </div>
+                        <div class="modal-body">
+                            <p>Pour finaliser votre inscription à l'événement veuillez procéder au paiement</p>
+
+                            <?php
+                            echo $this->Form->create('Event', array('action' => 'paiementInscription'));
+                            echo $this->Form->input('TitulaireCarte', array('label' => '', 'placeholder' => 'Titulaire de la carte', 'class' => 'span4'));
+                            echo $this->Form->input('Ncarte', array('label' => '', 'placeholder' => 'N°carte', 'class' => 'span4'));
+                            echo $this->Form->input('DateExpiration', array('label' => '', 'placeholder' => 'Date d\'expiration', 'class' => 'span4'));
+                            echo $this->Form->input('Cryptogramme', array('label' => '', 'placeholder' => 'Cryptogramme', 'class' => 'span4'));
+                            echo $this->Form->hidden('EventsUser.eventId', array('value' => $event['id']));
+                            echo $this->Form->hidden('EventsUser.userId', array('value' => $current_user['id']));
+                            echo '<br />';
+                            ?>
+                            <div class="modal-footer">
+                                <?php
+                                echo $this->Form->button('Annuler', array('label' => 'Annuler', 'class' => "btn", 'data-dismiss' => "modal", 'aria-hidden' => "true", 'div' => false));
+                                echo $this->Form->end(array('label' => 'Payer', 'class' => 'btn btn-primary', 'name' => 'Payer', 'div' => false));
+                                if (isset($_POST['Payer'])) {
+                                    $btnInscription = 1;
+                                }
+                                ?>
+                            </div>
+
+                        </div>
+                    </div>
+                    <?php
                 }
             }
             $btnParticipant = 0;
@@ -177,6 +211,7 @@ $map_options = array(
             }
             if ($current_user == $createur['id'] || $boolOrganisateur == 1) {
                 echo '<li><a href="#tab4" data-toggle="tab">Prestataires</a></li>';
+                echo '<li><a href="#tab5" data-toggle="tab">Documents</a></li>';
             }
             ?>
         </ul>
@@ -347,6 +382,29 @@ $map_options = array(
 
                 </table>  
 
+            </div>
+                  <div class="tab-pane" id="tab5">
+                <?php
+                if(!empty($docs)){
+                foreach ($docs as $doc) {
+                    $path = pathinfo($doc['Message']['file']);
+                    echo '<table class="table">';
+                    echo $doc['Message']['date'] . '  ' . $doc['Message']['orga_username'];
+                    if ($doc['Message']['user_id'] == $current_user) {
+                        echo '<tr class="success"><td>' . $this->Html->link($path['filename'], '/' . $doc['Message']['file']) . '</td>';
+                    } else {
+                        echo '<tr class="warning"><td>' . $this->Html->link($path['filename'], '/' . $doc['Message']['file']) . '</td>';
+                    }
+                    echo '</tr></table>';
+                }
+                }
+
+                echo $this->form->create('Message', array('type' => 'file', 'controller' => 'Messages', 'action' => 'addFileEvent'));
+                echo $this->form->input('', array('type' => 'file'));
+                echo $this->Form->input('Message.eventId', array('type' => 'hidden', 'value' => $event['id']));
+                echo $this->Form->input('Message.userId', array('type' => 'hidden', 'value' => $current_user));
+                echo $this->form->end('Sauvegarder le fichier');
+                ?>
             </div>
         </div>
     </div>

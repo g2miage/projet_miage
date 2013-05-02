@@ -37,9 +37,9 @@
                         <li><?php echo $this->Html->link(Inflector::humanize(AuthComponent::user('username')), array('controller' => 'Users', 'action' => 'profil'), array('escape' => false, 'title'=>'Mon Profil')); ?></li>
                     </ul>
                     <?php
-                    echo $this->Html->link(
+                        echo $this->Html->link(
                             "<i class='icon-off'></i> Déconnexion", array('action' => 'logout', 'controller' => 'users'), array('class' => 'btn btn-danger pull-right','escape' => false)
-                    );
+                        );
                     ?>
                 </div>
             </div><!--/.nav-collapse -->

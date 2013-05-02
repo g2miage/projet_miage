@@ -387,5 +387,18 @@ class UsersController extends AppController {
             );
             $this->set(array('messages' => $messages));
     }
-
+    
+    public function readMsg($idevent,$titleevent){
+        $this->loadModel('MessagesUsers');
+        $user_id = $this->Auth->user('id');
+        if (!$user_id) { throw new ForbiddenException(); }
+        if(!$idevent){ throw new NotFoundException(); }
+        $this->MessagesUsers->updateAll(array('status'=>1),array('event_id'=>$idevent,'user_id'=>$user_id));
+        $this->redirect(array(
+            'controller' => 'Events',
+            'action' => 'view',
+            $idevent,
+            Inflector::slug($titleevent, '-'))
+        );
+    }
 }

@@ -80,8 +80,17 @@ class EventsController extends AppController {
 
         $this->loadModel('Message');
         $messages = $this->Message->find('all', array(
-            'conditions' => array('event_id' => $id, 'presta_event' => '1')
+            'conditions' => array('event_id' => $id, 'message <>' => "" , 'presta_event' => '1')
         ));
+        
+        $docs = $this->Message->find('all', array(
+                     'conditions' => array(
+                         'event_id' => $id,
+                         'presta_event' => '1',
+                         'file <>' => "" 
+                         )));      
+         
+         
         $this->getAverageNote($id);
         if (!$event) {
             throw new NotFoundException(__('Invalid post'));
@@ -98,7 +107,8 @@ class EventsController extends AppController {
             'prestataires' => $prestataires,
             'messages' => $messages,
             'note' => $rate['EventsUsers']['note'],
-            'noteMoyenne' => round($this->getAverageNote($id),1)
+            'noteMoyenne' => round($this->getAverageNote($id),1),
+            'docs' => $docs
         );
 
         $this->set($v);
@@ -582,6 +592,20 @@ class EventsController extends AppController {
         )
         );
         return $moyenne[0]['average'];
+    }
+    
+     function paiementInscription(){
+        $prix = $this->Event->pot;
+        debug($this->Event->amount);
+        $eventId = $this->request->data['EventsUser']['eventId'];
+        $userId = $this->request->data['EventsUser']['userId'];
+      $this->Event->EventsUser->updateAll(
+                                array('EventsUser.pot' => $prix, 'EventsUser.type_id' => 5 ), array(
+                            'EventsUser.event_id' => $eventId,
+                            'EventsUser.user_id' => $userId,)
+                        );
+      $this->Session->setFlash('Votre inscription a été prise en compte', 'notif');
+      $this->redirect(array('action' => 'view', $eventId));
     }
 
 }

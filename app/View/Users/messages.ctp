@@ -12,10 +12,17 @@
 
 <h1>Mes messages</h1>
 
-<h2>Reçus</h2>
+<p>Les événements suivants ont reçus des notifications.</p>
 
 <h3>Non-lus</h3>
-    <table  class="table table-striped table_index">
+    <?php if(!$unread){ ?>
+<div class="row">
+    <div class="span4">
+        <p class="text-center alert alert-info">Aucun message non lu <b>:)</b></p>        
+    </div>
+    </div>
+    <?php }else{?>
+    <table  class="table table-striped" style="display: block">
         <tr>
             <th>Evénement</th>
             <th></th>
@@ -24,17 +31,24 @@
     // affichage des messages....
     foreach ($unread as $i => $value) {
         echo "<tr>";
-            echo "<td>".$unread[$i]['title']."</td>";
+            echo "<td class='span4'>".$unread[$i]['title']."</td>";
             echo "<td>". 
-                        $this->Html->link("<i class='icon-hand-right'></i>", array('controller' => 'Users','action' => 'readMsg'),array('escape'=>false,'title'=>'Voir le message')).
+                        $this->Html->link("<i class='icon-hand-right'></i> Voir la discussion", array('controller' => 'Users','action' => 'readMsg',$unread[$i]['ide'],Inflector::slug($unread[$i]['title'], '-')),array('escape'=>false,'title'=>'Voir le message')).
                     "</td>";
         echo "<tr>";
     }
     ?>
     </table>
-
+    <?php } ?>
 <h3>Lus</h3>
-    <table  class="table table-striped table_index">
+    <?php if(!$read){ ?>
+<div class="row">
+    <div class="span4">
+        <p class="text-center alert alert-info">Aucun message non lu <b>:)</b></p>        
+    </div>
+    </div>
+    <?php }else{?>
+    <table  class="table table-striped" style="display: block;text-align: right">
         <tr>
             <th>Evénement</th>
             <th></th>
@@ -43,11 +57,12 @@
     // affichage des messages....
     foreach ($read as $i => $value) {
         echo "<tr>";
-            echo "<td>".$read[$i]['title']."</td>";
+            echo "<td  class='span4'>".$read[$i]['title']."</td>";
             echo "<td>". 
-                        $this->Html->link("<i class='icon-hand-right'></i>", array('controller' => 'Users','action' => 'readMsg'),array('escape'=>false,'title'=>'Voir le message')).
+                        $this->Html->link("<i class='icon-hand-right'></i> Voir la discussion", array('controller' => 'Events','action' => 'view',$read[$i]['ide'], Inflector::slug($read[$i]['title'], '-')),array('escape'=>false,'title'=>'Voir le message')).
                     "</td>";
         echo "<tr>";
     }
     ?>
     </table>
+    <?php } ?>
