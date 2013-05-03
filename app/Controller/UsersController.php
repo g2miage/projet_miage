@@ -84,7 +84,8 @@ class UsersController extends AppController {
         } else {
             // on n'affiche pas ce message si l'utilisateur viens de la page d'inscription
             if ($this->referer() != $this->referer(array('action' => 'signup'))) {
-                $this->Session->setFlash("Indentifiants incorrects", "notif", array('type' => 'error'));
+                //$this->Session->setFlash("Indentifiants incorrects", "notif", array('type' => 'error'));
+                throw new ForbiddenException();
             }
         }
     }
