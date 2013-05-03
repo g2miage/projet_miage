@@ -288,8 +288,8 @@ echo $this->Form->create("Event", array('action' => 'index', 'div' => false));
                             <td >
                                 <?php
                                 $dateFin = date_create_from_format('d/m/Y H:i', $eventPresta['Event']['endday'] . ' ' . $eventPresta['Event']['endtime']);
-                                $dateFin = $dateFin->format('d/m/Y H:i');
-                                if ($dateFin > date('d/m/Y H:m')) {
+                                $nowDate = date_create_from_format('d/m/Y H:i', date('d/m/Y H:m'));
+                                if ($dateFin > $nowDate) {
                                     echo $this->Html->link($eventPresta['Event']['title'], array(
                                         'controller' => 'Events',
                                         'action' => 'view',
