@@ -57,6 +57,7 @@ echo "<ul class='inline'>
                 <tr>
                     <th>Prestataire</th>
                     <th>Type</th>
+                    <th>Appréciations</th>
                     <?php
                     if (!empty($listevent)) {
                         ?>
@@ -99,6 +100,13 @@ echo "<ul class='inline'>
                                             Inflector::slug($supplier['User']['scorpname'], '-')
                                         )
                                     ); ?>
+                        </td>
+                        <td width="200px">
+                            <?php 
+                            for ($i = 1; $i <= $supplier[0]['average']; $i++) {
+                                echo '<i class="icon-star"></i>';
+                            }
+                            ?>
                         </td>
                         <?php
                         if (!empty($listevent)) {

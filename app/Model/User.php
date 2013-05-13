@@ -15,7 +15,11 @@ class User extends AppModel {
         ));
     public $hasMany = array(
                         'EventsUsers',
-                        'MessagesUsers'
+                        'MessagesUsers',
+                        'Supplierrating' => array(
+                            'className'     => 'Supplierrating',
+                            'foreignKey'    => 'id_supplier'
+                        )
                  );
     public $belongsTo = array(
         'Suptype');

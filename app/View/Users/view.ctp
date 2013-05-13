@@ -28,7 +28,7 @@ $map_options = array(
 <h2><?php echo $supplier['User']['firstname'] . ' ' . $supplier['User']['lastname'] ?> </h2>
 <?php
 
-if (isset($noteMoyenne)) {
+if (isset($noteMoyenne) && $noteMoyenne != 0) {
     echo 'Note : ' . $noteMoyenne.'  ' ;
     for ($i = 1; $i <= round($noteMoyenne); $i++) {
         echo '<i class="icon-star"></i>';

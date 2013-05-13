@@ -255,7 +255,6 @@ class UsersController extends AppController {
             $this->redirect('/');
             die();
         }
-
         if (isset($eventId)) {
             $this->set(array('eventId' => $eventId));
         }
@@ -307,13 +306,11 @@ class UsersController extends AppController {
         // On cherche les éléments
         $search_dept = "";
         if (empty($stmtopts)) { //pas d'options pour la requete, on renvoie tt
-            $data = $this->User->find('all', array('conditions' =>
+            $data = $this->getAllAverageNote(
                 array('suptype_id <> ' => 0)
-            ));
+            );
         } else { // des options ont étés définies
-            $data = $data = $this->User->find('all', array('conditions' =>
-                $stmtopts
-            ));
+            $data = $data = $this->getAllAverageNote($stmtopts);
             // récupération du département
             if (!empty($id_dept)) {
                 $search_d = $this->Departement->find('first', array(
@@ -354,7 +351,7 @@ class UsersController extends AppController {
         if (!$supplier) {
             throw new NotFoundException();
         }
-        
+
         // Cherche si l'utilisateur courant et le prestataire ont un événement en commun
         // Si oui, on pourra le noter
         $this->loadModel('Supplierrating');
@@ -371,18 +368,18 @@ class UsersController extends AppController {
                     break;
                 }
             }
-            if($ontTravailleEnsemble) {
+            if ($ontTravailleEnsemble) {
                 break;
             }
         }
         $note = $this->Supplierrating->find('first', array('conditions' => array('id_user' => $user_id, 'id_supplier' => $id), 'fields' => array('note')));
         $this->User->id = $id;
-        $this->set('canRate',$ontTravailleEnsemble);
+        $this->set('canRate', $ontTravailleEnsemble);
         if (!empty($note)) {
             $this->set('note', $note['Supplierrating']['note']);
         }
         $this->set('supplier', $supplier);
-        $this->set('noteMoyenne', round($this->getAverageNote($id),1));
+        $this->set('noteMoyenne', round($this->getAverageNote($id), 1));
         $this->set('title_for_layout', 'Prestataire ' . $supplier['User']['scorpname']);
     }
 
@@ -427,11 +424,10 @@ class UsersController extends AppController {
             Inflector::slug($titleevent, '-'))
         );
     }
-    
+
     private function getAverageNote($id) {
         $this->loadModel('Supplierrating');
-        $moyenne = $this->Supplierrating->find('first',
-        array(
+        $moyenne = $this->Supplierrating->find('first', array(
             'conditions' => array(
                 'Supplierrating.id_supplier' => $id
             ),
@@ -439,9 +435,43 @@ class UsersController extends AppController {
             'fields' => array(
                 'AVG( Supplierrating.note ) AS average'
             )
-        )
+                )
         );
         return $moyenne[0]['average'];
+    }
+
+    public function getAllAverageNote($conditions = array()) {
+        $this->User->contain('Suptype');
+        $moyenne = $this->User->find('all', array(
+            'contain' => false,
+            'recursive' => 1,
+            'joins' => array(
+                array(
+                    'table' => 'supplierratings',
+                    'alias' => 'Supplierrating',
+                    'type' => 'LEFT',
+                    'foreignKey' => 'id_supplier',
+                    'conditions' => array(
+                        'User.id = Supplierrating.id_supplier'
+                    ))
+            ),
+            'conditions' => $conditions,
+            'fields' => array(
+                '*',
+                'ROUND(AVG( Supplierrating.note ),1) AS average'
+            ),
+            'group' => 'User.id'
+          )
+        );
+        
+        /*$suppliers = $this->User->query('SELECT u.username, u.firstname,u.lastname,u.scorpname,u.tel,u.mobile,u.fax,u.mail,u.address,u.zip,u.city,u.country,u.picture,u.website,u.ssiret,u.sdesc,suptype_id,
+                                                ROUND( AVG( Supplierratings.note ) , 2 ) AS average
+                                        FROM Users u
+                                        LEFT JOIN Supplierratings ON u.id = Supplierratings.id_supplier
+                                        WHERE suptype_id <>0
+                                        GROUP BY (u.id)');*/
+        //debug($moyenne);die();
+        return $moyenne;
     }
 
 }
