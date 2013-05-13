@@ -22,21 +22,66 @@ $map_options = array(
 );
 ?>
 
-<h1><?php echo $supplier['User']['scorpname']; ?> <small><?= $supplier['Suptype']['stype']; ?></small></h1>
+<div class="well">
+    <h1><?php echo $supplier['User']['scorpname']; ?> <small><?= $supplier['Suptype']['stype']; ?></small></h1>
 
-<!-- Example row of columns -->
+    <div class="row">
+        <div class="span6">
+            <?php
+            if (file_exists($supplier['User']['picture'])) {
+                $url = substr($supplier['User']['picture'], 4);
+                echo "<tr><td></td><td>" . $this->Html->image($url, array('alt' => 'fonctionnement', 'class' => 'img-event img-rounded')) . '</td></tr>';
+            } else {
+
+                echo "<tr><td></td><td>" . $this->Html->image('user/defaultUser.png', array('alt' => 'fonctionnement', 'class' => 'img-event img-rounded')) . '</td></tr>';
+            }
+            ?>
+        </div>
+        <div class="span4 offset1">
+            <table class="event_view">
+                <tr>
+                    <td>
+
+                        <address>
+                            <?= '<strong>' . $supplier['User']['scorpname'] . '</strong><br/>' ?>
+                            <?php 
+                            if ($supplier['User']['tel'] != ""){
+                            echo 'Tel : '.$supplier['User']['tel'] . '<br />';
+                            }
+                            ?>
+                            <?= $supplier['User']['address'] . '<br />' ?>
+                            <?= $supplier['User']['zip'] ?>
+                            <?= $supplier['User']['city'] . '<br />' ?>
+                            <?= $supplier['User']['country'] . '<br /><br />' ?>
+                        </address>
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
 <h2><?php echo $supplier['User']['firstname'] . ' ' . $supplier['User']['lastname'] ?> </h2>
-<?php
 
-if (isset($noteMoyenne) && $noteMoyenne != 0) {
-    echo 'Note : ' . $noteMoyenne.'  ' ;
-    for ($i = 1; $i <= round($noteMoyenne); $i++) {
-        echo '<i class="icon-star"></i>';
+<br />
+<div class="span6">
+    <?php
+    if (isset($noteMoyenne)) {
+        echo 'Note : ' . $noteMoyenne . '  ';
+        for ($i = 1; $i <= round($noteMoyenne); $i++) {
+            echo '<i class="icon-star"></i></td>';
+        }
     }
-}
-if($canRate) {
-    echo '<div class="pull-right">';
-    echo '  Noter ce prestataire :</br> ';
+    ?>
+</div>
+<div class="span3 offset1">
+<?php
+if ($canRate) {
+
+
     echo $this->Form->create('Supplierratings', array('action' => 'rate', 'controller' => 'supplierratings',
         'inputDefaults' => array(
             'fieldset' => false,
@@ -52,40 +97,26 @@ if($canRate) {
         2 => '2',
         1 => '1'
     );
-    if(isset($note)){
+
+    if (isset($note)) {
         echo $this->Form->input('rating', array('type' => 'radio', 'options' => $options, 'value' => $note, 'onclick' => 'this.form.submit()', 'div' => false));
     } else {
         echo $this->Form->input('rating', array('type' => 'radio', 'options' => $options, 'onclick' => 'this.form.submit()', 'div' => false));
     }
     echo '</fieldset>';
     echo $this->Form->end();
-    echo '</div>';
-}
-
-if (file_exists($supplier['User']['picture'])) {
-    $url = substr($supplier['User']['picture'], 4);
-    echo $this->Html->image($url, array('alt' => 'fonctionnement', 'class' => 'img-rounded supplier img-center')) . '<br />';
-} else {
-    echo $this->Html->image('user/defaultUser.png', array('alt' => 'fonctionnement', 'class' => 'supplier-picture img-center')) . '<br />';
 }
 ?>
-<br />
+</div>
 <div class="row">
     <div class="span6">
         <h4>Description</h4>
-        <?= "<p class='text-justify'>" . nl2br($supplier['User']['sdesc']) . "</p>"; ?>
+<?= "<p class='text-justify'>" . nl2br($supplier['User']['sdesc']) . "</p>"; ?>
     </div>
     <div class="span5 offset1">
         <?= $this->GoogleMap->map($map_options); ?>
         <br />
-        <address>
-            <?= '<strong>' . $supplier['User']['scorpname'] . '</strong><br/>' ?>
-            <?= $supplier['User']['address'] . '<br />' ?>
-            <?= $supplier['User']['zip'] ?>
-            <?= $supplier['User']['city'] . '<br />' ?>
-            <?= $supplier['User']['country'] . '<br /><br />' ?>
-        </address>
+
     </div>
-</div>
-<hr />
+    <hr />
 <?php echo $this->Html->link("Retourner à la liste des prestataires", array('action' => 'suppliers'), array('class' => 'btn btn-info', 'escape' => false)); ?>
