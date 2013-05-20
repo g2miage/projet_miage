@@ -117,7 +117,7 @@ class User extends AppModel {
 
     function validateSuppliers($field = array()) {
         foreach ($field as $key => $value) {
-            if ($this->data[$this->name]['role_id'] == 1 && empty($value)) {
+            if (isset($this->data[$this->name]['role_id']) && $this->data[$this->name]['role_id'] == 1 && empty($value)) {
                 return FALSE;
             }
         }
