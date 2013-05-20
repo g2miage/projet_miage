@@ -150,7 +150,7 @@ $map_options = array(
                             echo $this->Form->input('DateExpiration', array('label' => '', 'placeholder' => 'Date d\'expiration', 'class' => 'span4'));
                             echo $this->Form->input('Cryptogramme', array('label' => '', 'placeholder' => 'Cryptogramme', 'class' => 'span4'));
                             echo $this->Form->hidden('EventsUser.eventId', array('value' => $event['id']));
-                            echo $this->Form->hidden('EventsUser.userId', array('value' => $current_user['id']));
+                            echo $this->Form->hidden('EventsUser.userId', array('value' => $current_user));
                             echo '<br />';
                             ?>
                             <div class="modal-footer">
