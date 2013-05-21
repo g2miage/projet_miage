@@ -118,5 +118,6 @@ if ($canRate) {
         <br />
 
     </div>
+</div>
     <hr />
 <?php echo $this->Html->link("Retourner à la liste des prestataires", array('action' => 'suppliers'), array('class' => 'btn btn-info', 'escape' => false)); ?>
